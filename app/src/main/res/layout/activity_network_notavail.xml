@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:srcCompat="@drawable/ic_network1"
+        tools:ignore="VectorDrawableCompat" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Oops, your internet connection"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp"
+        android:textColor="@color/lightBlack"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="seems to be off"
+        android:layout_marginTop="5dp"
+        android:textSize="18sp"
+        android:textColor="@color/lightBlack"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please Retry once your internet is back"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:textColor="@color/lightBlack"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"/>
+
+    <Button
+        android:id="@+id/retry_btn"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/shape_neigh"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:elevation="8dp"
+        android:text="Retry"
+        android:textColor="@color/white"
+        android:textSize="12sp"/>
+
+</LinearLayout>

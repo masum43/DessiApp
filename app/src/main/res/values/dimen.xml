@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="heading">20sp</dimen>
+    <dimen name="small_head">18sp</dimen>
+    <dimen name="normal">16sp</dimen>
+    <dimen name="small">10sp</dimen>
+    <dimen name="activity_horizontal_margin">6dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="mem_name">12dp</dimen>
+    <dimen name="mem_neigh">10dp</dimen>
+    <dimen name="default_item_padding">8dp</dimen>
+    <dimen name="speech_bubble_corners">10dp</dimen>
+    <dimen name="speech_bubble_corners_plus_tail">15dp</dimen>
+    <dimen name="speech_bubble_spacing">5dp</dimen>
+    <dimen name="speech_bubble_tail">25dp</dimen>
+    <dimen name="dimenmargin">10dp</dimen>
+    <dimen name="contentMessageSize">14dp</dimen>
+    <dimen name="heightBox">45dp</dimen>
+    <dimen name="buttonSize">50dp</dimen>
+
+</resources>

@@ -1,0 +1,49 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.DessiApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <!--<item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
+        <!-- Customize your theme here. -->
+        <item name="android:textColorHint">@color/greyHint</item>
+    </style>
+
+    <style name="ThemeWhite" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/White</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="colorPrimaryDark">@color/White</item>
+        <item name="colorAccent">@color/White</item>
+        <item name="android:textColorSecondary">@color/White</item>
+        <item name="android:textColorHint">@color/greyHint</item>
+
+    </style>
+
+    <style name="Theme_Dialog1" parent="android:Theme.Holo.Light.Dialog.NoActionBar">
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+
+    </style>
+
+    <style name="NumberPickerStyle">
+        <item name="android:textSize">22dp</item>
+        <item name="android:textColorPrimary">@color/purple_500</item>
+        <item name="android:colorControlNormal" tools:targetApi="lollipop">@color/purple_500</item>
+    </style>
+
+    <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+</resources>

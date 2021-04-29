@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/white"
+    tools:context=".screen.LoginActivity">
+    <ImageView
+        android:src="@drawable/logo_name"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/_45sdp"
+        android:layout_height="@dimen/_50sdp" />
+    <EditText
+        android:id="@+id/userIdEdit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginStart="@dimen/_24sdp"
+        android:layout_marginEnd="@dimen/_24sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/shape_white"
+        android:drawableRight="@drawable/ic_right_email"
+        android:hint="Mobile/Email"
+        android:textSize="@dimen/_12ssp"
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingRight="@dimen/_17sdp" />
+
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passEdit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_24sdp"
+            android:layout_marginEnd="@dimen/_24sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/shape_white"
+            android:hint="Password"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@$&amp;#%"
+            android:inputType="textPassword"
+            android:textSize="@dimen/_12ssp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:drawableRight="@drawable/ic_lock"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_15sdp" />
+
+    <!--</com.google.android.material.textfield.TextInputLayout>-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:onClick="forgotAct"
+        android:textStyle="bold"
+        android:fontFamily="@font/montserrat_regular"
+        android:text="Forgot Password?"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_11ssp" />
+    <Button
+        android:id="@+id/favActivity"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginStart="@dimen/_60sdp"
+        android:layout_marginEnd="@dimen/_60sdp"
+        android:layout_marginTop="@dimen/_18sdp"
+        android:background="@drawable/shape_neigh"
+        android:text="Sign In"
+        android:onClick="signInPress"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/_10sdp" />
+
+    <!--<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="@font/montserrat_regular"
+        android:text="Login with"
+        android:textColor="#ffffff"
+        android:textSize="19dp" />-->
+<!--    <LinearLayout-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:gravity="center"-->
+<!--        android:layout_height="wrap_content">-->
+
+<!--        &lt;!&ndash;<com.facebook.login.widget.LoginButton-->
+<!--            android:id="@+id/facebookLogin"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--             />&ndash;&gt;-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/fbLogin"-->
+<!--            android:src="@drawable/ic_facebook"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:visibility="visible"-->
+<!--            android:layout_height="40dp" />-->
+<!--        <ImageView-->
+<!--            android:id="@+id/googleLogin"-->
+<!--            android:layout_marginLeft="17dp"-->
+<!--            android:src="@drawable/ic_google_plus"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp" />-->
+
+
+<!--    </LinearLayout>-->
+    <LinearLayout
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:fontFamily="@font/montserrat_regular"-->
+        <!--android:text="Don't have an account?"-->
+        <!--android:textColor="#ffffff"-->
+        <!--/>-->
+        <TextView
+            android:id="@+id/regTxtview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textSize="@dimen/_11ssp"
+            android:fontFamily="@font/montserrat_regular"
+            android:onClick="RegActivity"
+            android:theme="@style/ThemeWhite"
+            android:textColor="@color/black"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>

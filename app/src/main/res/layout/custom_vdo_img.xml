@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+<RelativeLayout
+
+    android:layout_width="match_parent"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/belowLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:background="@drawable/dialogbox_background"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+            <Button
+                android:id="@+id/imgCam"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#ffffff"
+                android:text="Take photo"
+
+                android:fontFamily="@font/montserrat_regular"
+                android:textColor="@color/lightblue"
+                android:textStyle="bold"/>
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#D8D8D8" />
+            <Button
+                android:id="@+id/imgUpload"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#ffffff"
+                android:text="Choose photo"
+
+                android:fontFamily="@font/montserrat_regular"
+                android:textColor="@color/lightblue"
+                android:textStyle="bold"/>
+
+
+<!--            <Button-->
+<!--                android:id="@+id/videoCam"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:background="#ffffff"-->
+<!--                android:text="Make Video"-->
+<!--                android:textColor="@color/lightblue"-->
+<!--                android:textStyle="bold"/>-->
+
+<!--            <View-->
+<!--                android:id="@+id/view2"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="0.5dp"-->
+<!--                android:background="#D8D8D8" />-->
+
+
+<!--            <Button-->
+<!--                android:id="@+id/videoUpload"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp"-->
+
+<!--                android:background="#ffffff"-->
+<!--                android:textColor="@color/lightblue"-->
+<!--                android:textStyle="bold"-->
+
+<!--                android:text="Choose Video" />-->
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#D8D8D8"
+                android:visibility="gone"/>
+            <Button
+                android:id="@+id/noImg"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#ffffff"
+                android:text="No Image"
+                android:textColor="@color/lightblue"
+                android:visibility="gone"/>
+
+
+
+
+
+
+            <!--</LinearLayout>-->
+
+        </LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/textview"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:orientation="vertical"-->
+            <!--&gt;-->
+
+            <!---->
+
+            <!--<Button-->
+                <!--android:id="@+id/cancel"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:background="#ffffff"-->
+                <!--android:text="Cancel" />-->
+
+            <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
+
+        <!--</LinearLayout>-->
+
+
+        <!--</android.support.v7.widget.CardView>-->
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/belowLay"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+
+        android:layout_marginBottom="10dp"
+        >
+
+
+
+        <Button
+            android:id="@+id/cancelD"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/dialogbox_background"
+            android:text="Cancel"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="@color/lightblue"
+            android:textStyle="bold"
+            />
+
+        <!--</LinearLayout>-->
+
+    </LinearLayout>
+</RelativeLayout>
+
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_mark"-->
+        <!--android:layout_width="35dp"-->
+        <!--android:layout_height="35dp"-->
+        <!--android:layout_gravity="right|top"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:src="@drawable/x_mark" />-->
+
+
+</FrameLayout>
+
+
