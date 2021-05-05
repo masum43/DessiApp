@@ -28,7 +28,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DessiApp"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".screen.AboutUsActivity"></activity>
+        <activity
+            android:name=".screen.ChangePassActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".screen.EditProfileActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".screen.CommentActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".screen.SettingActivity"
+            android:hardwareAccelerated="false" />
+        <!--
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+        -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
@@ -41,12 +58,14 @@
         <activity android:name=".screen.NetworkCheckActivity" />
         <activity
             android:name=".screen.CreatePostActivity"
+            android:hardwareAccelerated="false"
             android:theme="@style/Theme.Design.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".screen.RegisterActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".screen.LoginActivity" />
+        <activity android:name=".screen.CommentProfileActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:screenOrientation="portrait"

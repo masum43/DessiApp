@@ -183,7 +183,7 @@
                     android:focusable="false"
                     android:textColorHint="@color/greyHint"
                     android:focusableInTouchMode="false"
-                    android:hint="Upload image/video"
+                    android:hint="Upload image"
                     android:paddingLeft="10dp"
                     android:textSize="@dimen/_12ssp"
                     android:textColor="@color/black"

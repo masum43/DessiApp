@@ -54,7 +54,7 @@ public class AdapterPeoples extends RecyclerView.Adapter<AdapterPeoples.AdapterV
 
         PeopleListModel model = listData.get(pos);
         hol.userName.setText(model.getUsername());
-        hol.userId.setText(model.getUserid());
+        hol.userId.setText("@"+model.getUserid());
         hol.setType(model,userId);
     }
 

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/custom_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:context=".RegisterActivity">
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:text="Name"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:layout_marginLeft="@dimen/_18sdp" />
+            <EditText
+                android:id="@+id/nameEdt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_18sdp"
+                android:layout_marginEnd="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:background="@drawable/shape_white"
+                android:drawableRight="@drawable/ic_right_user"
+                android:hint="Name"
+                android:inputType="textPersonName|textCapSentences"
+                android:maxLength="26"
+                android:textSize="@dimen/_12ssp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_15sdp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:text="Username"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:layout_marginLeft="@dimen/_18sdp" />
+            <EditText
+                android:id="@+id/usernameEdt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_18sdp"
+                android:layout_marginEnd="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:background="@drawable/shape_white"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                android:inputType="textFilter|text"
+                android:textSize="@dimen/_12ssp"
+                android:drawableRight="@drawable/ic_right_user"
+                android:hint="Username"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_15sdp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:text="Date of birth"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:layout_marginLeft="@dimen/_18sdp" />
+            <EditText
+                android:id="@+id/dobEdt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_18sdp"
+                android:layout_marginEnd="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:background="@drawable/shape_white"
+                android:drawableRight="@drawable/ic_right_user"
+                android:hint="Date of birth"
+                android:textSize="@dimen/_12ssp"
+                android:inputType="number"
+                android:clickable="true"
+                android:editable="false"
+                android:focusable="false"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_15sdp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:text="Email"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:layout_marginLeft="@dimen/_18sdp" />
+
+            <EditText
+                android:id="@+id/emailEdt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_18sdp"
+                android:layout_marginEnd="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:background="@drawable/shape_white"
+                android:drawableRight="@drawable/ic_right_email"
+                android:hint="Email"
+                android:editable="false"
+                android:focusable="false"
+                android:textSize="@dimen/_12ssp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_15sdp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:text="Mobile"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:layout_marginLeft="@dimen/_18sdp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_18sdp"
+                android:layout_marginEnd="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:background="@drawable/shape_white"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/prefix"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingStart="8dp"
+                    android:paddingLeft="8dp"
+                    android:text="+91 "
+                    android:textSize="@dimen/_12ssp"
+                    android:textColor="@color/lightBlack"
+                    />
+
+                <EditText
+                    android:id="@+id/phnEdt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginRight="12dp"
+                    android:background="@color/white"
+                    android:digits="0123456789"
+                    android:drawableRight="@drawable/ic_right_phone"
+                    android:gravity="center_vertical"
+                    android:inputType="number"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:paddingRight="@dimen/_7sdp"
+                    android:textSize="@dimen/_12ssp"
+                    android:maxLength="10">
+
+                </EditText>
+
+
+            </LinearLayout>
+
+
+
+
+            <Button
+                android:id="@+id/updateBtnProfile"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_60sdp"
+                android:layout_marginEnd="@dimen/_60sdp"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:background="@drawable/shape_green"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="UPDATE PROFILE"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/_10sdp" />
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

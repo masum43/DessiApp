@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -41,10 +42,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.dessiapp.R;
+import com.dessiapp.adapter.AdapterComment;
 import com.dessiapp.adapter.AdapterImgShow;
+import com.dessiapp.models.CommentModel;
 import com.dessiapp.models.SpinnerDto;
 import com.dessiapp.provider.AdapterSpinner;
 import com.dessiapp.provider.Api;
+import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.Const;
 import com.dessiapp.provider.InputValidation;
 import com.dessiapp.provider.MultipartRequest;
@@ -63,6 +67,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.NameValuePair;
@@ -81,27 +86,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class CreatePostActivity extends AppCompatActivity {
     private static final String TAG = "CreatePostActivity";
     Toolbar toolbar;
-    ImageView imgArrow, imgSearch, imgAdd;
+    ImageView imgArrow;
     TextView textTitle;
     private Button postbutton;
     ImageView postphoto;
-
     private ProgressDialog dialog;
-    private EditText postedittext, yourmindedittext, videouploadedittext;
+    private EditText yourmindedittext, videouploadedittext;
     PreferenceManager prefManager;
-    String userid, posttype, postmsg, photo;
-    static final int ACTIVITY_START_CAMERA_APP = 2;
-    String imgString, image1;
-    String selectpostData, postid, posttitle, image, selectedPath, neighbrhood;
-    private Bitmap bitmap;
-    private Uri filepath;
+    String userid, postmsg,
+            imgString,
+            image, neighbrhood;
     private JSONObject object;
     VideoView simpleVideoView;
-    Spinner postSpinner;
     LinearLayout focus;
     byte[] mByte1;
     CircleImageView grpImg, added;
@@ -109,7 +114,6 @@ public class CreatePostActivity extends AppCompatActivity {
     int PICK_IMAGE_MULTIPLE = 107;
     ArrayList<Uri> imagesUriList;
     ArrayList<String> encodedImageList;
-    String imageURI, status;
     static TextView textSpinner;
     static TextView txtId;
     RequestQueue requestQueue;
@@ -117,16 +121,11 @@ public class CreatePostActivity extends AppCompatActivity {
     AdapterSpinner adapterSpinner;
     private static final int CAMERA_REQUEST = 1888;
 
-    VideoView videoView;
-
-
     RecyclerView recyclerView;
     AdapterImgShow adapterImgShow;
     private String txtSpinner, spinnerID;
     LinearLayout clickPhoto;
     LinearLayout posttypeSpin;
-    String post_video_size = "", post_img_limit = "1";
-    private String post_image_size = "1";
     ViewDialog alert = new ViewDialog();
     File selectFile;
 
@@ -143,7 +142,6 @@ public class CreatePostActivity extends AppCompatActivity {
         focus = findViewById(R.id.focus);
         added = findViewById(R.id.added);
         recyclerView = findViewById(R.id.recyclerView);
-        videoView = (VideoView) findViewById(R.id.VideoView);
         posttypeSpin = findViewById(R.id.posttypeSpin);
         imagesUriList = new ArrayList<>();
         encodedImageList = new ArrayList<>();
@@ -191,19 +189,6 @@ public class CreatePostActivity extends AppCompatActivity {
         });
 
 
-        videoView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (videoView.isPlaying()) {
-                    videoView.pause();
-                } else {
-                    videoView.start();
-                    // videoView.resume();
-                }
-
-                return false;
-            }
-        });
 
 
         clickPhoto.setOnClickListener(new View.OnClickListener() {
@@ -314,7 +299,14 @@ public class CreatePostActivity extends AppCompatActivity {
 
                         Toast.makeText(getApplicationContext(), "Error is :" + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                });
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put(Const.HEAD_TOKEN, Const.TOKEN_KEY);
+                        return params;
+                    }
+                };
                 requestQueue.add(request);
 
 
@@ -397,17 +389,19 @@ public class CreatePostActivity extends AppCompatActivity {
         postmsg = yourmindedittext.getText().toString();
         txtSpinner = textSpinner.getText().toString();
         spinnerID = txtId.getText().toString();
-        if (txtSpinner.isEmpty()) {
+       /* if (txtSpinner.isEmpty()) {
             alert.showDialog(CreatePostActivity.this, "Please select activity");
-        } else if (!InputValidation.isEditTextHasvalue(yourmindedittext)) {
+        } else*/
+        if (!InputValidation.isEditTextHasvalue(yourmindedittext)) {
             alert.showDialog(CreatePostActivity.this, "Please write a message");
         } else {
             if (checkNetworkConnection()) {
                 if (selectedPath1 != null && !selectedPath1.equals("")) {
                     //new UploadVideo().execute();
-                    calApi(postmsg);
+                    calApi2(postmsg);
                 } else {
-                    new userpostWebService().execute();
+                    //new userpostWebService().execute();
+                    sendTxtOnly();
                 }
 
             } else {
@@ -474,6 +468,77 @@ public class CreatePostActivity extends AppCompatActivity {
         //requestQueue.
     }
 
+    void calApi2(String postMsg) {
+        ProgressDialog uploading = ProgressDialog.show(CreatePostActivity.this, "Uploading File", "Please wait...", false, false);
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", selectFile.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), selectFile));
+        String status = (txtId.getText().toString() != null && !txtId.getText().toString().equals("")) ? txtId.getText().toString() : "";
+        RequestBody useridBody = RequestBody.create(MediaType.parse("text/plain"),
+                userid);
+        RequestBody postMsgBody = RequestBody.create(MediaType.parse("text/plain"),
+                postMsg);
+        RequestBody statusBody = RequestBody.create(MediaType.parse("text/plain"),
+                status);
+
+
+
+        Call<Object> callApi = ApiCaller.getInstance().postMultiPart(filePart, useridBody, postMsgBody, statusBody);
+        callApi.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, retrofit2.Response<Object> response) {
+                uploading.dismiss();
+                try {
+                    String value=String.valueOf(response.body());
+                    JSONObject jObj = new JSONObject(String.valueOf(response.body()));
+                    if (jObj.getString(Const.STATUS).equals(Const.SUCCESS)) {
+
+                    //if (jObj.getString(Const.STATUS).equals(Const.SUCCESS)) {
+                        Intent intent = new Intent();
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                        Toast.makeText(CreatePostActivity.this, jObj.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(CreatePostActivity.this, jObj.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(CreatePostActivity.this, "Something went wrong code:"+String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                uploading.dismiss();
+            }
+        });
+    }
+
+    void sendTxtOnly(){
+        String status = (txtId.getText().toString() != null && !txtId.getText().toString().equals("")) ? txtId.getText().toString() : "";
+        Call<Object> callApi = ApiCaller.getInstance().postTxt(userid,neighbrhood,status);
+        callApi.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, retrofit2.Response<Object> response) {
+                try {
+                    JSONObject jOb = new JSONObject(String.valueOf(response.body()));
+                    if (jOb.getString(Const.STATUS).equals(Const.SUCCESS)) {
+                        Intent intent = new Intent();
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                        Toast.makeText(CreatePostActivity.this, jOb.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+            }
+        });
+    }
+
     public boolean checkNetworkConnection() {
         ConnectivityManager connectivityManager = (ConnectivityManager) CreatePostActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -489,7 +554,7 @@ public class CreatePostActivity extends AppCompatActivity {
             imagesUriList = new ArrayList<Uri>();
 
             selectedPath1 = "";
-            videoView.setVisibility(View.GONE);
+            //videoView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
 
 
@@ -620,8 +685,9 @@ public class CreatePostActivity extends AppCompatActivity {
                 ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("userid", userid));
                 nameValuePairs.add(new BasicNameValuePair("textToPost", URLEncoder.encode(neighbrhood)));
-                nameValuePairs.add(new BasicNameValuePair("activity", (txtId.getText().toString() != null && !txtId.getText().toString().equals(""))?txtId.getText().toString():""));
+                nameValuePairs.add(new BasicNameValuePair("activity", (txtId.getText().toString() != null && !txtId.getText().toString().equals("")) ? txtId.getText().toString() : ""));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                httpPost.setHeader(Const.HEAD_TOKEN, Const.TOKEN_KEY);
                 HttpResponse response = httpClient.execute(httpPost);
                 result = EntityUtils.toString(response.getEntity());
                 Log.d(TAG, "doInBackground: in loop" + result);

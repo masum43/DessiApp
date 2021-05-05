@@ -1,11 +1,18 @@
 package com.dessiapp.provider;
 
+import com.dessiapp.models.CommentModel;
 import com.dessiapp.models.DashModel2;
 import com.dessiapp.models.LoginModel;
 import com.dessiapp.models.PeoplesModel;
+import com.dessiapp.models.ProfileModel;
 
+import java.net.URLEncoder;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -14,7 +21,9 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -30,12 +39,20 @@ public class ApiCaller {
     public static final String REMOVE_LIKE = "removelike";
     public static final String DISLIKE = "dislikepost";
     public static final String REMOVE_DISLIKE = "removedislike";
+    public static final String PROFILE_DATA = "getUserProfile";
+    public static final String UPDATE_PROFILE_DATA = "getUserProfile";
+    public static final String POST_CMNT = "addcomment";
+    public static final String GET_COMMENT = "getcomments";
+    public static final String CHANGE_PASS = "changepassword";
 
     static PostService apiCaller;
 
     public static PostService getInstance() {
         if (apiCaller == null) {
-            Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(100, TimeUnit.SECONDS)
+                    .readTimeout(100,TimeUnit.SECONDS).build();
+            Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).client(client).build();
             apiCaller = retrofit.create(PostService.class);
         }
 
@@ -89,7 +106,42 @@ public class ApiCaller {
         Call<Object> dislikeRemovePost(@Field("postId") String postId, @Field("dislikeRemovedBy") String likeRemovedBy);
 
 
+        @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
+        @GET(PROFILE_DATA)
+        Call<ProfileModel> getProfileData(@Query("userId") String userId);
 
+        @FormUrlEncoded
+        @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
+        @POST(UPDATE_PROFILE_DATA)
+        Call<Object> updateProfileData(@Field("userId") String userId, @Field("newUserId") String newUserId, @Field("userName") String userName, @Field("email") String email, @Field("mobile") String mobile, @Field("dob") String dob);
+
+
+        @FormUrlEncoded
+        @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
+        @POST(POST_CMNT)
+        Call<Object> postComment(@Field("postId") String postId, @Field("comment") String comment, @Field("commentBy") String commentBy);
+
+
+        @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
+        @GET(GET_COMMENT)
+        Call<CommentModel> getComment(@Query("postId") String postId);
+
+        @FormUrlEncoded
+        @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
+        @POST(CHANGE_PASS)
+        Call<Object> changePass(@Field("userId") String userId, @Field("Old_PWD") String Old_PWD, @Field("Password") String Password, @Field("ConfPWD") String ConfPWD);
+
+
+        @Multipart
+        @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
+        @POST(Api.CREATE_POST1)
+        Call<Object> postMultiPart(@Part MultipartBody.Part filePart, @Part("postedBy") RequestBody postedBy, @Part("postDesc") RequestBody postDesc, @Part("activity") RequestBody activity);
+
+
+        @FormUrlEncoded
+        @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
+        @POST(Api.CREATE_POST_TXT)
+        Call<Object> postTxt(@Field("userid") String userid,@Field("textToPost") String textToPost,@Field("activity") String activity);
 
     }
 }

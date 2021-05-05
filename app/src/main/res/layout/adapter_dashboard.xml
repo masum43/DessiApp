@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/postLin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
     android:background="@drawable/shape_dash"
     android:elevation="@dimen/_20sdp"
+    android:layout_marginBottom="@dimen/_10sdp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -91,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:fontFamily="@font/montserrat_regular"
-        android:text="Hi body"
+        android:text="Hi profileBody"
         android:textColor="@color/colorPrimary"
         android:textSize="13sp"
         android:visibility="gone" />
@@ -295,6 +296,7 @@
             android:background="@android:color/holo_blue_light" />-->
 
         <LinearLayout
+            android:id="@+id/shareLay"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -357,9 +359,22 @@
             android:id="@+id/unlikeCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_11sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
             android:text="1 Unlike" />
+        <TextView
+            android:id="@+id/cmntCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_15sdp"
+             />
     </LinearLayout>
+   <!-- <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/3347511713"
+        />-->
 </LinearLayout>
 
     <!--

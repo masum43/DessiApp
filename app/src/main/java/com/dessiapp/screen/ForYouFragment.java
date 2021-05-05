@@ -25,6 +25,7 @@ import com.dessiapp.models.DashModel2;
 import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.Const;
 import com.dessiapp.provider.PreferenceManager;
+//import com.google.rvadapter.AdmobNativeAdAdapter;
 
 import java.util.List;
 
@@ -101,7 +102,14 @@ public class ForYouFragment extends Fragment implements View.OnClickListener {
                 DashModel2 dashModel2 = response.body();
                 if (dashModel2 != null && dashModel2.getStatus().equals(Const.SUCCESS)) {
                     adapterDashboard = new AdapterDashboard(getContext(), dashModel2.getBody(), userID);
+                    //ca-app-pub-3940256099942544/2247696110
+//                    AdmobNativeAdAdapter admobNativeAdAdapter = AdmobNativeAdAdapter.Builder.with("ca-app-pub-3940256099942544/2247696110", adapterDashboard,
+//                            "small").adItemInterval(2).build();
+                    //rvContacts.setAdapter(admobNativeAdAdapter);
+
                     recyclerView.setAdapter(adapterDashboard);
+
+
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
                     recyclerView.setLayoutManager(mLayoutManager);
                     recyclerView.setHasFixedSize(true);

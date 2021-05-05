@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -27,8 +28,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.dessiapp.R;
+import com.dessiapp.adapter.AdapterDashboard;
 import com.dessiapp.adapter.AdapterProfile;
+import com.dessiapp.models.ProfileModel;
 import com.dessiapp.provider.Api;
+import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.Const;
 import com.dessiapp.provider.MultipartRequest;
 import com.dessiapp.provider.PreferenceManager;
@@ -46,6 +50,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -72,9 +78,14 @@ public class ProfileFragment1 extends Fragment {
     String profImg;
     RecyclerView recyclerView;
     AdapterProfile adapterProfile;
-    ArrayList<String> list = new ArrayList<>();
-LinearLayout editProfile;
-
+    LinearLayout editProfile;
+    TextView userNameTxt,
+            userIdTxt;
+    TextView postTxt,
+            postFollower,
+            postFollowing,
+            postLikes,
+            postDislikes;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -85,47 +96,25 @@ LinearLayout editProfile;
         useridStr = prefManager.getString(getActivity(), Const.userid, "");
         profImg = prefManager.getString(getActivity(), Const.profileimg, "");
         profilePic = v.findViewById(R.id.profilePic);
+        swipeRefresh = v.findViewById(R.id.swipeRefresh);
         recyclerView = v.findViewById(R.id.recyclerView);
         iv_camera = v.findViewById(R.id.iv_camera);
         logoutClick = v.findViewById(R.id.logoutClick);
         editProfile = v.findViewById(R.id.editProfile);
-        /*memberSinceTxt = v.findViewById(R.id.memberSinceTxt);
-        emailtextview = v.findViewById(R.id.emailtextview);
-        mobiletextview = v.findViewById(R.id.mobiletextview);
-        dobTxt = v.findViewById(R.id.dobTxt);
-        gendertextview = v.findViewById(R.id.gendertextview);*/
-//        userName = v.findViewById(R.id.userName);
-//        userId = v.findViewById(R.id.userId);
 
-//        gendertextview.setText(Const.getGenderName(prefManager.getString(getActivity(), Const.gender, "")));
-//        userId.setText("@" + prefManager.getString(getActivity(), Const.userid, ""));
-  //      userName.setText(prefManager.getString(getActivity(), Const.username, ""));
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        adapterProfile = new AdapterProfile(getContext(), list);
-        recyclerView.setAdapter(adapterProfile);
+        postTxt = v.findViewById(R.id.postTxt);
+        postFollower = v.findViewById(R.id.postFollower);
+        postFollowing = v.findViewById(R.id.postFollowing);
+        postLikes = v.findViewById(R.id.postLikes);
+        postDislikes = v.findViewById(R.id.postDislikes);
+
+        userNameTxt = v.findViewById(R.id.userNameTxt);
+        userIdTxt = v.findViewById(R.id.userIdTxt);
+
+        userNameTxt.setText(prefManager.getString(getActivity(), Const.username, ""));
+        userIdTxt.setText("@" + prefManager.getString(getActivity(), Const.userid, ""));
+        loadApi();
+
 
         if (!profImg.equals("") && profImg != null && !profImg.equals("null"))
             Glide.with(getActivity()).load(profImg).into(profilePic);
@@ -138,46 +127,50 @@ LinearLayout editProfile;
                         .getIntent(getActivity());
                 startActivityForResult(intent, 163);
             }
-        });
-
-        editProfile.setOnClickListener(new View.OnClickListener() {
+        }); editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                prefManager.removeKeyValue(getActivity(), Const.serialno);
-                ;
-                prefManager.removeKeyValue(getActivity(), Const.userid);
-                ;
-                prefManager.removeKeyValue(getActivity(), Const.username);
-                ;
-                prefManager.removeKeyValue(getActivity(), Const.age);
-                ;
-                prefManager.removeKeyValue(getActivity(), Const.gender);
-                ;
-                prefManager.removeKeyValue(getActivity(), Const.password);
-                ;
-                prefManager.removeKeyValue(getActivity(), Const.mobileno);
-                ;
-                prefManager.removeKeyValue(getActivity(), Const.email);
-                ;
-                prefManager.removeKeyValue(getActivity(), Const.role);
-                ;
-                prefManager.removeKeyValue(getActivity(), Const.status);
-                ;
-                prefManager.removeKeyValue(getActivity(), Const.state);
-                ;
-                prefManager.removeKeyValue(getActivity(), Const.city);
-                ;
-                prefManager.removeKeyValue(getActivity(), Const.statename);
-                ;
-                prefManager.removeKeyValue(getActivity(), Const.cityname);
-                ;
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-                getActivity().finishAffinity();
-
+                startActivity(new Intent(getActivity(),EditProfileActivity.class));
             }
         });
 
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadApi();
+            }
+        });
+
+
         return v;
+    }
+
+    void loadApi() {
+        Call<ProfileModel> callApi = ApiCaller.getInstance().getProfileData(useridStr);
+        callApi.enqueue(new Callback<ProfileModel>() {
+            @Override
+            public void onResponse(Call<ProfileModel> call, retrofit2.Response<ProfileModel> response) {
+                swipeRefresh.setRefreshing(false);
+                ProfileModel profileModel = response.body();
+                if (profileModel != null && profileModel.getStatus().equals(Const.SUCCESS)) {
+                    postTxt.setText(String.valueOf(profileModel.getProfileBody().getTotalposts()));
+                    postFollower.setText(String.valueOf(profileModel.getProfileBody().getTotalfollowers()));
+                    postFollowing.setText(String.valueOf(profileModel.getProfileBody().getTotalfollowing()));
+                    postLikes.setText(String.valueOf(profileModel.getProfileBody().getTotallikes()));
+                    postDislikes.setText(String.valueOf(profileModel.getProfileBody().getTotaldislikes()));
+                    adapterProfile = new AdapterProfile(getContext(), profileModel.getProfileBody().getPosts());
+                    recyclerView.setAdapter(adapterProfile);
+
+                } else {
+                    Toast.makeText(getActivity(), "Internet Issues", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProfileModel> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

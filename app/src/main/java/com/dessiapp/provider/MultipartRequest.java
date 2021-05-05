@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MultipartRequest extends Request<String> {
 
@@ -26,7 +27,7 @@ public class MultipartRequest extends Request<String> {
     private final Response.Listener<String> mListener;
     private final File file;
     private final HashMap<String, String> params;
-    private  HashMap<String, String> headers;
+    //private  HashMap<String, String> headers;
 
     public MultipartRequest(String url, Response.Listener<String> listener, Response.ErrorListener errorListener, File file, HashMap<String, String> params) {
         super(Method.POST, url, errorListener);
@@ -50,6 +51,13 @@ public class MultipartRequest extends Request<String> {
     @Override
     public String getBodyContentType() {
         return entity.getContentType().getValue();
+    }
+
+    @Override
+    public Map<String, String> getHeaders() {
+        Map<String, String> moda = new HashMap<String, String>();
+        moda.put(Const.HEAD_TOKEN, Const.TOKEN_KEY);
+        return moda;
     }
 
     @Override

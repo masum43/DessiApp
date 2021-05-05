@@ -75,20 +75,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     MaterialCheckBox termcheckbox;
     TextView checkBox;
-
-    private static final String TAG = "RegisterActivity";
     private TextView signin_txtView, textTitletextview;
     private EditText firstnameedittext, age, emailedittext, phonenoedittext, passwordedittext, conpasswordedittext, usernameTxt;
     Toolbar toolbar;
     String txt = "Register";
-    private ProgressDialog dialog, dialog1;
-    TelephonyManager telephonyManager;
+    private ProgressDialog dialog;
     String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    String firstnamePattern = "^[a-zA-Z]+[\\-'\\s]?[a-zA-Z ]{1,50}";
     String passwordPattern = "[a-zA-Z0-9\\!\\@\\#\\$\\%\\&]{8,16}";
-    String passwordPattern1 = "[@$%&#]";
-    String strSpecialChars = "@$%&#";
-    String mCheckSum = "0";
     private String firstname, lastname, emailid, phoneno, password, confirmPassword, checkbox;
     RequestQueue requestQueue;
     ArrayList<SpinnerDto> spinnerDtos = new ArrayList<>();
@@ -509,7 +502,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpClient.execute(httpPost);
                 result = EntityUtils.toString(response.getEntity());
-                Log.d(TAG, "doInBackground: in loop" + result);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (ClientProtocolException e) {
@@ -530,10 +522,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 try {
                     JSONObject object = new JSONObject(s);
                     status = object.getString("status");
-
-                    Log.d(TAG, "onPostExecute: id" + status);
                     message = object.getString("message");
-                    Log.d(TAG, "onPostExecute: id" + message);
 
                     if (status.equals("success")) {
                         JSONArray jArr = object.getJSONArray("body");

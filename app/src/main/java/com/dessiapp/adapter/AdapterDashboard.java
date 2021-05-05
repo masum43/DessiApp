@@ -1,6 +1,12 @@
 package com.dessiapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +27,18 @@ import com.dessiapp.models.DashDataModel;
 import com.dessiapp.models.DashModel2;
 import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.Const;
+import com.dessiapp.screen.CommentActivity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.formats.NativeAd;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.util.List;
 
@@ -77,6 +90,13 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
 
         hol.setTrip(model, pos, userid);
 
+       /* if((pos+1)%5==0){
+            hol.adView.setVisibility(View.VISIBLE);*/
+
+        /*}else{
+            hol.adView.setVisibility(View.GONE);
+        }*/
+
     }
 
     @Override
@@ -94,8 +114,10 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
         Body body;
         int index;
         String userid;
-        TextView likeCount, unlikeCount;
+        TextView likeCount, unlikeCount, cmntCount;
 
+        //        AdView adView;
+        LinearLayout commentlayout, shareLay;
 
         public AdapterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -112,11 +134,17 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
             unlikelayout1 = itemView.findViewById(R.id.unlikelayout1);
             likeCount = itemView.findViewById(R.id.likeCount);
             unlikeCount = itemView.findViewById(R.id.unlikeCount);
+            commentlayout = itemView.findViewById(R.id.commentlayout);
+            cmntCount = itemView.findViewById(R.id.cmntCount);
+            shareLay = itemView.findViewById(R.id.shareLay);
+            //adView = itemView.findViewById(R.id.adView);
 
             unlikelayout1.setOnClickListener(this);
             likelayout1.setOnClickListener(this);
             likelayout.setOnClickListener(this);
             unlikelayout.setOnClickListener(this);
+            commentlayout.setOnClickListener(this);
+            shareLay.setOnClickListener(this);
         }
 
         void setTrip(Body body, int i, String userid) {
@@ -125,7 +153,8 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
             index = i;
 
             likeCount.setText(body.getLikes().toString() + " Like");
-            unlikeCount.setText(body.getDislikes().toString() + " disliked");
+            unlikeCount.setText(body.getDislikes().toString() + " Disliked");
+            cmntCount.setText(body.getComments().toString() + " Comments");
 
             if (body.isLikedbyMe()) {
                 likelayout1.setVisibility(View.VISIBLE);
@@ -141,31 +170,91 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
                 unlikelayout1.setVisibility(View.GONE);
                 unlikelayout.setVisibility(View.VISIBLE);
             }
+
+
+        }
+
+        void sendingShare() {
+            String appLink="https://drive.google.com/file/d/10kcjmLNpkIN9MHzAevlAD0yfQEL7Ez5Y/view?usp=sharing";
+            try {
+                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                StrictMode.setVmPolicy(builder.build());
+                Bitmap bd = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_name);
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bd.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                Uri uri = Uri.fromFile(fileExist(bd));
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("image/jpeg");
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                //shareIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+                String shareMessage = "Sharing a post from DessiApp";
+                shareMessage = shareMessage + "\n--------" + "\nDessiApp is a private social network for connecting neighbours easily.\n\n\n Here is the Apk Link "+appLink;
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Interesting Inputs from DessiApp");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                context.startActivity(Intent.createChooser(shareIntent, "Select the App"));
+            } catch (Exception e) {
+                //e.toString();
+            }
+        }
+
+        File fileExist(Bitmap bm) {
+
+            File file = new File(Environment.getExternalStorageDirectory()
+                    .getAbsolutePath() + "/dessiapp/logo.PNG");
+            if (!file.exists()) {
+                File name = SaveImage(bm);
+                return name;
+            }
+            return file;
+        }
+
+        private File SaveImage(Bitmap finalBitmap) {
+
+            String root = Environment.getExternalStorageDirectory().toString();
+            File myDir = new File(root + "/dessiapp");
+            if (!myDir.exists()) {
+                myDir.mkdirs();
+            }
+
+            String fname = "logo.PNG";
+            File file = new File(myDir, fname);
+            if (file.exists())
+                file.delete();
+            try {
+                FileOutputStream out = new FileOutputStream(file);
+                finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                out.flush();
+                out.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return file;
         }
 
 
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                // case R.id.likelayout:
                 case R.id.likelayout:
-                    Toast.makeText(context, userid, Toast.LENGTH_SHORT).show();
                     likeApi();
                     break;
                 case R.id.likelayout1:
                     likeRemoveApi();
-//                    likelayout.setVisibility(View.VISIBLE);
-//                    likelayout1.setVisibility(View.GONE);
                     break;
                 case R.id.unlikelayout:
                     dislikeApi();
-                    /*unlikelayout.setVisibility(View.GONE);
-                    unlikelayout1.setVisibility(View.VISIBLE);*/
                     break;
                 case R.id.unlikelayout1:
                     dislikeRemoveApi();
-                    /*unlikelayout.setVisibility(View.VISIBLE);
-                    unlikelayout1.setVisibility(View.GONE);*/
+                    break;
+                case R.id.commentlayout:
+                    String json = new Gson().toJson(body);
+                    context.startActivity(new Intent(context, CommentActivity.class).putExtra("model", json));
+                    break;
+                case R.id.shareLay:
+                    sendingShare();
                     break;
             }
         }
@@ -182,7 +271,12 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
                             JSONObject body = jOb.getJSONObject("body");
                             likelayout.setVisibility(View.GONE);
                             likelayout1.setVisibility(View.VISIBLE);
-                            likeCount.setText(String.valueOf(body.getInt("likeCount"))+ " liked");
+                            likeCount.setText(String.valueOf(body.getInt("likeCount")) + " liked");
+                            unlikeCount.setText(String.valueOf((int) body.getDouble("dislikeCount")) + " disliked");
+                            if(unlikelayout1.isShown()) {
+                                unlikelayout1.setVisibility(View.GONE);
+                                unlikelayout.setVisibility(View.VISIBLE);
+                            }
                         } else {
                             Toast.makeText(context, jOb.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
                         }
@@ -210,7 +304,8 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
                             JSONObject body = jOb.getJSONObject("body");
                             likelayout.setVisibility(View.VISIBLE);
                             likelayout1.setVisibility(View.GONE);
-                            likeCount.setText(String.valueOf(body.getInt("likeCount"))+ " liked");
+                            likeCount.setText(String.valueOf(body.getInt("likeCount")) + " liked");
+                            unlikeCount.setText(String.valueOf((int) body.getDouble("dislikeCount")) + " disliked");
                         } else {
                             Toast.makeText(context, jOb.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
                         }
@@ -238,7 +333,13 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
                             JSONObject body = jOb.getJSONObject("body");
                             unlikelayout.setVisibility(View.GONE);
                             unlikelayout1.setVisibility(View.VISIBLE);
+                            likeCount.setText(String.valueOf(body.getInt("likeCount")) + " liked");
                             unlikeCount.setText(String.valueOf((int) body.getDouble("dislikeCount")) + " disliked");
+                            if(likelayout1.isShown())
+                            {
+                                likelayout1.setVisibility(View.GONE);
+                                likelayout.setVisibility(View.VISIBLE);
+                            }
                         } else {
                             Toast.makeText(context, jOb.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
                         }
@@ -265,7 +366,8 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
                             JSONObject body = jOb.getJSONObject("body");
                             unlikelayout.setVisibility(View.VISIBLE);
                             unlikelayout1.setVisibility(View.GONE);
-                            unlikeCount.setText(String.valueOf(body.getInt("dislikeCount"))+ " disliked");
+                            likeCount.setText(String.valueOf(body.getInt("likeCount")) + " liked");
+                            unlikeCount.setText(String.valueOf(body.getInt("dislikeCount")) + " disliked");
                         } else {
                             Toast.makeText(context, jOb.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
                         }

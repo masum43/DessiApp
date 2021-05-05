@@ -6,6 +6,11 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -54,6 +59,7 @@
                     </FrameLayout>
 
                     <TextView
+                        android:id="@+id/userNameTxt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Sanjaya Jena"
@@ -61,6 +67,7 @@
                         android:gravity="center_horizontal" />
 
                     <TextView
+                        android:id="@+id/userIdTxt"
                         android:layout_width="match_parent"
                         android:gravity="center_horizontal"
                         android:textColor="@color/black"
@@ -88,9 +95,10 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/postTxt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="379" />
+                                 />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -112,9 +120,10 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/postFollower"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="379" />
+                                 />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -136,9 +145,10 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/postFollowing"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="379" />
+                                 />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -163,9 +173,10 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/postLikes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="379" />
+                                 />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -187,9 +198,10 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/postDislikes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="379" />
+                                />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -934,5 +946,6 @@
                 android:textSize="@dimen/_10ssp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
 
