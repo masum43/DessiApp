@@ -1,6 +1,7 @@
 package com.dessiapp.screen;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -93,10 +94,12 @@ public class ForYouFragment extends Fragment implements View.OnClickListener {
 
 
     void loadApi() {
+        //ProgressDialog uploading = ProgressDialog.show(getActivity(), "Fetching Data", "Please wait...", false, false);
         Call<DashModel2> callApi = ApiCaller.getInstance().getAllPost(userID);
         callApi.enqueue(new Callback<DashModel2>() {
             @Override
             public void onResponse(Call<DashModel2> call, retrofit2.Response<DashModel2> response) {
+                //uploading.dismiss();
                 swipeRefresh.setRefreshing(false);
                 //System.out.println(response.body());
                 DashModel2 dashModel2 = response.body();
@@ -122,6 +125,7 @@ public class ForYouFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<DashModel2> call, Throwable t) {
 
+                //uploading.dismiss();
             }
         });
     }

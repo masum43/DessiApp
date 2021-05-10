@@ -8,7 +8,7 @@ public class Api {
     final static public String SIGN_UP = BASE_URL + "/signUp";
     final static public String SIGN_IN = BASE_URL + "/login";
     final static public String CREATE_POST1 = BASE_URL + "/userpost";
-    final static public String CREATE_POST_TXT = BASE_URL + "/textpost";
+    final static public String CREATE_POST_TXT = BASE_URL + "/posttext";
     final static public String DASH_API = BASE_URL + "/getAllposts?userid=";
     final static public String ACTIVITY = BASE_URL + "/activities";
     final static public String ALL_USER = BASE_URL + "/getAllUsers";

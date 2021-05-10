@@ -205,7 +205,7 @@ public class LoginActivity extends AppCompatActivity implements ViewDialog1.Clic
                 dialog.dismiss();
                 if(loginModel!=null && loginModel.getStatus().equals(Const.SUCCESS)){
                     LoginModel.Body arr= loginModel.getBody().get(0);
-                    prefManager.putString(getApplicationContext(), Const.serialno,arr.getSerialno().toString());
+                    prefManager.putString(getApplicationContext(), Const.serialno,String.valueOf(arr.getSerialno()));
                     prefManager.putString(getApplicationContext(), Const.userid,arr.getUserid());
                     prefManager.putString(getApplicationContext(), Const.username,arr.getUsername());
                     prefManager.putString(getApplicationContext(), Const.age,String.valueOf(arr.getAge()));

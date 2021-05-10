@@ -73,6 +73,8 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
         hol.userName.setText(model.getUsername());
         if (model.getFilepath() != null && !model.getFilepath().equals("null") && !model.getFilepath().equals(""))
             Glide.with(context).load(model.getFilepath()).into(hol.picPost);
+        else
+            hol.picPost.setVisibility(View.GONE);
         if (model.getProfileimg() != null && !model.getProfileimg().equals("null") && !model.getProfileimg().equals(""))
             Glide.with(context).load(model.getProfileimg()).into(hol.postUserPic);
         hol.userId.setText("@" + model.getPostedby());

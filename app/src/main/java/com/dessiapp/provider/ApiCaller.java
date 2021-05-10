@@ -1,10 +1,14 @@
 package com.dessiapp.provider;
 
+import com.dessiapp.models.ActivityModel;
+import com.dessiapp.models.ChangeModel;
 import com.dessiapp.models.CommentModel;
 import com.dessiapp.models.DashModel2;
 import com.dessiapp.models.LoginModel;
 import com.dessiapp.models.PeoplesModel;
+import com.dessiapp.models.PostMultiModel;
 import com.dessiapp.models.ProfileModel;
+import com.dessiapp.models.RewardModel;
 
 import java.net.URLEncoder;
 import java.util.List;
@@ -44,6 +48,11 @@ public class ApiCaller {
     public static final String POST_CMNT = "addcomment";
     public static final String GET_COMMENT = "getcomments";
     public static final String CHANGE_PASS = "changepassword";
+    public static final String FOLLWERS = "getfollowers";
+    public static final String FOLOWING = "getfollowings";
+    public static final String SEARCH = "searchPeople";
+    public static final String DELETE_POST = "deletepost";
+    public static final String REWARD_DETAIL = "getRewardDetails";
 
     static PostService apiCaller;
 
@@ -51,7 +60,7 @@ public class ApiCaller {
         if (apiCaller == null) {
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(100, TimeUnit.SECONDS)
-                    .readTimeout(100,TimeUnit.SECONDS).build();
+                    .readTimeout(100, TimeUnit.SECONDS).build();
             Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).client(client).build();
             apiCaller = retrofit.create(PostService.class);
         }
@@ -68,6 +77,7 @@ public class ApiCaller {
         @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
         @GET(PEOPLES)
         Call<PeoplesModel> getAppPeopleName(@Query("userId") String userid);
+
 
         @FormUrlEncoded
         @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
@@ -135,13 +145,52 @@ public class ApiCaller {
         @Multipart
         @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
         @POST(Api.CREATE_POST1)
-        Call<Object> postMultiPart(@Part MultipartBody.Part filePart, @Part("postedBy") RequestBody postedBy, @Part("postDesc") RequestBody postDesc, @Part("activity") RequestBody activity);
+        Call<PostMultiModel> postMultiPart(@Part MultipartBody.Part filePart, @Part("postedBy") RequestBody postedBy, @Part("postDesc") RequestBody postDesc, @Part("activity") RequestBody activity);
+
+
+        @Multipart
+        @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
+        @POST(Api.SET_USER_PIC)
+        Call<ChangeModel> changeDp(@Part MultipartBody.Part filePart, @Part("userId") RequestBody postedBy);
 
 
         @FormUrlEncoded
         @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
         @POST(Api.CREATE_POST_TXT)
-        Call<Object> postTxt(@Field("userid") String userid,@Field("textToPost") String textToPost,@Field("activity") String activity);
+        Call<PostMultiModel> postTxt(@Field("postedBy") String userid, @Field("postDesc") String textToPost, @Field("activity") String activity);
+
+
+        @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
+        @GET(FOLLWERS)
+        Call<PeoplesModel> getFollowers(@Query("userId") String userid);
+
+
+        @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
+        @GET(FOLOWING)
+        Call<PeoplesModel> getFollowing(@Query("userId") String userid);
+
+
+        @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
+        @GET(Api.ACTIVITY)
+        Call<ActivityModel> getActivity();
+
+
+        @FormUrlEncoded
+        @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
+        @POST(SEARCH)
+        Call<PeoplesModel> searchPerson(@Field("userId") String userId, @Field("searchVal") String searchVal);
+
+
+        @FormUrlEncoded
+        @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
+        @POST(DELETE_POST)
+        Call<Object> deletePost();
+
+
+        @FormUrlEncoded
+        @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
+        @POST(REWARD_DETAIL)
+        Call<RewardModel> getRewards(@Field("userId") String userId);
 
     }
 }

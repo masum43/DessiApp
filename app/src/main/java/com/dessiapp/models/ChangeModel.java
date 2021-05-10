@@ -3,10 +3,8 @@ package com.dessiapp.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
 
-
-public class PeoplesModel {
+public class ChangeModel {
 
     @SerializedName("status")
     @Expose
@@ -16,7 +14,7 @@ public class PeoplesModel {
     private String message;
     @SerializedName("body")
     @Expose
-    private List<PeopleListModel> body = null;
+    private Result body;
 
     public String getStatus() {
         return status;
@@ -34,15 +32,29 @@ public class PeoplesModel {
         this.message = message;
     }
 
-    public List<PeopleListModel> getBody() {
+    public Result getBody() {
         return body;
     }
 
-    public void setBody(List<PeopleListModel> body) {
+    public void setBody(Result body) {
         this.body = body;
     }
 
+
+    public class Result {
+
+        @SerializedName("profileimgurl")
+        @Expose
+        private String profileimgurl;
+
+        public String getProfileimgurl() {
+            return profileimgurl;
+        }
+
+        public void setProfileimgurl(String profileimgurl) {
+            this.profileimgurl = profileimgurl;
+        }
+
+    }
+
 }
-
-
-

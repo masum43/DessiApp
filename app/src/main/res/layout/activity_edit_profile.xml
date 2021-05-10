@@ -72,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:text="Date of birth"
+                android:visibility="gone"
                 android:layout_marginBottom="@dimen/_3sdp"
                 android:layout_marginLeft="@dimen/_18sdp" />
             <EditText
@@ -86,6 +87,7 @@
                 android:hint="Date of birth"
                 android:textSize="@dimen/_12ssp"
                 android:inputType="number"
+                android:visibility="gone"
                 android:clickable="true"
                 android:editable="false"
                 android:focusable="false"

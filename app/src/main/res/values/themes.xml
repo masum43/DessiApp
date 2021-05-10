@@ -15,6 +15,19 @@
         <item name="android:textColorHint">@color/greyHint</item>
     </style>
 
+    <style name="Theme.DessiApp1" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Customize your theme here. -->
+        <item name="android:textColorHint">@color/greyHint</item>
+    </style>
+
     <style name="Theme.New" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:fontFamily">@font/montserrat_regular</item>
         <!-- Primary brand color. -->
@@ -40,6 +53,7 @@
         <item name="android:textColorSecondary">@color/White</item>
 
     </style>
+
     <style name="ThemeBlack" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/black</item>

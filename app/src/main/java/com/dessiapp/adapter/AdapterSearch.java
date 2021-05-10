@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.dessiapp.R;
-import com.dessiapp.models.Body;
 import com.dessiapp.models.PeopleListModel;
 import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.CallFor;
@@ -30,7 +29,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class AdapterPeoples extends RecyclerView.Adapter<AdapterPeoples.AdapterViewHolder> {
+public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.AdapterViewHolder> {
 
     Context context;
     List<PeopleListModel> listData;
@@ -38,7 +37,7 @@ public class AdapterPeoples extends RecyclerView.Adapter<AdapterPeoples.AdapterV
     PreferenceManager prefManager;
     CallFor callFor;
 
-    public AdapterPeoples(Context context, List<PeopleListModel> list, CallFor callFor) {
+    public AdapterSearch(Context context, List<PeopleListModel> list, CallFor callFor) {
         this.listData = list;
         this.context = context;
         this.callFor = callFor;
@@ -49,7 +48,7 @@ public class AdapterPeoples extends RecyclerView.Adapter<AdapterPeoples.AdapterV
     @NonNull
     @Override
     public AdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new AdapterViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_peoples, parent, false));
+        return new AdapterViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_search, parent, false));
     }
 
     @Override
@@ -59,7 +58,7 @@ public class AdapterPeoples extends RecyclerView.Adapter<AdapterPeoples.AdapterV
         hol.userName.setText(model.getUsername());
         hol.userId.setText("@" + model.getUserid());
         hol.setType(model, userId, pos);
-        if (model.getProfileimg() != null && !model.getProfileimg().equals(""))
+        if(model.getProfileimg()!=null && !model.getProfileimg().equals(""))
             Glide.with(context).load(model.getProfileimg()).into(hol.postUserPic);
     }
 
@@ -74,7 +73,7 @@ public class AdapterPeoples extends RecyclerView.Adapter<AdapterPeoples.AdapterV
                 userId;
 
         PeopleListModel peopleModel;
-        AppCompatButton folloWClick, unfolloWClick;
+        Button folloWClick, unfolloWClick;
         String userIdValue;
         int pos;
         CircleImageView postUserPic;
@@ -104,9 +103,6 @@ public class AdapterPeoples extends RecyclerView.Adapter<AdapterPeoples.AdapterV
                     unfolloWClick.setVisibility(View.GONE);
                     folloWClick.setVisibility(View.VISIBLE);
                 }
-            } else if (callFor == CallFor.FOLLOWERS) {
-                unfolloWClick.setVisibility(View.GONE);
-                folloWClick.setVisibility(View.GONE);
             } else {
                 unfolloWClick.setVisibility(View.VISIBLE);
                 folloWClick.setVisibility(View.GONE);

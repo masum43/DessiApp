@@ -3,11 +3,9 @@
     android:id="@+id/postLin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/_3sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
     android:background="@drawable/shape_dash"
     android:elevation="@dimen/_20sdp"
-    android:gravity="center"
-    android:paddingBottom="7dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -80,7 +78,7 @@
 <!--                android:layout_marginRight="@dimen/_5sdp"-->
 <!--                android:paddingLeft="@dimen/_3sdp" />-->
 
-            <androidx.appcompat.widget.AppCompatButton
+            <Button
                 android:id="@+id/folloWClick"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_25sdp"
@@ -93,14 +91,16 @@
                 android:layout_marginRight="@dimen/_5sdp"
                 android:gravity="center" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <Button
                 android:id="@+id/unfolloWClick"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/_30sdp"
-                android:text="UnFollow"
+                android:layout_height="@dimen/_25sdp"
+                android:text="Unfollow"
                 android:textSize="@dimen/_8ssp"
                 android:textAlignment="center"
                 android:visibility="gone"
+                android:background="@color/greyBg"
+                android:textColor="@color/black"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:gravity="center" />
         </LinearLayout>

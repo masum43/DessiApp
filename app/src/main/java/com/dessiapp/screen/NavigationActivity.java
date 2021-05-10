@@ -31,7 +31,7 @@ public class NavigationActivity extends AppCompatActivity {
     PreferenceManager prefManager;
     String profImg;
     CircleImageView cirImg;
-    ImageView imgAdd, setting;
+    ImageView imgAdd, setting, imgSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +48,14 @@ public class NavigationActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
         cirImg = findViewById(R.id.cirImg);
-        imgAdd = findViewById(R.id.imgAdd);
+        //imgAdd = findViewById(R.id.imgAdd);
+        imgSearch = findViewById(R.id.imgSearch);
         setting = findViewById(R.id.setting);
         updateProfilePic();
         adapter = new MyAdapter(NavigationActivity.this, getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
+        viewPager.setOffscreenPageLimit(3);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -71,17 +72,24 @@ public class NavigationActivity extends AppCompatActivity {
 
             }
         });
-        imgAdd.setOnClickListener(new View.OnClickListener() {
+
+        /*imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Date date = new Date();
                 System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n HI BUDDY YYY: \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + date.getTime());
             }
-        });
+        });*/
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),SettingActivity.class));
+                startActivity(new Intent(getApplicationContext(), SettingActivity.class));
+            }
+        });
+        imgSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
             }
         });
 

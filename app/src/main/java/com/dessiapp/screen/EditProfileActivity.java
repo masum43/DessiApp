@@ -97,8 +97,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         new SpinnerDatePickerDialogBuilder()
                 .context(EditProfileActivity.this)
                 .callback(EditProfileActivity.this)
-                // .callback(RegisterActivity.this)
-                //.onCancel(RegisterActivity.this)
                 .spinnerTheme(spinnerTheme)
                 .defaultDate(year, monthOfYear, dayOfMonth)
                 .maxDate(year, monthOfYear, dayOfMonth)
@@ -126,9 +124,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             viewDialog.showDialog(EditProfileActivity.this, "Please enter name");
         } else if (usernameEdt.getText().toString() == null || usernameEdt.getText().toString() == "") {
             viewDialog.showDialog(EditProfileActivity.this, "Please enter username");
-        } else if (dobEdt.getText().toString() == null || dobEdt.getText().toString() == "") {
+        } /*else if (dobEdt.getText().toString() == null || dobEdt.getText().toString() == "") {
             viewDialog.showDialog(EditProfileActivity.this, "Please enter dob");
-        } else if (emailEdt.getText().toString() == null || emailEdt.getText().toString() == "") {
+        }*/ else if (emailEdt.getText().toString() == null || emailEdt.getText().toString() == "") {
             viewDialog.showDialog(EditProfileActivity.this, "Please enter email id");
         } else if (!emailEdt.getText().toString().trim().matches(emailPattern)) {
             viewDialog.showDialog(EditProfileActivity.this, "Please enter valid email id");
@@ -150,7 +148,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     JSONObject jOb = new JSONObject(String.valueOf(response.body()));
                     if (jOb.getString(Const.STATUS).equals(Const.SUCCESS)) {
                         JSONObject body = jOb.getJSONObject("body");
-
                     } else {
                         Toast.makeText(getApplicationContext(), jOb.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
                     }

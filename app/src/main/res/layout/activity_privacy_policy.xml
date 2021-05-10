@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".screen.PrivacyPolicyActivity">
+
+    <include layout="@layout/custom_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_18sdp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:text="Privacy Policy"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold" />
+            <!--We (DesiiApp) are deeply concerned about your privacy and we take this concern very seriously. This Privacy Policy (“Privacy Policy”) sets out how we collect, process, use and may disclose your data when you use our mobile application called 'DesiiApp'. The App is referred to as the “Platform”. References to “we”, “our” or “us” Any references to “you”, “your” or “user” shall mean any person or entity using our Platform. We will not use or share your information with anyone except as described in this Privacy Policy.-->
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:justificationMode="inter_word"
+                android:text="We (DesiiApp) are deeply concerned about your privacy and we take this concern very seriously. This Privacy Policy (“Privacy Policy”) sets out how we collect, process, use and may disclose your data when you use our mobile application called 'DesiiApp'. The App is referred to as the “Platform”. References to “we”, “our” or “us” Any references to “you”, “your” or “user” shall mean any person or entity using our Platform. We will not use or share your information with anyone except as described in this Privacy Policy."
+                android:layout_gravity="start" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:justificationMode="inter_word"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="This Privacy Policy is a part of and is to be read with the DesiiApp Terms of Use (“Terms”). By using this Platform, you agree to the terms and conditions of this Privacy Policy. You also consent to our use and disclosure of your Personal Information (as defined below) in the manner described in this Privacy Policy. The capitalized words used in this Privacy Policy but not defined herein, shall have the meaning given to such words in the Terms. If you do not agree with the terms and conditions of this Privacy Policy, please do not use this Platform." />
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

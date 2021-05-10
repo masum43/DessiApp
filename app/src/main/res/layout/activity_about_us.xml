@@ -27,6 +27,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:justificationMode="inter_word"
         android:text="DesiiApp is an Indian photo sharing and social networking service app for creators and influencers. DesiiApp allow users to upload thair photos through a mobile app." />
     </LinearLayout>
 

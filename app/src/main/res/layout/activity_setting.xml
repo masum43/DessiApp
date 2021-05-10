@@ -92,6 +92,7 @@
         android:background="@color/greyBg" />
 
     <LinearLayout
+        android:id="@+id/earningLay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -134,6 +135,7 @@
         android:background="@color/greyBg" />
 
     <LinearLayout
+        android:id="@+id/privacyPolicy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -219,6 +221,7 @@
         android:background="@color/greyBg" />
 
     <LinearLayout
+        android:id="@+id/termCondition"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"

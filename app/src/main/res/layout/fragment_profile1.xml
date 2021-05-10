@@ -63,6 +63,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Sanjaya Jena"
+                        android:fontFamily="@font/montserrat_regular"
                         android:textColor="@color/black"
                         android:gravity="center_horizontal" />
 
@@ -71,6 +72,7 @@
                         android:layout_width="match_parent"
                         android:gravity="center_horizontal"
                         android:textColor="@color/black"
+                        android:fontFamily="@font/montserrat_regular"
                         android:layout_height="wrap_content"
                         android:text="sanjayajena" />
                 </LinearLayout>
@@ -96,6 +98,7 @@
 
                             <TextView
                                 android:id="@+id/postTxt"
+                                android:fontFamily="@font/montserrat_regular"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                  />
@@ -103,6 +106,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_regular"
                                 android:text="Posts" />
                         </LinearLayout>
 
@@ -113,6 +117,7 @@
                             android:visibility="gone" />
 
                         <LinearLayout
+                            android:id="@+id/followersLinear"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -121,6 +126,7 @@
 
                             <TextView
                                 android:id="@+id/postFollower"
+                                android:fontFamily="@font/montserrat_regular"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                  />
@@ -128,6 +134,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_regular"
                                 android:text="Followers" />
                         </LinearLayout>
 
@@ -138,6 +145,7 @@
                             android:visibility="gone" />
 
                         <LinearLayout
+                            android:id="@+id/followingLinear"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -148,11 +156,13 @@
                                 android:id="@+id/postFollowing"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_regular"
                                  />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_regular"
                                 android:text="Following" />
                         </LinearLayout>
                     </LinearLayout>
@@ -176,11 +186,13 @@
                                 android:id="@+id/postLikes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_regular"
                                  />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_regular"
                                 android:text="Likes" />
                         </LinearLayout>
 
@@ -199,12 +211,14 @@
 
                             <TextView
                                 android:id="@+id/postDislikes"
+                                android:fontFamily="@font/montserrat_regular"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 />
 
                             <TextView
                                 android:layout_width="wrap_content"
+                                android:fontFamily="@font/montserrat_regular"
                                 android:layout_height="wrap_content"
                                 android:text="Dislikes" />
                         </LinearLayout>
@@ -226,6 +240,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+
                                 android:text="379" />
 
                             <TextView
@@ -249,11 +264,11 @@
                         android:background="@color/greyBg"
                         android:paddingBottom="@dimen/_1sdp"
                         android:gravity="center"
-                        android:text="Edit Profile"
                         android:textSize="@dimen/_8ssp" >
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_regular"
                             android:text="Edit Profile" />
                     </LinearLayout>
                 </LinearLayout>

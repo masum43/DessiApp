@@ -28,7 +28,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DessiApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".screen.AboutUsActivity"></activity>
+        <activity android:name=".screen.ViewOtherProfileActivity"></activity>
+        <activity android:name=".screen.EarningActivity" />
+        <activity android:name=".screen.TermsConditionActivity" />
+        <activity android:name=".screen.PrivacyPolicyActivity" />
+        <activity android:name=".screen.SearchActivity" />
+        <activity android:name=".screen.FollowingActivity" />
+        <activity android:name=".screen.FollowersActivity" />
+        <activity android:name=".screen.AboutUsActivity" />
         <activity
             android:name=".screen.ChangePassActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -53,7 +60,9 @@
         <activity
             android:name=".screen.DashActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".screen.NavigationActivity" />
+        <activity
+            android:name=".screen.NavigationActivity"
+            android:theme="@style/Theme.DessiApp1" />
         <activity android:name=".screen.OtpActivity" />
         <activity android:name=".screen.NetworkCheckActivity" />
         <activity

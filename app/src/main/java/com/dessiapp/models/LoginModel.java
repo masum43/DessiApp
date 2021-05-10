@@ -44,7 +44,7 @@ public class LoginModel {
     public class Body {
         @SerializedName("serialno")
         @Expose
-        private Integer serialno;
+        private int serialno;
         @SerializedName("userid")
         @Expose
         private String userid;
@@ -53,10 +53,10 @@ public class LoginModel {
         private String username;
         @SerializedName("age")
         @Expose
-        private Integer age;
+        private int age;
         @SerializedName("gender")
         @Expose
-        private Integer gender;
+        private int gender;
         @SerializedName("password")
         @Expose
         private String password;
@@ -91,11 +91,11 @@ public class LoginModel {
         @Expose
         private String cityname;
 
-        public Integer getSerialno() {
+        public int getSerialno() {
             return serialno;
         }
 
-        public void setSerialno(Integer serialno) {
+        public void setSerialno(int serialno) {
             this.serialno = serialno;
         }
 
@@ -115,19 +115,19 @@ public class LoginModel {
             this.username = username;
         }
 
-        public Integer getAge() {
+        public int getAge() {
             return age;
         }
 
-        public void setAge(Integer age) {
+        public void setAge(int age) {
             this.age = age;
         }
 
-        public Integer getGender() {
+        public int getGender() {
             return gender;
         }
 
-        public void setGender(Integer gender) {
+        public void setGender(int gender) {
             this.gender = gender;
         }
 

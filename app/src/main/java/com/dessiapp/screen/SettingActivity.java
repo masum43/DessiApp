@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.dessiapp.R;
 import com.dessiapp.provider.Const;
 import com.dessiapp.provider.PreferenceManager;
@@ -29,7 +30,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     PreferenceManager prefManage;
     String userIdSt, userNameSt, userPicSt, dateTimeSt;
-    LinearLayout changePassLay,aboutUS;
+    LinearLayout changePassLay, aboutUS,privacyPolicy,termCondition,earningLay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +49,18 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         dateTimeSt = prefManage.getString(getApplicationContext(), Const.createdon, "");
 
 
-
         userName = findViewById(R.id.userName);
         userid = findViewById(R.id.userid);
         dateTime = findViewById(R.id.dateTime);
         postUserPic = findViewById(R.id.postUserPic);
         changePassLay = findViewById(R.id.changePassLay);
         aboutUS = findViewById(R.id.aboutUS);
+        privacyPolicy = findViewById(R.id.privacyPolicy);
+        termCondition = findViewById(R.id.termCondition);
+        earningLay = findViewById(R.id.earningLay);
+
+        if (userPicSt != null && !userPicSt.equals("null") && !userPicSt.equals(""))
+            Glide.with(getApplicationContext()).load(userPicSt).into(postUserPic);
 
 
         userName.setText(userNameSt);
@@ -65,6 +71,9 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         imgArrow.setOnClickListener(this);
         changePassLay.setOnClickListener(this);
         aboutUS.setOnClickListener(this);
+        privacyPolicy.setOnClickListener(this);
+        termCondition.setOnClickListener(this);
+        earningLay.setOnClickListener(this);
     }
 
     public void logout(View view) {
@@ -91,11 +100,21 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         switch (view.getId()) {
             case R.id.changePassLay:
                 startActivity(new Intent(getApplicationContext(), ChangePassActivity.class));
-                break; case R.id.aboutUS:
+                break;
+            case R.id.aboutUS:
                 startActivity(new Intent(getApplicationContext(), AboutUsActivity.class));
                 break;
             case R.id.imgArrow:
                 onBackPressed();
+                break;
+            case R.id.termCondition:
+                startActivity(new Intent(getApplicationContext(), TermsConditionActivity.class));
+                break;
+            case R.id.privacyPolicy:
+                startActivity(new Intent(getApplicationContext(), PrivacyPolicyActivity.class));
+                break;
+            case R.id.earningLay:
+                startActivity(new Intent(getApplicationContext(), EarningActivity.class));
                 break;
         }
     }

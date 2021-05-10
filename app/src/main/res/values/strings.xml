@@ -9,4 +9,241 @@
     <string name="banner_ad_unit_id">YOUR_BANNER_AD_UNIT_ID</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="term">We requests you to carefully go through these Terms @amp; Conditions (“ Terms of Service ” or “Agreement” or “ToS ”) and our Community Guidelines prior to using or availing access to the Application. If You continue to browse and use this Application, You irrevocably and unconditionally are agreeing to comply with, abide by and be bound by all the obligations as stipulated in this ToS, which together read with our Privacy Policy and any other applicable policies referred to herein or made available on the Application, shall govern the Company’s relationship with You in relation to the Application. These ToS only apply to the Application, or to any such platform wherein you are allowed to access the Services of the Application, and not to any other application, web site or any offline activities by the Company (unless expressly and specifically stated).\nThese ToS supersede all previous oral and written terms and conditions (if any) communicated to You and shall act as a binding Agreement between Company and the Users (as defined hereunder).\nIF YOU DO NOT AGREE TO BE BOUND BY ALL CONDITIONS/CLAUSES CAPTURED IN THIS TOS, PLEASE DO NOT USE THE APPLICATION OR SERVICES.</string>
+    <string name="term1">1. Definitions\nApp or “Application” shall mean and include the software and mobile Application accessed through or downloaded from the App store i.e. Android or IOS, and accessible from any platforms where the Application functions such as mobile phones, tablets and any such other devices. For the purpose of this ToS, the Application shall mean DesiiApp, and any improvement or modifications to the same as released by the Company later.\nContent means and includes, without limitation, any information, data, text, audio, video, gifs, polls, User profiles, software, tags, graphics, and interactive features generated, provided, or otherwise made accessible either by you or by us or our partners or Sponsors on or through the Service.\nService(s) means services provided through the App, as described in further detail under clause 3 below. The Services provided through the Application may change from time to time, at the sole discretion of the Company.\n“You” or “User” or “Consumer” shall mean any registered user of the Application, or his/her representatives or affiliates who are registered on the Application.\n
+“DesiiAppp” shall mean any post by a registered user on the Application.
+</string>
+    <string name="term2">2. Updation of Terms\nYour use of the Applications is subject to these ToS, which may be updated, amended, modified or
+     revised by us from time to time without notice to You. It is important for You to refer to these
+     ToS from time to time to make sure that You are aware of any additions, revisions, amendments or
+     modifications that we may have made to these ToS.
+</string>
+    <string name="term3">3. Service(s) provided to Users\nThe Application provides You with the ability to (all together the “Services”):\n
+     I. Create and maintain your own profile on the Application after registration (described in
+     clause 4 below);\n
+     II. Choose and implement privacy settings on your account. This gives you the ability to
+     determine which other Users can view your profile and/or any other Content uploaded by you on
+     the Application. This includes the ability to specifically block certain other Users of the
+     Application from accessing your account;\n
+     III. Post your thoughts, opinions and updates on the application\n
+     IV. Follow other users on the application\n
+     V. React (Like, Dislike, Comment, Share) to other users\n
+     VI. You may remove any of your uploaded Koos, comments\n
+     VII. Block other users\n
+     VIII. You may use hashtags to highlight the topic on which you are posting\n
+     IX. The Company may also, at any time and its own discretion, remove any posts that are found to
+     be in breach of any of the terms and conditions contained in this ToS or any other
+     policies/documents prepared in this regard by the Company;\n
+     X. Users can hold one-to-one chats with other Users on the Application, provided they have not
+     been blocked/restricted by such Users.
+
+     The Company reserves the right, in its sole discretion, to modify or replace all or any part of
+     the ToS, or change, suspend, or discontinue all or any part of the Services at any time by
+     posting a notice on the Service or by sending You an email. Your continued use of the Service
+     following the posting of any changes to the ToS constitutes acceptance of those changes. Any
+     information You provide to us for the purposes of registering and setting up your account shall
+     be considered as accurate, complete and updated. You are solely responsible for the activity
+     that occurs on Your account and for maintaining the security of the Application and any
+     information You input to the Application. Further, we are not responsible for the accuracy or
+     legitimacy of any data, information or Content uploaded or posted by you on the Application
+     during your usage of the Services. Similarly, we are not responsible for any information and/or
+     Content uploaded, displayed, created or posted on the Application by other Users. Any reliance
+     by you on any information or Content provided by any other User will be your responsibility. You
+     understand and agree that the Company will not be liable for any damages, losses, harm or costs
+     incurred by you as a result of your reliance on any information provided by any other User. You
+     shall not use or access another User’s account without such other User’s explicit permission.
+     You will immediately notify us in writing of any unauthorized use of Your account, or any other
+     account-related security breach of which You are aware. You can access the Application through
+     your account maintained in the Application. The details regarding registration and creation of
+     an account are captured in clause 4 below. The account is provided on a best-efforts as-is
+     basis. While we strive to maintain the highest levels of service availability, we will not be
+     liable for any interruption that may be caused to Your access of the Services.\n
+</string>
+
+    <string name="term4">4. Registration and Account Integrity\nWhen you download the Application, you will first be asked to choose the language you would like
+     to use the Application in (this preference can be changed in the settings page of the
+     Application at any time). On accepting the ToS and PP after this, you will automatically be
+     redirected to the account creation and registration process. As part of the registration
+     process/for creating your account, you will need to provide us with your phone number or email
+     address, (which will be verified via a one-time password).
+
+     It is Your responsibility to ensure that the information You provide is accurate, secure, and
+     not misleading. You can then create an account username/handle and password for yourself. You
+     cannot create an account username and/or password using\n
+     (i) the names and information of another person; or\n
+     (ii) using words that are the trademarks or the property of another party (including ours); or\n
+     (iii) words that are vulgar, obscene or in any other way inappropriate.\n
+
+     Please note that If a username has been used by a verified user on another platform, in order to
+     avoid risk of impersonation, the username will not be allotted to anyone else and, if already
+     allotted, may be cancelled at the discretion of posts without any notice.
+
+     We reserve the right with or without notice to suspend or terminate any account in breach of the
+     above conditions. On the creation of your account, you can modify your handle/username at any
+     time. You may also add a description of yourself to your account. If for any reason you suspect
+     that your username and password has been disclosed to or obtained by another party, you should
+     contact us immediately. Please note that we never contact Users requesting them to confirm their
+     username, password or any other details, except when the User is signing into the Application.\n
+</string>
+    <string name="term5"> 5. Fees and Payment\nThere is no fee and/or payment required to be made by you prior to, during, or after your usage
+     of the Application. The usage of the Application is completely free of cost, and any request for
+     fees or payment by any person/entity purporting to be a representative of the Company should be
+     ignored by you, unless the same is reflected in an updated version of these ToS.
+</string>
+    <string name="term6"> 6. Use of Your Information and Content\nIf You create, transmit, submit, display or otherwise make available any information and Content
+     while using the Service, You may provide only information that You own or have the right to use.
+     Although you remain the sole and complete owner of all information and Content provided and / or
+     uploaded by you on the Application (including any intellectual property rights in the same), you
+     give us a license to fully use that information in connection with providing you the Services to
+     the best of our abilities. This includes a perpetual, royalty-free and worldwide license to use
+     any of the content created by you for advertising and marketing purposes, in order to promote
+     the Application among third-parties. However, we may only use the information You provide as
+     permitted by our Privacy Policy, and applicable law. For example, we will never share Your
+     personally identifiable information without Your prior permission.
+
+     Please closely review our Privacy Policy for more information regarding how we use and disclose
+     Your personal information. Our Privacy Policy is hereby incorporated into these Terms of Use by
+     this reference.
+
+     We reserve the right to maintain, delete or destroy all information, Content and materials
+     posted or uploaded through the Service(s) pursuant to our internal record retention and/or
+     destruction policies, upon reasonable notice provided to the you. We (may / may not) make use of
+     third party cloud services provider or our own service infrastructure for hosting the servers
+     and databases. While we make commercially reasonable efforts to ensure that the data stored on
+     our servers is persistent and always available to the User, we will not be responsible in the
+     event of failure of the third-party servers or any other factors outside our reasonable control,
+     that may cause the User data to be permanently deleted, irretrievable, or temporarily
+     inaccessible.
+     You hereby agree and acknowledge that the Company reserves the right to disable, destroy or
+     delete any Content uploaded by You on the Application, if such Content is found to be duplicated
+     and/or replicated on any other media apart from the Application. You further agree and
+     acknowledge that the Company also reserves the right to remove or refuse to publish Your
+     Content, in whole or part, at any time, at the Companys sole discretion, with or without notice
+     to You
+</string>
+
+    <string name="term7"> 7. Third Party Services\nThe Company may provide Users with links to, or contact information for, third party sites or
+     services. The Company is not responsible for, and does not endorse, any third-party content,
+     sites, or services mentioned on the Service. It is hereby stated that Company shall in no way be
+     responsible for any acts or omissions of third parties whom the User may connect with through a
+     mechanism facilitated by Company. Any transaction, dealings or communication otherwise that the
+     User may have with such third parties are at the User’s own risk and we make no warranties,
+     express or implied regarding the quality or suitability of the services or products of such
+     third-party vendors.
+</string>
+    <string name="term8">8. Rules and Conduct\nAdditionally, You shall not host, display, upload, modify, publish, transmit, update or share
+     any information that:\n
+     (i) may be harmful to minors or children below the age of 18 (eighteen) years;\n
+     (ii) threatens the unity, integrity, defence, security or sovereignty of India, friendly
+     relations with foreign states or public order or causes incitement to the commission of any
+     cognisable offence or prevents investigation of any offence or is insulting any other nation;
+     and\n
+     (iii) is invasive of another privacy, hateful, or racially, ethnically objectionable,
+     disparaging, relating or encouraging money laundering or gambling, or otherwise unlawful in any
+     manner whatever\n
+     (iv) grossly harmful\n
+     (v) pornographic\n
+     (vi) paedophilic\n
+</string>
+    <string name="term9"> 9. Alerts Provided by The Company\nThe Application provides you with multiple automatic alerts, if\n
+     (a) another User likes a content posted by you; or\n
+     (b) another User follows you; or\n
+     (c) any other similar relevant. You can opt-in or opt-out of such alerts in the settings section
+     of the app.\n
+     You understand and agree that any alerts provided to you through the Service may be delayed or
+     prevented by a variety of factors. We will do our best to provide alerts in a timely manner with
+     accurate information. However, we neither guarantee the delivery nor the accuracy of the content
+     of any alert. You also agree that we shall not be liable for any delays, failure to deliver, or
+     misdirected delivery of any alert; for any errors in the content of an alert; or for any actions
+     taken or not taken by You or any third party in reliance on an alert.
+</string>
+    <string name="term10"> 10. Content Ownership and Copyright Conditions of Access\nThe Content listed on the Application are either\n
+     (i) User generated, or\n
+     (ii) belong to Company.\n
+
+     The nature of ownership and use of the information and Content uploaded and/or provided by you
+     has been clarified in clause 6 above. Your copying of the copyrighted content published by
+     Company on the Application for any commercial purpose or for the purpose of earning profit will
+     be a violation of copyright and Company reserves its rights under applicable law accordingly.
+
+     We authorize the User to view and access the content available on or from the Application solely
+     for receiving, interacting, delivering and communicating only as per this Agreement. The
+     contents of the Application, information, text, graphics, images, logos, button icons, software
+     code, design, and the collection, arrangement and assembly of content on the Application
+     (collectively, "Our Content"), are our property and are protected under copyright, trademark and
+     other laws. User shall not modify Our Content or reproduce, display, publicly perform,
+     distribute, or otherwise use Our Content in any way for any public or commercial purpose or for
+     personal gain.
+
+     Users are prohibited from accessing the Services for purposes of monitoring their availability,
+     performance or functionality, or for any other benchmarking or competitive purposes.
+</string>
+    <string name="term11"> 11. Reviews and Feedback\nYou are solely responsible for the Content that You choose to submit for publication on the
+     Application, including any feedback, ratings, or reviews (“Critical Content”) relating to the
+     Application or other Users. Our role in publishing the Critical Content is restricted to that of
+     an ‘intermediary’ under the Information Technology Act, 2000. We disclaim all responsibility
+     with respect to the content of Critical Content, and our role with respect to such content is
+     restricted to our obligations as an ‘intermediary’ under the said Act. We shall not be liable to
+     pay any consideration to any User for re-publishing any content across any of our platforms.
+     You agree that we may contact You through telephone, email, SMS, or any other electronic means
+     of communication for the purpose of:\n
+     I. Obtaining feedback in relation to Application or our Services; and/or\n
+     II. Obtaining feedback in relation to any other Users listed on the Application; and/or\n
+     III. Resolving any complaints, information, or queries by other Users regarding Your Critical
+     Content;\n
+     and you agree to provide your fullest co-operation further to such communication by Company.
+</string>
+
+    <string name="term12"> 12. Profile Ownership and Editing Rights\nWe ensure easy access to the Users by providing a tool to update Your profile information. We
+     reserve the right to moderate the changes or updates requested by You, and we shall take the
+     independent decision whether to publish or reject the requests submitted for the respective
+     changes or updates in Your profile. You hereby represent and warrant that You are fully entitled
+     under law to upload all Content uploaded by You as part of Your profile or otherwise while using
+     our Services, and that no such content breaches any third-party rights, including intellectual
+     property rights. Upon becoming aware of a breach of the foregoing representation, we may modify
+     or delete parts of Your profile information at our sole discretion with or without notice to
+     You.
+</string>
+
+    <string name="term13"> 13. Rights and Obligation relating to the Content\nUsers shall be prohibited from:
+     I. violating or attempting to violate the integrity or security of the Application or any
+     content thereof;\n
+     II. transmitting any information (including job posts, messages and hyperlinks) on or through
+     the Application that is disruptive or competitive to the provision of our Services;\n
+     III. intentionally submitting on the Application any incomplete, false or inaccurate
+     information;\n
+     IV. making any unsolicited communications to other Users;\n
+     V. using any engine, software, tool, agent or other device or mechanism (such as spiders,
+     robots, avatars or intelligent agents) to navigate or search the Application;\n
+     VI. attempting to decipher, decompile, disassemble or reverse engineer any part of the
+     Application;\n
+     VII. copying or duplicating in any manner any of our Content or other information available from
+     the Application;\n
+     VIII. framing or hot linking or deep linking any Content.\n
+     IX. circumventing or disabling any digital rights management, usage rules, or other security
+     features of the Application.\n
+     X. using the Platform or App manner that is unethical or illegal or disruptive.\n
+
+     The Company shall, upon obtaining knowledge by itself or been brought to actual knowledge by an
+     affected person in writing or through email signed with electronic signature about any such
+     information as mentioned above, be entitled to disable such information that is in contravention
+     of this Clause. We shall also be entitled to preserve such information and associated records
+     for at least 120 (one hundred twenty) days for production to governmental authorities for
+     investigation purposes.\n\n
+
+     In case of non-compliance with any applicable laws, rules or regulations, or the Agreement
+     (including the Privacy Policy) by a User, we shall have the right to immediately terminate Your
+     access or usage rights to the Application and Services and to remove non-compliant information
+     from the Application.
+</string>
+
+
+    <!--
+
+
+
+
+
+
+ </string>-->
 </resources>

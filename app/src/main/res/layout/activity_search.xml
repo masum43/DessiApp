@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".screen.SearchActivity">
+
+    <include layout="@layout/custom_toolbar" />
+
+    <LinearLayout
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="16dp">
+
+
+        <EditText
+            android:id="@+id/searchTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_white"
+
+            android:drawableEnd="@drawable/ic_search"
+            android:drawableRight="@drawable/ic_search"
+            android:drawablePadding="6dp"
+            android:elevation="5dp"
+            android:hint="Search here"
+            android:lines="1"
+            android:padding="10dp"
+            android:tag="sticky"
+            tools:ignore="Autofill,KeyboardInaccessibleWidget,TextFields" />
+
+        <Button
+            android:id="@+id/serchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginRight="5dp"
+            android:textSize="@dimen/_10sdp"
+            android:minHeight="@dimen/_30sdp"
+            android:background="@color/neighbour"
+            android:text="Search" />
+
+
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

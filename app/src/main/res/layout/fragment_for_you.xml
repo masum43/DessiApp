@@ -54,6 +54,7 @@
                     android:background="@color/white"
                     android:clickable="true"
                     android:editable="false"
+                    android:fontFamily="@font/montserrat_regular"
                     android:focusable="true"
                     android:gravity="start"
                     android:hint="What's on your mind?"

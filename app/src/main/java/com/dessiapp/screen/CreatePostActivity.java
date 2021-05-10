@@ -44,9 +44,12 @@ import com.android.volley.toolbox.Volley;
 import com.dessiapp.R;
 import com.dessiapp.adapter.AdapterComment;
 import com.dessiapp.adapter.AdapterImgShow;
+import com.dessiapp.models.ActivityModel;
 import com.dessiapp.models.CommentModel;
+import com.dessiapp.models.PostMultiModel;
 import com.dessiapp.models.SpinnerDto;
 import com.dessiapp.provider.AdapterSpinner;
+import com.dessiapp.provider.AdapterSpinner1;
 import com.dessiapp.provider.Api;
 import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.Const;
@@ -117,8 +120,8 @@ public class CreatePostActivity extends AppCompatActivity {
     static TextView textSpinner;
     static TextView txtId;
     RequestQueue requestQueue;
-    ArrayList<SpinnerDto> spinnerDtos;
-    AdapterSpinner adapterSpinner;
+    ArrayList<ActivityModel.ActivityList> spinnerDtos;
+    AdapterSpinner1 adapterSpinner;
     private static final int CAMERA_REQUEST = 1888;
 
     RecyclerView recyclerView;
@@ -155,28 +158,16 @@ public class CreatePostActivity extends AppCompatActivity {
             }
         });
 
-        /*dialog = new ProgressDialog(CreatePostActivity.this);
-        dialog.setMessage("Please wait");
-        dialog.setCancelable(false);
-        dialog.show();*/
-        //checkVideoSize();
         spinnerDtos = new ArrayList<>();
-        /*NavigationActivity.imgSearch.setVisibility(View.GONE);
-        NavigationActivity.imgAdd.setVisibility(View.GONE);
-        NavigationActivity.txtsubTitle.setVisibility(View.GONE);*/
-        /*postedittext=findViewById(R.id.postedittext);*/
         videouploadedittext = findViewById(R.id.videouploadedittext);
         yourmindedittext = findViewById(R.id.yourmindedittext);
         postbutton = findViewById(R.id.postbutton);
-        //postSpinner = findViewById(R.id.postSpinner);
         postphoto = findViewById(R.id.postphoto);
         grpImg = findViewById(R.id.grpImg);
         textSpinner = findViewById(R.id.textSpinner);
         simpleVideoView = findViewById(R.id.simpleVideoView);
         clickPhoto = findViewById(R.id.clickPhoto);
         prefManager = new PreferenceManager(this);
-        //yourmindedittext.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        /*uploadVideoIntoServer();*/
         userid = prefManager.getString(CreatePostActivity.this, Const.userid, "null");
 
         focus.setOnClickListener(new View.OnClickListener() {
@@ -187,8 +178,6 @@ public class CreatePostActivity extends AppCompatActivity {
                 //yourmindedittext.setKeyboardNavigationCluster(true);
             }
         });
-
-
 
 
         clickPhoto.setOnClickListener(new View.OnClickListener() {
@@ -236,10 +225,52 @@ public class CreatePostActivity extends AppCompatActivity {
                 final RecyclerView spinnerRecy = dialog1.findViewById(R.id.spinnerRecy);
                 final TextView txtHead = dialog1.findViewById(R.id.txtHead);
                 txtHead.setText(" Select Activity Type ");
-//                fetchSpinnerList();
-                //final String URLTEXT = "http://neighbrsnook.com/admin/api/master?flag=4";
 
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, Api.ACTIVITY, null, new Response.Listener<JSONObject>() {
+                Call<ActivityModel> callApi = ApiCaller.getInstance().getActivity();
+                callApi.enqueue(new Callback<ActivityModel>() {
+                    @Override
+                    public void onResponse(Call<ActivityModel> call, retrofit2.Response<ActivityModel> response) {
+                           ActivityModel activityModel=response.body();
+
+
+                            if (activityModel.getStatus().equals("success")) {
+
+                                adapterSpinner = new AdapterSpinner1(CreatePostActivity.this, activityModel.getBody(), dialog1, "Post");
+                                spinnerRecy.setAdapter(adapterSpinner);
+                                LinearLayoutManager mLayoutManager = new LinearLayoutManager(CreatePostActivity.this);
+                                spinnerRecy.setLayoutManager(mLayoutManager);
+                                spinnerRecy.addOnItemTouchListener(new RecyclerItemClickListener(CreatePostActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+                                        ActivityModel.ActivityList spinnerDto = activityModel.getBody().get(position);
+                                        String txttId = spinnerDto.getSerialno().toString();
+                                        String txtSpinner = spinnerDto.getActivity();
+
+                                        txtId.setText(txttId);
+                                        textSpinner.setText(txtSpinner);
+                                        dialog1.dismiss();
+
+                                    }
+                                }));
+                                spinnerRecy.setHasFixedSize(true);
+
+
+                                //
+                            } else {
+                                Toast.makeText(CreatePostActivity.this, activityModel.getMessage(), Toast.LENGTH_SHORT).show();
+                                //.dismiss();
+                            }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ActivityModel> call, Throwable t) {
+
+                    }
+                });
+
+              /*  JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, Api.ACTIVITY, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
 
@@ -307,7 +338,7 @@ public class CreatePostActivity extends AppCompatActivity {
                         return params;
                     }
                 };
-                requestQueue.add(request);
+                requestQueue.add(request);*/
 
 
                 dialog1.show();
@@ -319,17 +350,7 @@ public class CreatePostActivity extends AppCompatActivity {
         postbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                int postlimit = Integer.parseInt(post_img_limit);
-                //              if (encodedImageList.size() == 0) {
                 validPosting();
-    /*            } else {
-                    if (encodedImageList.size() > postlimit) {
-                        ViewDialog alert = new ViewDialog();
-                        alert.showDialog(CreatePostActivity.this, "You can upload upto " + postlimit + " images");
-                    } else {
-                        validPosting();
-                    }
-                }*/
             }
         });
 
@@ -389,19 +410,20 @@ public class CreatePostActivity extends AppCompatActivity {
         postmsg = yourmindedittext.getText().toString();
         txtSpinner = textSpinner.getText().toString();
         spinnerID = txtId.getText().toString();
-       /* if (txtSpinner.isEmpty()) {
-            alert.showDialog(CreatePostActivity.this, "Please select activity");
-        } else*/
-        if (!InputValidation.isEditTextHasvalue(yourmindedittext)) {
+        /*if (!InputValidation.isEditTextHasvalue(yourmindedittext)) {
             alert.showDialog(CreatePostActivity.this, "Please write a message");
-        } else {
+        } else {*/
             if (checkNetworkConnection()) {
                 if (selectedPath1 != null && !selectedPath1.equals("")) {
                     //new UploadVideo().execute();
-                    calApi2(postmsg);
-                } else {
+                    String msg=(postmsg!=null)?postmsg:"";
+                    calApi2(msg);
+                } else if(InputValidation.isEditTextHasvalue(yourmindedittext)){
                     //new userpostWebService().execute();
-                    sendTxtOnly();
+                    String msg=(postmsg!=null)?postmsg:"";
+                    sendTxtOnly(msg);
+                }else{
+                    alert.showDialog(CreatePostActivity.this, "Do some input for publish");
                 }
 
             } else {
@@ -409,63 +431,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }
-    }
-
-    void calApi(String postMsg) {
-        ProgressDialog uploading = ProgressDialog.show(CreatePostActivity.this, "Uploading File", "Please wait...", false, false);
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("postedBy", userid);
-        params.put("postDesc", postMsg);
-        //params.put("activity", postMsg);
-        if (txtId.getText().toString() != null && !txtId.getText().toString().equals(""))
-            params.put("activity", txtId.getText().toString());
-        else
-            params.put("activity", "");
-
-        MultipartRequest mr = new MultipartRequest(Api.CREATE_POST1, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                uploading.dismiss();
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-
-                    Intent intent = new Intent();
-                    setResult(Activity.RESULT_OK, intent);
-                    finish();
-                    Toast.makeText(CreatePostActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(CreatePostActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-        }, selectFile/*new File(selectedPath1)*/, params);
-        requestQueue.add(mr).setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 30000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 0; //retry turn off
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
-        //requestQueue.
+        //}
     }
 
     void calApi2(String postMsg) {
@@ -480,61 +446,57 @@ public class CreatePostActivity extends AppCompatActivity {
                 status);
 
 
-
-        Call<Object> callApi = ApiCaller.getInstance().postMultiPart(filePart, useridBody, postMsgBody, statusBody);
-        callApi.enqueue(new Callback<Object>() {
+        Call<PostMultiModel> callApi = ApiCaller.getInstance().postMultiPart(filePart, useridBody, postMsgBody, statusBody);
+        callApi.enqueue(new Callback<PostMultiModel>() {
             @Override
-            public void onResponse(Call<Object> call, retrofit2.Response<Object> response) {
+            public void onResponse(Call<PostMultiModel> call, retrofit2.Response<PostMultiModel> response) {
                 uploading.dismiss();
-                try {
-                    String value=String.valueOf(response.body());
-                    JSONObject jObj = new JSONObject(String.valueOf(response.body()));
-                    if (jObj.getString(Const.STATUS).equals(Const.SUCCESS)) {
-
-                    //if (jObj.getString(Const.STATUS).equals(Const.SUCCESS)) {
-                        Intent intent = new Intent();
-                        setResult(Activity.RESULT_OK, intent);
-                        finish();
-                        Toast.makeText(CreatePostActivity.this, jObj.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(CreatePostActivity.this, jObj.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(CreatePostActivity.this, "Something went wrong code:"+String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
+                PostMultiModel value = response.body();
+                if (value.getStatus().equals(Const.SUCCESS)) {
+                    Intent intent = new Intent();
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                    Toast.makeText(CreatePostActivity.this, value.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CreatePostActivity.this, value.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(Call<PostMultiModel> call, Throwable t) {
                 uploading.dismiss();
             }
         });
     }
 
-    void sendTxtOnly(){
+    void sendTxtOnly(String value) {
+        ProgressDialog uploading = ProgressDialog.show(CreatePostActivity.this, "Loading", "Please wait...", false, false);
         String status = (txtId.getText().toString() != null && !txtId.getText().toString().equals("")) ? txtId.getText().toString() : "";
-        Call<Object> callApi = ApiCaller.getInstance().postTxt(userid,neighbrhood,status);
-        callApi.enqueue(new Callback<Object>() {
+        Call<PostMultiModel> callApi = ApiCaller.getInstance().postTxt(userid, value, status);
+        callApi.enqueue(new Callback<PostMultiModel>() {
             @Override
-            public void onResponse(Call<Object> call, retrofit2.Response<Object> response) {
-                try {
-                    JSONObject jOb = new JSONObject(String.valueOf(response.body()));
-                    if (jOb.getString(Const.STATUS).equals(Const.SUCCESS)) {
+            public void onResponse(Call<PostMultiModel> call, retrofit2.Response<PostMultiModel> response) {
+               // try {
+                    uploading.dismiss();
+                    //JSONObject jOb = new JSONObject(String.valueOf(response.body()));
+                    //if (jOb.getString(Const.STATUS).equals(Const.SUCCESS)) {
+                    PostMultiModel value = response.body();
+                    if (value.getStatus().equals(Const.SUCCESS)) {
                         Intent intent = new Intent();
                         setResult(Activity.RESULT_OK, intent);
                         finish();
-                        Toast.makeText(CreatePostActivity.this, jOb.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreatePostActivity.this, value.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(CreatePostActivity.this,value.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                } catch (JSONException e) {
+              /*  } catch (JSONException e) {
                     e.printStackTrace();
-                }
+                }*/
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-
+            public void onFailure(Call<PostMultiModel> call, Throwable t) {
+                uploading.dismiss();
             }
         });
     }

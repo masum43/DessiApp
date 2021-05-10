@@ -30,6 +30,7 @@ import com.dessiapp.models.DashModel2;
 import com.dessiapp.models.PeoplesModel;
 import com.dessiapp.provider.Api;
 import com.dessiapp.provider.ApiCaller;
+import com.dessiapp.provider.CallFor;
 import com.dessiapp.provider.Const;
 import com.dessiapp.provider.PreferenceManager;
 import com.dessiapp.provider.RecyclerItemClickListener;
@@ -110,7 +111,7 @@ public class PeoplesFragment extends Fragment implements View.OnClickListener {
                 if (swipeRefresh.isRefreshing()) swipeRefresh.setRefreshing(false);
                 PeoplesModel peoplesModel = response.body();
                 if (peoplesModel != null && peoplesModel.getStatus().equals(Const.SUCCESS)) {
-                    adapterPeople = new AdapterPeoples(getContext(), peoplesModel.getBody());
+                    adapterPeople = new AdapterPeoples(getContext(), peoplesModel.getBody(), CallFor.PEOPLE);
                     recyclerView.setAdapter(adapterPeople);
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
                     recyclerView.setLayoutManager(mLayoutManager);

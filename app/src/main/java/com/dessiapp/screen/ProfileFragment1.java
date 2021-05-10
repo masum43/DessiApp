@@ -1,5 +1,6 @@
 package com.dessiapp.screen;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,7 +18,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -28,8 +28,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.dessiapp.R;
-import com.dessiapp.adapter.AdapterDashboard;
 import com.dessiapp.adapter.AdapterProfile;
+import com.dessiapp.models.ChangeModel;
+import com.dessiapp.models.PostMultiModel;
 import com.dessiapp.models.ProfileModel;
 import com.dessiapp.provider.Api;
 import com.dessiapp.provider.ApiCaller;
@@ -44,12 +45,13 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -61,7 +63,7 @@ public class ProfileFragment1 extends Fragment {
 
     View v;
     PreferenceManager prefManager;
-    RequestQueue requestQueue;
+    //RequestQueue requestQueue;
     SwipeRefreshLayout swipeRefresh;
     ImageView iv_camera;
     File selectFile;
@@ -78,7 +80,7 @@ public class ProfileFragment1 extends Fragment {
     String profImg;
     RecyclerView recyclerView;
     AdapterProfile adapterProfile;
-    LinearLayout editProfile;
+    LinearLayout editProfile, followingLinear, followersLinear;
     TextView userNameTxt,
             userIdTxt;
     TextView postTxt,
@@ -86,16 +88,18 @@ public class ProfileFragment1 extends Fragment {
             postFollowing,
             postLikes,
             postDislikes;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_profile1, container, false);
-        requestQueue = Volley.newRequestQueue(getActivity());
+        //requestQueue = Volley.newRequestQueue(getActivity());
         prefManager = new PreferenceManager(getActivity());
         useridStr = prefManager.getString(getActivity(), Const.userid, "");
         profImg = prefManager.getString(getActivity(), Const.profileimg, "");
         profilePic = v.findViewById(R.id.profilePic);
+        followingLinear = v.findViewById(R.id.followingLinear);
         swipeRefresh = v.findViewById(R.id.swipeRefresh);
         recyclerView = v.findViewById(R.id.recyclerView);
         iv_camera = v.findViewById(R.id.iv_camera);
@@ -110,6 +114,7 @@ public class ProfileFragment1 extends Fragment {
 
         userNameTxt = v.findViewById(R.id.userNameTxt);
         userIdTxt = v.findViewById(R.id.userIdTxt);
+        followersLinear = v.findViewById(R.id.followersLinear);
 
         userNameTxt.setText(prefManager.getString(getActivity(), Const.username, ""));
         userIdTxt.setText("@" + prefManager.getString(getActivity(), Const.userid, ""));
@@ -127,10 +132,23 @@ public class ProfileFragment1 extends Fragment {
                         .getIntent(getActivity());
                 startActivityForResult(intent, 163);
             }
-        }); editProfile.setOnClickListener(new View.OnClickListener() {
+        });
+        editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(),EditProfileActivity.class));
+                startActivity(new Intent(getActivity(), EditProfileActivity.class));
+            }
+        });
+        followingLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), FollowingActivity.class));
+            }
+        });
+        followersLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), FollowersActivity.class));
             }
         });
 
@@ -156,8 +174,8 @@ public class ProfileFragment1 extends Fragment {
                     postTxt.setText(String.valueOf(profileModel.getProfileBody().getTotalposts()));
                     postFollower.setText(String.valueOf(profileModel.getProfileBody().getTotalfollowers()));
                     postFollowing.setText(String.valueOf(profileModel.getProfileBody().getTotalfollowing()));
-                    postLikes.setText(String.valueOf(profileModel.getProfileBody().getTotallikes()));
-                    postDislikes.setText(String.valueOf(profileModel.getProfileBody().getTotaldislikes()));
+                    postLikes.setText((!String.valueOf(profileModel.getProfileBody().getTotallikes()).equals("null")) ? String.valueOf(profileModel.getProfileBody().getTotallikes()) : "0");
+                    postDislikes.setText((!String.valueOf(profileModel.getProfileBody().getTotaldislikes()).equals("null")) ? String.valueOf(profileModel.getProfileBody().getTotaldislikes()) : "0");
                     adapterProfile = new AdapterProfile(getContext(), profileModel.getProfileBody().getPosts());
                     recyclerView.setAdapter(adapterProfile);
 
@@ -203,7 +221,7 @@ public class ProfileFragment1 extends Fragment {
 
     void changeImage(File selectFile) {
         ProgressDialog uploading = ProgressDialog.show(getActivity(), "Uploading File", "Please wait...", false, false);
-        HashMap<String, String> params = new HashMap<String, String>();
+       /* HashMap<String, String> params = new HashMap<String, String>();
         params.put("userId", useridStr);
 
         MultipartRequest mr = new MultipartRequest(Api.SET_USER_PIC, new Response.Listener<String>() {
@@ -247,6 +265,27 @@ public class ProfileFragment1 extends Fragment {
             @Override
             public void retry(VolleyError error) throws VolleyError {
 
+            }
+        });*/
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", selectFile.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), selectFile));
+        RequestBody useridBody = RequestBody.create(MediaType.parse("text/plain"),
+                useridStr);
+        Call<ChangeModel> callApi = ApiCaller.getInstance().changeDp(filePart, useridBody);
+        callApi.enqueue(new Callback<ChangeModel>() {
+            @Override
+            public void onResponse(Call<ChangeModel> call, retrofit2.Response<ChangeModel> response) {
+                uploading.dismiss();
+                ChangeModel value = response.body();
+                if (value.getStatus().equals(Const.SUCCESS)) {
+                    prefManager.putString(getActivity(), Const.profileimg, value.getBody().getProfileimgurl());
+                    Toast.makeText(getActivity(), value.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(),value.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<ChangeModel> call, Throwable t) {
+                uploading.dismiss();
             }
         });
     }
