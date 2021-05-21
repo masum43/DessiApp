@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.dessiapp.R;
 import com.dessiapp.models.ProfileModel;
+import com.dessiapp.provider.CallFor;
 import com.dessiapp.screen.CommentActivity;
 import com.dessiapp.screen.CommentProfileActivity;
 import com.google.gson.Gson;
@@ -26,10 +27,12 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.AdapterI
 
     Context context;
     List<ProfileModel.Post> arrayList;
+    CallFor callFor;
 
-    public AdapterProfile(Context context, List<ProfileModel.Post> arrayList) {
+    public AdapterProfile(Context context, List<ProfileModel.Post> arrayList,CallFor callFor) {
         this.context = context;
         this.arrayList = arrayList;
+        this.callFor = callFor;
     }
 
     @NonNull
@@ -48,19 +51,15 @@ public class AdapterProfile extends RecyclerView.Adapter<AdapterProfile.AdapterI
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String json = new Gson().toJson(model);
-                context.startActivity(new Intent(context, CommentProfileActivity.class).putExtra("model", json));
+                if(callFor==CallFor.PROFILE) {
+                    String json = new Gson().toJson(model);
+                    context.startActivity(new Intent(context, CommentProfileActivity.class).putExtra("model", json));
+                }
             }
         });
 
     }
 
-    public void removePostion(int position) {
-
-        arrayList.remove(position);
-        notifyItemRemoved(position);
-
-    }
 
     @Override
     public int getItemCount() {

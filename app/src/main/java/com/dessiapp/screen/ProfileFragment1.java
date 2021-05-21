@@ -1,6 +1,5 @@
 package com.dessiapp.screen;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,32 +20,19 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.dessiapp.R;
 import com.dessiapp.adapter.AdapterProfile;
 import com.dessiapp.models.ChangeModel;
-import com.dessiapp.models.PostMultiModel;
 import com.dessiapp.models.ProfileModel;
-import com.dessiapp.provider.Api;
 import com.dessiapp.provider.ApiCaller;
+import com.dessiapp.provider.CallFor;
 import com.dessiapp.provider.Const;
-import com.dessiapp.provider.MultipartRequest;
 import com.dessiapp.provider.PreferenceManager;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.HashMap;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
@@ -176,7 +162,7 @@ public class ProfileFragment1 extends Fragment {
                     postFollowing.setText(String.valueOf(profileModel.getProfileBody().getTotalfollowing()));
                     postLikes.setText((!String.valueOf(profileModel.getProfileBody().getTotallikes()).equals("null")) ? String.valueOf(profileModel.getProfileBody().getTotallikes()) : "0");
                     postDislikes.setText((!String.valueOf(profileModel.getProfileBody().getTotaldislikes()).equals("null")) ? String.valueOf(profileModel.getProfileBody().getTotaldislikes()) : "0");
-                    adapterProfile = new AdapterProfile(getContext(), profileModel.getProfileBody().getPosts());
+                    adapterProfile = new AdapterProfile(getContext(), profileModel.getProfileBody().getPosts(), CallFor.PROFILE);
                     recyclerView.setAdapter(adapterProfile);
 
                 } else {
@@ -221,52 +207,6 @@ public class ProfileFragment1 extends Fragment {
 
     void changeImage(File selectFile) {
         ProgressDialog uploading = ProgressDialog.show(getActivity(), "Uploading File", "Please wait...", false, false);
-       /* HashMap<String, String> params = new HashMap<String, String>();
-        params.put("userId", useridStr);
-
-        MultipartRequest mr = new MultipartRequest(Api.SET_USER_PIC, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                uploading.dismiss();
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    if (jsonObject.getString("message").equals("success")) {
-                        String profilePic = jsonObject.getJSONObject("body").getString("profileimgurl");
-                        prefManager.putString(getActivity(), Const.profileimg, profilePic);
-                        ((NavigationActivity) getActivity()).updateProfilePic();
-                        Toast.makeText(getActivity(), "Profile picture updated successfully", Toast.LENGTH_SHORT).show();
-                    } else
-                        Toast.makeText(getActivity(), "Unable to update your profile picture", Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-        }, selectFile, params);
-        requestQueue.add(mr).setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 5000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 0; //retry turn off
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });*/
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", selectFile.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), selectFile));
         RequestBody useridBody = RequestBody.create(MediaType.parse("text/plain"),
                 useridStr);
@@ -278,7 +218,7 @@ public class ProfileFragment1 extends Fragment {
                 ChangeModel value = response.body();
                 if (value.getStatus().equals(Const.SUCCESS)) {
                     prefManager.putString(getActivity(), Const.profileimg, value.getBody().getProfileimgurl());
-                    Toast.makeText(getActivity(), value.getMessage(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), value.getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(),value.getMessage(), Toast.LENGTH_SHORT).show();
                 }

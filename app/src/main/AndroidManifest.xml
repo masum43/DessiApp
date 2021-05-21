@@ -28,7 +28,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DessiApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".screen.ViewOtherProfileActivity"></activity>
+        <activity android:name=".screen.ResetPassActivity"></activity>
+        <activity android:name=".screen.ForgotPassActivity" />
+        <activity android:name=".screen.ViewOtherProfileActivity" />
         <activity android:name=".screen.EarningActivity" />
         <activity android:name=".screen.TermsConditionActivity" />
         <activity android:name=".screen.PrivacyPolicyActivity" />
@@ -55,13 +57,15 @@
         -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="@string/admob_app_id" />
 
         <activity
+            android:hardwareAccelerated="true"
             android:name=".screen.DashActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".screen.NavigationActivity"
+            android:hardwareAccelerated="true"
             android:theme="@style/Theme.DessiApp1" />
         <activity android:name=".screen.OtpActivity" />
         <activity android:name=".screen.NetworkCheckActivity" />

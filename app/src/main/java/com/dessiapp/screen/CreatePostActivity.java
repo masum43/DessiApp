@@ -19,11 +19,13 @@ import android.provider.MediaStore;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -68,6 +70,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -132,6 +136,8 @@ public class CreatePostActivity extends AppCompatActivity {
     ViewDialog alert = new ViewDialog();
     File selectFile;
 
+     //Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,6 +175,9 @@ public class CreatePostActivity extends AppCompatActivity {
         clickPhoto = findViewById(R.id.clickPhoto);
         prefManager = new PreferenceManager(this);
         userid = prefManager.getString(CreatePostActivity.this, Const.userid, "null");
+        //getHashKey();
+
+
 
         focus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,11 +189,13 @@ public class CreatePostActivity extends AppCompatActivity {
         });
 
 
+
+
         clickPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //showDialog();
-                Intent intent = CropImage.activity()
+                Intent intent = CropImage.activity().setAspectRatio(3,1).setFixAspectRatio(false)
                         .getIntent(getApplicationContext());
                 startActivityForResult(intent, 0);
             }
@@ -192,9 +203,7 @@ public class CreatePostActivity extends AppCompatActivity {
         videouploadedittext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //showDialog();
-                Intent intent = CropImage.activity()
+                Intent intent = CropImage.activity().setAspectRatio(3,1).setFixAspectRatio(false)
                         .getIntent(getApplicationContext());
                 startActivityForResult(intent, 0);
             }
@@ -230,38 +239,30 @@ public class CreatePostActivity extends AppCompatActivity {
                 callApi.enqueue(new Callback<ActivityModel>() {
                     @Override
                     public void onResponse(Call<ActivityModel> call, retrofit2.Response<ActivityModel> response) {
-                           ActivityModel activityModel=response.body();
+                        ActivityModel activityModel = response.body();
+                        if (activityModel.getStatus().equals("success")) {
+                            adapterSpinner = new AdapterSpinner1(CreatePostActivity.this, activityModel.getBody(), dialog1, "Post");
+                            spinnerRecy.setAdapter(adapterSpinner);
+                            LinearLayoutManager mLayoutManager = new LinearLayoutManager(CreatePostActivity.this);
+                            spinnerRecy.setLayoutManager(mLayoutManager);
+                            spinnerRecy.addOnItemTouchListener(new RecyclerItemClickListener(CreatePostActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, int position) {
+                                    ActivityModel.ActivityList spinnerDto = activityModel.getBody().get(position);
+                                    String txttId = spinnerDto.getSerialno().toString();
+                                    String txtSpinner = spinnerDto.getActivity();
 
+                                    txtId.setText(txttId);
+                                    textSpinner.setText(txtSpinner);
+                                    dialog1.dismiss();
 
-                            if (activityModel.getStatus().equals("success")) {
-
-                                adapterSpinner = new AdapterSpinner1(CreatePostActivity.this, activityModel.getBody(), dialog1, "Post");
-                                spinnerRecy.setAdapter(adapterSpinner);
-                                LinearLayoutManager mLayoutManager = new LinearLayoutManager(CreatePostActivity.this);
-                                spinnerRecy.setLayoutManager(mLayoutManager);
-                                spinnerRecy.addOnItemTouchListener(new RecyclerItemClickListener(CreatePostActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(View view, int position) {
-                                        ActivityModel.ActivityList spinnerDto = activityModel.getBody().get(position);
-                                        String txttId = spinnerDto.getSerialno().toString();
-                                        String txtSpinner = spinnerDto.getActivity();
-
-                                        txtId.setText(txttId);
-                                        textSpinner.setText(txtSpinner);
-                                        dialog1.dismiss();
-
-                                    }
-                                }));
-                                spinnerRecy.setHasFixedSize(true);
-
-
-                                //
-                            } else {
-                                Toast.makeText(CreatePostActivity.this, activityModel.getMessage(), Toast.LENGTH_SHORT).show();
-                                //.dismiss();
-                            }
-
-
+                                }
+                            }));
+                            spinnerRecy.setHasFixedSize(true);
+                        } else {
+                            Toast.makeText(CreatePostActivity.this, activityModel.getMessage(), Toast.LENGTH_SHORT).show();
+                            //.dismiss();
+                        }
                     }
 
                     @Override
@@ -269,80 +270,7 @@ public class CreatePostActivity extends AppCompatActivity {
 
                     }
                 });
-
-              /*  JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, Api.ACTIVITY, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-                            //JSONArray jsonArray = response.getJSONArray("nbdata");
-                            String status = response.getString("status");
-                            String message = response.getString("message");
-
-
-                            if (status.equals("success")) {
-                                JSONArray jsonArray = response.getJSONArray("body");
-
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-
-                                    String id = jsonObject1.getString("serialno").toString();
-                                    String post_title = jsonObject1.getString("activity");
-
-                                    SpinnerDto dto = new SpinnerDto(post_title, id);
-                                    spinnerDtos.add(dto);
-                                }
-
-                                adapterSpinner = new AdapterSpinner(CreatePostActivity.this, spinnerDtos, dialog1, "Post");
-                                spinnerRecy.setAdapter(adapterSpinner);
-                                LinearLayoutManager mLayoutManager = new LinearLayoutManager(CreatePostActivity.this);
-                                spinnerRecy.setLayoutManager(mLayoutManager);
-                                spinnerRecy.addOnItemTouchListener(new RecyclerItemClickListener(CreatePostActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(View view, int position) {
-                                        SpinnerDto spinnerDto = spinnerDtos.get(position);
-                                        String txttId = spinnerDto.getId();
-                                        String txtSpinner = spinnerDto.getName();
-
-                                        txtId.setText(txttId);
-                                        textSpinner.setText(txtSpinner);
-                                        dialog1.dismiss();
-
-                                    }
-                                }));
-                                spinnerRecy.setHasFixedSize(true);
-
-
-                                //
-                            } else {
-                                Toast.makeText(CreatePostActivity.this, message, Toast.LENGTH_SHORT).show();
-                                //.dismiss();
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        Toast.makeText(getApplicationContext(), "Error is :" + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put(Const.HEAD_TOKEN, Const.TOKEN_KEY);
-                        return params;
-                    }
-                };
-                requestQueue.add(request);*/
-
-
                 dialog1.show();
-
             }
         });
 
@@ -356,55 +284,7 @@ public class CreatePostActivity extends AppCompatActivity {
 
     }
 
-    void showDialog() {
-        //////////////////Dialog///////////////
-        final Dialog dialog1 = new Dialog(CreatePostActivity.this);
-        dialog1.setCanceledOnTouchOutside(false);
-        dialog1.setContentView(R.layout.custom_vdo_img);
-        dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog1.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        dialog1.getWindow().setGravity(Gravity.BOTTOM);
 
-        Button cancelD = dialog1.findViewById(R.id.cancelD);
-        //Button videoCam = dialog1.findViewById(R.id.videoCam);
-        Button imgCam = dialog1.findViewById(R.id.imgCam);
-        cancelD.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog1.dismiss();
-
-            }
-        });
-
-        Button imgUpload = dialog1.findViewById(R.id.imgUpload);
-        //Button videoUpload = dialog1.findViewById(R.id.videoUpload);
-        //final EditText dayGet=dialog1.findViewById(R.id.editDay);
-        imgUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog1.dismiss();
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_MULTIPLE);
-
-            }
-        });
-
-
-        imgCam.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog1.dismiss();
-                Intent intent = CropImage.activity()
-                        .getIntent(getApplicationContext());
-                startActivityForResult(intent, 0);
-            }
-        });
-
-
-        dialog1.show();
-    }
 
     void validPosting() {
         postmsg = yourmindedittext.getText().toString();
@@ -413,29 +293,35 @@ public class CreatePostActivity extends AppCompatActivity {
         /*if (!InputValidation.isEditTextHasvalue(yourmindedittext)) {
             alert.showDialog(CreatePostActivity.this, "Please write a message");
         } else {*/
-            if (checkNetworkConnection()) {
-                if (selectedPath1 != null && !selectedPath1.equals("")) {
-                    //new UploadVideo().execute();
-                    String msg=(postmsg!=null)?postmsg:"";
-                    calApi2(msg);
-                } else if(InputValidation.isEditTextHasvalue(yourmindedittext)){
-                    //new userpostWebService().execute();
-                    String msg=(postmsg!=null)?postmsg:"";
-                    sendTxtOnly(msg);
-                }else{
-                    alert.showDialog(CreatePostActivity.this, "Do some input for publish");
-                }
-
+        if (checkNetworkConnection()) {
+            if (selectedPath1 != null && !selectedPath1.equals("")) {
+                //new UploadVideo().execute();
+                String msg = (postmsg != null) ? postmsg : "";
+                calApi2(msg);
+            } else if (InputValidation.isEditTextHasvalue(yourmindedittext)) {
+                //new userpostWebService().execute();
+                String msg = (postmsg != null) ? postmsg : "";
+                sendTxtOnly(msg);
             } else {
-                Intent intent = new Intent(CreatePostActivity.this, NetworkCheckActivity.class);
-                startActivity(intent);
-                finish();
+                alert.showDialog(CreatePostActivity.this, "Do some input for publish");
             }
+
+        } else {
+            Intent intent = new Intent(CreatePostActivity.this, NetworkCheckActivity.class);
+            startActivity(intent);
+            finish();
+        }
         //}
     }
 
     void calApi2(String postMsg) {
-        ProgressDialog uploading = ProgressDialog.show(CreatePostActivity.this, "Uploading File", "Please wait...", false, false);
+        //ProgressDialog uploading = ProgressDialog.show(CreatePostActivity.this, "Uploading File", "Please wait...", false, false);
+        Dialog dialog = new Dialog(CreatePostActivity.this, R.style.Theme_Dialog1);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.loading_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", selectFile.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), selectFile));
         String status = (txtId.getText().toString() != null && !txtId.getText().toString().equals("")) ? txtId.getText().toString() : "";
         RequestBody useridBody = RequestBody.create(MediaType.parse("text/plain"),
@@ -450,7 +336,7 @@ public class CreatePostActivity extends AppCompatActivity {
         callApi.enqueue(new Callback<PostMultiModel>() {
             @Override
             public void onResponse(Call<PostMultiModel> call, retrofit2.Response<PostMultiModel> response) {
-                uploading.dismiss();
+                dialog.dismiss();
                 PostMultiModel value = response.body();
                 if (value.getStatus().equals(Const.SUCCESS)) {
                     Intent intent = new Intent();
@@ -464,41 +350,54 @@ public class CreatePostActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<PostMultiModel> call, Throwable t) {
-                uploading.dismiss();
+                dialog.dismiss();
             }
         });
     }
 
     void sendTxtOnly(String value) {
-        ProgressDialog uploading = ProgressDialog.show(CreatePostActivity.this, "Loading", "Please wait...", false, false);
+        //ProgressDialog uploading = ProgressDialog.show(CreatePostActivity.this, "Loading", "Please wait...", false, false);
+        Dialog dialog = new Dialog(CreatePostActivity.this, R.style.Theme_Dialog1);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.loading_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
         String status = (txtId.getText().toString() != null && !txtId.getText().toString().equals("")) ? txtId.getText().toString() : "";
         Call<PostMultiModel> callApi = ApiCaller.getInstance().postTxt(userid, value, status);
         callApi.enqueue(new Callback<PostMultiModel>() {
             @Override
             public void onResponse(Call<PostMultiModel> call, retrofit2.Response<PostMultiModel> response) {
-               // try {
-                    uploading.dismiss();
-                    //JSONObject jOb = new JSONObject(String.valueOf(response.body()));
-                    //if (jOb.getString(Const.STATUS).equals(Const.SUCCESS)) {
-                    PostMultiModel value = response.body();
-                    if (value.getStatus().equals(Const.SUCCESS)) {
-                        Intent intent = new Intent();
-                        setResult(Activity.RESULT_OK, intent);
-                        finish();
-                        Toast.makeText(CreatePostActivity.this, value.getMessage(), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(CreatePostActivity.this,value.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-              /*  } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
-            }
+                dialog.dismiss();
+                PostMultiModel value = response.body();
+                if (value.getStatus().equals(Const.SUCCESS)) {
+                    Intent intent = new Intent();
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                    Toast.makeText(CreatePostActivity.this, value.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CreatePostActivity.this, value.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+             }
 
             @Override
             public void onFailure(Call<PostMultiModel> call, Throwable t) {
-                uploading.dismiss();
+                dialog.dismiss();
             }
         });
+    }
+
+    public void showDialog(Activity activity, String msg){
+        final Dialog dialog = new Dialog(activity, R.style.Theme_Dialog1);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.loading_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
+        text.setText(msg);
+        dialog.show();
+
     }
 
     public boolean checkNetworkConnection() {
@@ -587,118 +486,6 @@ public class CreatePostActivity extends AppCompatActivity {
 
     }
 
-    public String getRealPathFromURI(Uri contentUri) {
-        String[] proj = {MediaStore.Video.Media.DATA};
-        Cursor cursor = managedQuery(contentUri, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
-
-    public String getPath(Uri uri) {
-
-        Cursor cursor = CreatePostActivity.this.getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        String document_id = cursor.getString(0);
-        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
-        cursor.close();
-
-        cursor = CreatePostActivity.this.getContentResolver().query(
-                MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
-        cursor.moveToFirst();
-        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-        cursor.close();
-
-        return path;
-    }
-
-
-    private String encodeImage(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
-        byte[] byteFormat = stream.toByteArray();
-        // get the base 64 string
-        imgString = Base64.encodeToString(byteFormat, Base64.DEFAULT);
-        return imgString;
-    }
-
-
-    @SuppressLint("StaticFieldLeak")
-    private class userpostWebService extends AsyncTask<String, String, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = null;
-            dialog = new ProgressDialog(CreatePostActivity.this);
-            dialog.setMessage("Please Wait");
-            dialog.setCancelable(false);
-            dialog.show();
-
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            String result = "";
-            HttpClient httpClient = new DefaultHttpClient();
-            //HttpPost httpPost = new HttpPost("http://neighbrsnook.com/admin/api/posting?flag=2");
-            HttpPost httpPost = new HttpPost(Api.CREATE_POST_TXT);
-            try {
-                ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("userid", userid));
-                nameValuePairs.add(new BasicNameValuePair("textToPost", URLEncoder.encode(neighbrhood)));
-                nameValuePairs.add(new BasicNameValuePair("activity", (txtId.getText().toString() != null && !txtId.getText().toString().equals("")) ? txtId.getText().toString() : ""));
-                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                httpPost.setHeader(Const.HEAD_TOKEN, Const.TOKEN_KEY);
-                HttpResponse response = httpClient.execute(httpPost);
-                result = EntityUtils.toString(response.getEntity());
-                Log.d(TAG, "doInBackground: in loop" + result);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return result;
-        }
-
-
-        @Override
-        protected void onPostExecute(String s) {
-
-            if (!s.equals("")) {
-                String status = null;
-                String message = null;
-                try {
-                    JSONObject object = new JSONObject(s);
-                    status = object.getString("status");
-                    Log.d(TAG, "onPostExecute: id" + status);
-                    message = object.getString("message");
-                    Log.d(TAG, "onPostExecute: id" + message);
-                    if (status.equals("success")) {
-
-
-                        Intent intent = new Intent(CreatePostActivity.this, NavigationActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        finish();
-
-                    } else {
-                        new ViewDialog().showDialog(CreatePostActivity.this, message);
-                        //Toast.makeText(getApplicationContext(), message.toString(), Toast.LENGTH_SHORT).show();
-                        /* Toast.makeText(RegisterActivity.this, "Internet issue", Toast.LENGTH_LONG).show();*/
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (dialog != null)
-                dialog.dismiss();
-            super.onPostExecute(s);
-        }
-    }
-
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
@@ -706,6 +493,8 @@ public class CreatePostActivity extends AppCompatActivity {
         setResult(Activity.RESULT_CANCELED, intent);
         finish();
     }
+
+
 
 
 }

@@ -35,6 +35,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:gravity="center_vertical"
                 android:layout_height="wrap_content">
 
                 <TextView
@@ -46,6 +47,13 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/mem_name"
                     android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:src="@drawable/verification"/>
 
                 <TextView
                     android:id="@+id/userId"
@@ -352,6 +360,7 @@
             android:id="@+id/likeCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
             android:text="1 Liked"
             />
 
@@ -377,6 +386,20 @@
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-3940256099942544/3347511713"
         />-->
+    <View
+        android:id="@+id/viewAbove"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:visibility="gone"
+        android:background="@color/greyBg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_10sdp"/>
+    <LinearLayout
+        android:id="@+id/bannerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        />
 </LinearLayout>
 
     <!--

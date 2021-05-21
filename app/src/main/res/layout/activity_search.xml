@@ -30,7 +30,8 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/shape_white"
-
+            android:imeOptions="actionSearch"
+            android:inputType="text"
             android:drawableEnd="@drawable/ic_search"
             android:drawableRight="@drawable/ic_search"
             android:drawablePadding="6dp"
@@ -47,6 +48,7 @@
             android:layout_height="@dimen/_30sdp"
             android:layout_marginRight="5dp"
             android:textSize="@dimen/_10sdp"
+            android:visibility="gone"
             android:minHeight="@dimen/_30sdp"
             android:background="@color/neighbour"
             android:text="Search" />

@@ -9,7 +9,7 @@ android:id="@+id/appBar"
         android:id="@+id/add_query_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
+        android:background="@color/white"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_scrollFlags="scroll|enterAlways"
         app:title="Neighbrsnook"
@@ -25,7 +25,7 @@ android:id="@+id/appBar"
                 android:id="@+id/imgArrow"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
-                android:src="@drawable/ic_arrow_left" />
+                android:src="@drawable/ic_arrow_left_black" />
 
             <!--<TextView-->
                 <!--android:id="@+id/txtTitle"-->
@@ -50,7 +50,7 @@ android:id="@+id/appBar"
                     android:layout_marginStart="8dp"
                     android:fontFamily="sans-serif"
                     android:text="Home"
-                    android:textColor="#ffffff"
+                    android:textColor="#000000"
                     android:textSize="20sp"
                     android:layout_marginLeft="8dp" />
 

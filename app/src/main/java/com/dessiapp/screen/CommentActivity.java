@@ -77,7 +77,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         commentRecyclerview = findViewById(R.id.commentRecyclerview);
         sendimage.setOnClickListener(this);
 
-        if (!body.getProfileimg().equals("") && body.getProfileimg() != null && !body.getProfileimg().equals("null"))
+        if (body.getProfileimg() != null && !body.getProfileimg().equals("") && !body.getProfileimg().equals("null"))
             Glide.with(getApplicationContext()).load(body.getProfileimg()).into(postUserPic);
 
         if (!body.getFilepath().equals("") && body.getFilepath() != null && !body.getFilepath().equals("null"))

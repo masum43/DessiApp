@@ -1,6 +1,7 @@
 package com.dessiapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.CallFor;
 import com.dessiapp.provider.Const;
 import com.dessiapp.provider.PreferenceManager;
+import com.dessiapp.screen.ViewOtherProfileActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,6 +63,12 @@ public class AdapterPeoples extends RecyclerView.Adapter<AdapterPeoples.AdapterV
         hol.setType(model, userId, pos);
         if (model.getProfileimg() != null && !model.getProfileimg().equals(""))
             Glide.with(context).load(model.getProfileimg()).into(hol.postUserPic);
+        hol.userName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context, ViewOtherProfileActivity.class).putExtra("userID",model.getUserid()));
+            }
+        });
     }
 
     @Override
@@ -142,7 +150,7 @@ public class AdapterPeoples extends RecyclerView.Adapter<AdapterPeoples.AdapterV
                         } else {
                             Toast.makeText(context, jOb.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(context, jOb.getString(Const.STATUS), Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(context, jOb.getString(Const.STATUS), Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -174,7 +182,7 @@ public class AdapterPeoples extends RecyclerView.Adapter<AdapterPeoples.AdapterV
                         } else {
                             Toast.makeText(context, jOb.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(context, jOb.getString(Const.STATUS), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, jOb.getString(Const.STATUS), Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();

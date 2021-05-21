@@ -527,7 +527,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     if (status.equals("success")) {
                         JSONArray jArr = object.getJSONArray("body");
                         String otp = jArr.getJSONObject(0).getString("otp");
-                        Toast.makeText(RegisterActivity.this, otp, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(RegisterActivity.this, otp, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(RegisterActivity.this, OtpActivity.class);
                         intent.putExtra(Const.NAME, firstname);
                         intent.putExtra(Const.AGE, ageStr);

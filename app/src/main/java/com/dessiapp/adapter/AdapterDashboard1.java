@@ -12,20 +12,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.dessiapp.R;
 import com.dessiapp.models.Body;
-import com.dessiapp.models.DashDataModel;
 import com.dessiapp.models.DashModel2;
 import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.Const;
@@ -33,7 +30,6 @@ import com.dessiapp.screen.CommentActivity;
 import com.dessiapp.screen.ViewOtherProfileActivity;
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
-import com.facebook.ads.AdSize;
 import com.facebook.ads.AdView;
 import com.facebook.ads.InterstitialAd;
 import com.facebook.ads.InterstitialAdListener;
@@ -54,61 +50,30 @@ import retrofit2.Callback;
 
 import static android.content.ContentValues.TAG;
 
-public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.AdapterViewHolder> {
+public class AdapterDashboard1 extends RecyclerView.Adapter<AdapterDashboard1.AdapterViewHolder> {
 
     Context context;
     List<Body> listData;
     public String userid;
     private InterstitialAd interstitialAd;
     private AdView adView;
+    Onclick listner;
+    //OnShareClickedListener mCallback;
 
-    public AdapterDashboard(Context context, List<Body> list, String userid, InterstitialAd interstitialAd, AdView adView) {
+    public AdapterDashboard1(Context context, List<Body> list, String userid, InterstitialAd interstitialAd,/* AdView adView,*/ Onclick listner) {
         this.listData = list;
         this.context = context;
         this.userid = userid;
         this.interstitialAd = interstitialAd;
-        this.adView = adView;
+        /*this.adView = adView;*/
+        this.listner = listner;
     }
 
-    InterstitialAdListener interstitialAdListener = new InterstitialAdListener() {
-        @Override
-        public void onInterstitialDisplayed(Ad ad) {
-            // Interstitial ad displayed callback
-            Log.e(TAG, "Interstitial ad displayed.");
-        }
+    public interface Onclick {
+         void listner();
+    }
 
-        @Override
-        public void onInterstitialDismissed(Ad ad) {
-            // Interstitial dismissed callback
-            Log.e(TAG, "Interstitial ad dismissed.");
-        }
 
-        @Override
-        public void onError(Ad ad, AdError adError) {
-            // Ad error callback
-            Log.e(TAG, "Interstitial ad failed to load: " + adError.getErrorMessage());
-        }
-
-        @Override
-        public void onAdLoaded(Ad ad) {
-            // Interstitial ad is loaded and ready to be displayed
-            Log.d(TAG, "Interstitial ad is loaded and ready to be displayed!");
-            // Show the ad
-            interstitialAd.show();
-        }
-
-        @Override
-        public void onAdClicked(Ad ad) {
-            // Ad clicked callback
-            Log.d(TAG, "Interstitial ad clicked!");
-        }
-
-        @Override
-        public void onLoggingImpression(Ad ad) {
-            // Ad impression logged callback
-            Log.d(TAG, "Interstitial ad impression logged!");
-        }
-    };
 
 
     @NonNull
@@ -152,33 +117,34 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
             }
         });
 
-        if ((pos + 1) % 4 == 0) {
+        /*if ((pos + 1) % 4 == 0) {
             hol.adContainer.removeView(adView);
             hol.adContainer.addView(adView);
             adView.loadAd();
-            /*int drawableId = R.drawable.ic_add_black;
+            *//*int drawableId = R.drawable.ic_add_black;
             if (drawableId == 0) return;
             ImageView badge = new ImageView(context);
             badge.setImageResource(drawableId);
             int size = (int) convertDpToPx(55.0f);
             badge.setLayoutParams(new ViewGroup.LayoutParams(size, size));
-            hol.adContainer.addView(badge);*/
+            hol.adContainer.addView(badge);*//*
 
             hol.viewAbove.setVisibility(View.VISIBLE);
-        } else {
+        } else {*/
             //adContainer.removeAllViews();
             hol.viewAbove.setVisibility(View.GONE);
             hol.adContainer.setVisibility(View.GONE);
-        }
+        //}
 
     }
 
     public void setNewData(List<Body> listData) {
-        adView.buildLoadAdConfig();
+        //adView.buildLoadAdConfig();
         this.listData.clear();
         this.listData = listData;
         notifyDataSetChanged();
     }
+
     private float convertDpToPx(float dp) {
         return dp * (context.getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT);
     }
@@ -327,10 +293,7 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.likelayout:
-                    interstitialAd.loadAd(
-                            interstitialAd.buildLoadAdConfig()
-                                    .withAdListener(interstitialAdListener)
-                                    .build());
+                    listner.listner();
                     likeApi();
                     break;
                 case R.id.likelayout1:

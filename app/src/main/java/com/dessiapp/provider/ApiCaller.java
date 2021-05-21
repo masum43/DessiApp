@@ -33,7 +33,9 @@ import retrofit2.http.Query;
 
 public class ApiCaller {
 
-    public static String BASE_URL = "https://wesharenow.herokuapp.com/api/";
+    //public static String BASE_URL = "https://wesharenow.herokuapp.com/api/";
+    //public static String BASE_URL = "https://desiiapp.herokuapp.com/api/";
+    public static String BASE_URL = "https://www.desiiapp.com/api/";
     public static final String DASH_API = "getAllposts";
     public static final String PEOPLES = "getAllUsers";
     public static final String LOGIN = "login";

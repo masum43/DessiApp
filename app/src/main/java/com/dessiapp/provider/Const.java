@@ -40,6 +40,7 @@ public class Const {
 
 
     static public String SUCCESS = "success";
+    static public String DEFAULT = "Default";
     static public final String HEAD_TOKEN = "x-access-token";
     static public final String TOKEN_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiRnJpIEFwciAyMyAyMDIxIDE1OjM0OjM5IEdNVCswNTMwIChJbmRpYSBTdGFuZGFyZCBUaW1lKSIsInVzZXJJZCI6MTIsImlhdCI6MTYxOTE3MjI3OX0.Xm8tSMGetxn6Lxm38tLrhLM5bz9Su-Ws-RR1__ApIgY";
 

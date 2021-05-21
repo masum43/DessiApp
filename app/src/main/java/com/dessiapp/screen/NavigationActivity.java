@@ -8,22 +8,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.dessiapp.MainActivity;
 import com.dessiapp.R;
 import com.dessiapp.adapter.MyAdapter;
 import com.dessiapp.provider.Const;
 import com.dessiapp.provider.PreferenceManager;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.facebook.ads.Ad;
+import com.facebook.ads.AdError;
+import com.facebook.ads.AdListener;
+import com.facebook.ads.AdSettings;
+import com.facebook.ads.AdSize;
+import com.facebook.ads.AdView;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class NavigationActivity extends AppCompatActivity {
+public class NavigationActivity extends AppCompatActivity implements View.OnClickListener {
 
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -31,19 +36,14 @@ public class NavigationActivity extends AppCompatActivity {
     PreferenceManager prefManager;
     String profImg;
     CircleImageView cirImg;
-    ImageView imgAdd, setting, imgSearch;
+    ImageView  setting, imgSearch;
+    //private AdView mAdView;
+    //private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-
-     /*   MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });*/
-
 
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
@@ -72,14 +72,6 @@ public class NavigationActivity extends AppCompatActivity {
 
             }
         });
-
-        /*imgAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Date date = new Date();
-                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n HI BUDDY YYY: \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + date.getTime());
-            }
-        });*/
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +85,97 @@ public class NavigationActivity extends AppCompatActivity {
             }
         });
 
+        AdSettings.setTestMode(true);
+
+/*        mAdView = (AdView) findViewById(R.id.adView);
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                // Check the LogCat to get your test device ID
+                .addTestDevice("C04B1BFFB0774708339BC273F8A43708")
+                .build();
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+            }
+
+            @Override
+            public void onAdClosed() {
+                Toast.makeText(getApplicationContext(), "Ad is closed!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Toast.makeText(getApplicationContext(), "Ad failed to load! error code: " + errorCode, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                Toast.makeText(getApplicationContext(), "Ad left application!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+            }
+        });
+
+        mAdView.loadAd(adRequest);*/
+
+       /* AdListener adListener = new AdListener() {
+            @Override
+            public void onError(Ad ad, AdError adError) {
+                // Ad error callback
+                Toast.makeText(
+                        NavigationActivity.this,
+                        "Error: " + adError.getErrorMessage(),
+                        Toast.LENGTH_LONG)
+                        .show();
+            }
+
+            @Override
+            public void onAdLoaded(Ad ad) {
+                // Ad loaded callback
+
+            }
+
+            @Override
+            public void onAdClicked(Ad ad) {
+                // Ad clicked callback
+            }
+
+            @Override
+            public void onLoggingImpression(Ad ad) {
+                // Ad impression logged callback
+            }
+        };
+
+
+        adView = new AdView(this, getResources().getString(R.string.fb_banner_placement), AdSize.BANNER_HEIGHT_50);
+        adView.loadAd(adView.buildLoadAdConfig().withAdListener(adListener).build());
+        //AdSettings.addTestDevice("b0e85d9d-cfd6-4160-a9aa-a843ab4684b8");
+        AdSettings.setTestMode(true);
+        //AdSettings.isTestMode(getApplicationContext());
+
+
+        // Find the Ad Container
+        LinearLayout adContainer = (LinearLayout) findViewById(R.id.banner_container);
+
+        // Add the ad view to your activity layout
+        adContainer.addView(adView);
+
+        // Request an ad
+        adView.loadAd();*/
+
+
+
+    }
+
+    private void registerClick(int[] buttonResId) {
+        for (int i = 0; i < buttonResId.length; i++) {
+            findViewById(buttonResId[i]).setOnClickListener(this);
+        }
     }
 
     void updateProfilePic() {
@@ -102,5 +185,36 @@ public class NavigationActivity extends AppCompatActivity {
       if (!profImg.equals("") && profImg != null && !profImg.equals("null"))
             Glide.with(getApplicationContext()).load(profImg).into(cirImg);
 */
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+
+        }
+    }
+
+    @Override
+    public void onPause() {
+        /*if (mAdView != null) {
+            mAdView.pause();
+        }*/
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        /*if (mAdView != null) {
+            mAdView.resume();
+        }*/
+    }
+
+    @Override
+    public void onDestroy() {
+        /*if (mAdView != null) {
+            mAdView.destroy();
+        }*/
+        super.onDestroy();
     }
 }

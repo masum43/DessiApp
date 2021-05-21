@@ -116,7 +116,7 @@ public class PeoplesFragment extends Fragment implements View.OnClickListener {
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
                     recyclerView.setLayoutManager(mLayoutManager);
                     recyclerView.setHasFixedSize(true);
-                    Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), "Internet Issues", Toast.LENGTH_SHORT).show();
                 }

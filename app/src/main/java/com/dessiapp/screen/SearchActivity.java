@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -68,6 +70,21 @@ public class SearchActivity extends AppCompatActivity {
                 }else{
                     callApi(searchTxt.getText().toString());
                 }
+            }
+        });
+
+        searchTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if(searchTxt.getText().toString()==null || searchTxt.getText().toString().equals("")){
+                        Toast.makeText(SearchActivity.this, "Please enter something", Toast.LENGTH_SHORT).show();
+                    }else{
+                        callApi(searchTxt.getText().toString());
+                    }
+                    return true;
+                }
+                return false;
             }
         });
 

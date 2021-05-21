@@ -1,54 +1,25 @@
 package com.dessiapp.screen;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dessiapp.R;
-import com.dessiapp.adapter.AdapterDashboard;
-import com.dessiapp.models.DashModel2;
 import com.dessiapp.models.LoginModel;
-import com.dessiapp.provider.Api;
 import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.Const;
 import com.dessiapp.provider.InputValidation;
 import com.dessiapp.provider.PreferenceManager;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
-import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.NameValuePair;
-import cz.msebera.android.httpclient.client.ClientProtocolException;
-import cz.msebera.android.httpclient.client.HttpClient;
-import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
-import cz.msebera.android.httpclient.client.methods.HttpPost;
-import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
-import cz.msebera.android.httpclient.message.BasicNameValuePair;
-import cz.msebera.android.httpclient.util.EntityUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -97,11 +68,12 @@ public class LoginActivity extends AppCompatActivity implements ViewDialog1.Clic
     }
 
     public void forgotAct(View view) {
+        startActivity(new Intent(LoginActivity.this, ForgotPassActivity.class));
     }
 
     @Override
     public void getClick() {
-        Toast.makeText(this, "Bro called", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Bro called", Toast.LENGTH_SHORT).show();
     }
 
 //    @SuppressLint("StaticFieldLeak")

@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.dessiapp.screen.ForYouFragment;
 import com.dessiapp.screen.PeoplesFragment;
-import com.dessiapp.screen.ProfileFragment;
 import com.dessiapp.screen.ProfileFragment1;
 
 public class MyAdapter extends FragmentPagerAdapter {

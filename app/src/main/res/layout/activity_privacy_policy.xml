@@ -44,6 +44,13 @@
                 android:justificationMode="inter_word"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="This Privacy Policy is a part of and is to be read with the DesiiApp Terms of Use (“Terms”). By using this Platform, you agree to the terms and conditions of this Privacy Policy. You also consent to our use and disclosure of your Personal Information (as defined below) in the manner described in this Privacy Policy. The capitalized words used in this Privacy Policy but not defined herein, shall have the meaning given to such words in the Terms. If you do not agree with the terms and conditions of this Privacy Policy, please do not use this Platform." />
+         <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:justificationMode="inter_word"
+                android:layout_marginTop="@dimen/_10sdp"
+             android:layout_marginBottom="@dimen/_30sdp"
+                android:text="@string/privacy_value" />
         </LinearLayout>
 
     </ScrollView>
