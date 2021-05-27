@@ -166,7 +166,7 @@ public class OtpActivity extends AppCompatActivity implements ViewDialog1.ClickE
                 ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("userName", firstname));
                 nameValuePairs.add(new BasicNameValuePair("userId", username));
-                nameValuePairs.add(new BasicNameValuePair("age", age));
+                nameValuePairs.add(new BasicNameValuePair("dob", age));
                 nameValuePairs.add(new BasicNameValuePair("email", emailid));
                 nameValuePairs.add(new BasicNameValuePair("mobile", phoneno));
                 nameValuePairs.add(new BasicNameValuePair("gender", gender));

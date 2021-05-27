@@ -16,13 +16,13 @@ import com.dessiapp.MainActivity;
 import com.dessiapp.R;
 import com.dessiapp.adapter.MyAdapter;
 import com.dessiapp.provider.Const;
-import com.dessiapp.provider.PreferenceManager;
+import com.dessiapp.provider.PreferenceManager;/*
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
 import com.facebook.ads.AdSettings;
 import com.facebook.ads.AdSize;
-import com.facebook.ads.AdView;
+import com.facebook.ads.AdView;*/
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -85,7 +85,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
-        AdSettings.setTestMode(true);
+        //AdSettings.setTestMode(true);
 
 /*        mAdView = (AdView) findViewById(R.id.adView);
 
@@ -172,19 +172,12 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    private void registerClick(int[] buttonResId) {
-        for (int i = 0; i < buttonResId.length; i++) {
-            findViewById(buttonResId[i]).setOnClickListener(this);
-        }
-    }
-
     void updateProfilePic() {
-     /* prefManager = new PreferenceManager(getApplicationContext());
+      prefManager = new PreferenceManager(getApplicationContext());
       profImg = prefManager.getString(getApplicationContext(), Const.profileimg, "");
 
       if (!profImg.equals("") && profImg != null && !profImg.equals("null"))
             Glide.with(getApplicationContext()).load(profImg).into(cirImg);
-*/
     }
 
     @Override
@@ -217,4 +210,5 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         }*/
         super.onDestroy();
     }
+
 }

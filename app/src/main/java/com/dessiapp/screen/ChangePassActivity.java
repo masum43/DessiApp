@@ -116,7 +116,7 @@ public class ChangePassActivity extends AppCompatActivity implements View.OnClic
                 try {
                     JSONObject jObj=new JSONObject(String.valueOf(response.body()));
                     if(jObj.getString(Const.STATUS).equals(Const.SUCCESS)){
-                        alert.showDialog(ChangePassActivity.this,jObj.getString(Const.MESSAGE));
+                        alert.showDialog(ChangePassActivity.this,"Successfully Password Updated");
                     }else{
                         Toast.makeText(ChangePassActivity.this, jObj.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
                     }

@@ -115,6 +115,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:text="Mode"
+                        android:visibility="gone"
                         android:fontFamily="@font/montserrat_regular"
                         android:textColor="@color/colorPrimary"
                         android:textSize="13sp" />
@@ -136,7 +137,7 @@
                         android:layout_marginTop="5dp"
                         android:adjustViewBounds="true"
                         android:background="@color/lightBlack"
-                        android:src="@drawable/dp" />
+                         />
 
 
                 </LinearLayout>

@@ -8,6 +8,7 @@ import com.dessiapp.models.LoginModel;
 import com.dessiapp.models.PeoplesModel;
 import com.dessiapp.models.PostMultiModel;
 import com.dessiapp.models.ProfileModel;
+import com.dessiapp.models.ResponseModel;
 import com.dessiapp.models.RewardModel;
 
 import java.net.URLEncoder;
@@ -46,7 +47,7 @@ public class ApiCaller {
     public static final String DISLIKE = "dislikepost";
     public static final String REMOVE_DISLIKE = "removedislike";
     public static final String PROFILE_DATA = "getUserProfile";
-    public static final String UPDATE_PROFILE_DATA = "getUserProfile";
+    public static final String UPDATE_PROFILE_DATA = "updateProfile";
     public static final String POST_CMNT = "addcomment";
     public static final String GET_COMMENT = "getcomments";
     public static final String CHANGE_PASS = "changepassword";
@@ -125,7 +126,7 @@ public class ApiCaller {
         @FormUrlEncoded
         @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
         @POST(UPDATE_PROFILE_DATA)
-        Call<Object> updateProfileData(@Field("userId") String userId, @Field("newUserId") String newUserId, @Field("userName") String userName, @Field("email") String email, @Field("mobile") String mobile, @Field("dob") String dob);
+        Call<Object> updateProfileData(@Field("userId") String userId, @Field("newUserId") String newUserId, @Field("userName") String userName);
 
 
         @FormUrlEncoded
@@ -186,7 +187,7 @@ public class ApiCaller {
         @FormUrlEncoded
         @Headers({Const.HEAD_TOKEN + ":" + Const.TOKEN_KEY})
         @POST(DELETE_POST)
-        Call<Object> deletePost();
+        Call<ResponseModel> deletePost(@Field("postId") String postId, @Field("userId") String userId);
 
 
         @FormUrlEncoded

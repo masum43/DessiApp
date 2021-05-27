@@ -63,6 +63,8 @@
                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
                 android:inputType="textFilter|text"
                 android:textSize="@dimen/_12ssp"
+                android:editable="false"
+                android:focusable="false"
                 android:drawableRight="@drawable/ic_right_user"
                 android:hint="Username"
                 android:paddingLeft="@dimen/_10sdp"

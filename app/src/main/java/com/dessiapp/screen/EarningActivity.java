@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,10 +30,11 @@ public class EarningActivity extends AppCompatActivity {
     RewardModel rewardModel;
     TextView rewardMoney,
             withdrwn,
-    minAmount,
+            minAmount,
             likeCount;
     RecyclerView recyclerView;
     AdapterEarning adapterEarning;
+    Button redeem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +48,16 @@ public class EarningActivity extends AppCompatActivity {
         minAmount = findViewById(R.id.minAmount);
         likeCount = findViewById(R.id.likeCountValue);
         recyclerView = findViewById(R.id.recyclerView);
+        redeem = findViewById(R.id.redeem);
         imgArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        }); redeem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                onBackPressed();
             }
         });
         loadEarning();
@@ -62,10 +70,35 @@ public class EarningActivity extends AppCompatActivity {
             public void onResponse(Call<RewardModel> call, retrofit2.Response<RewardModel> response) {
                 RewardModel rewardModel = response.body();
                 if (rewardModel.getStatus().equals(Const.SUCCESS)) {
-                    withdrwn.setText("₹ "+rewardModel.getRewardBody().getRewardDetails().getAvailablereward()+"/-");
-                    rewardMoney.setText("₹ "+rewardModel.getRewardBody().getRewardDetails().getRewardclaimed()+"/-");
+                    withdrwn.setText("₹ " + rewardModel.getRewardBody().getRewardDetails().getAvailablereward() + "/-");
+                    rewardMoney.setText("₹ " + rewardModel.getRewardBody().getRewardDetails().getRewardclaimed() + "/-");
                     likeCount.setText(rewardModel.getRewardBody().getRewardDetails().getTotallikes().toString());
-                    minAmount.setText("Min. Amount redeem: ₹ "+rewardModel.getRewardBody().getRewardDetails().getMinclaimamount().toString()+"/-");
+                    minAmount.setText("Min. Amount redeem: ₹ " + rewardModel.getRewardBody().getRewardDetails().getMinclaimamount().toString() + "/-");
+                    adapterEarning = new AdapterEarning(getApplicationContext(), rewardModel.getRewardBody().getRewardHistory());
+                    recyclerView.setAdapter(adapterEarning);
+                } else {
+                    Toast.makeText(EarningActivity.this, rewardModel.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RewardModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    void redeem() {
+        Call<RewardModel> callApi = ApiCaller.getInstance().getRewards(userid);
+        callApi.enqueue(new Callback<RewardModel>() {
+            @Override
+            public void onResponse(Call<RewardModel> call, retrofit2.Response<RewardModel> response) {
+                RewardModel rewardModel = response.body();
+                if (rewardModel.getStatus().equals(Const.SUCCESS)) {
+                    withdrwn.setText("₹ " + rewardModel.getRewardBody().getRewardDetails().getAvailablereward() + "/-");
+                    rewardMoney.setText("₹ " + rewardModel.getRewardBody().getRewardDetails().getRewardclaimed() + "/-");
+                    likeCount.setText(rewardModel.getRewardBody().getRewardDetails().getTotallikes().toString());
+                    minAmount.setText("Min. Amount redeem: ₹ " + rewardModel.getRewardBody().getRewardDetails().getMinclaimamount().toString() + "/-");
                     adapterEarning = new AdapterEarning(getApplicationContext(), rewardModel.getRewardBody().getRewardHistory());
                     recyclerView.setAdapter(adapterEarning);
                 } else {

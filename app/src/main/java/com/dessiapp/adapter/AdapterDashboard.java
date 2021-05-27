@@ -30,13 +30,9 @@ import com.dessiapp.models.DashModel2;
 import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.Const;
 import com.dessiapp.screen.CommentActivity;
+import com.dessiapp.screen.PhotoViewActivity;
 import com.dessiapp.screen.ViewOtherProfileActivity;
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.AdSize;
-import com.facebook.ads.AdView;
-import com.facebook.ads.InterstitialAd;
-import com.facebook.ads.InterstitialAdListener;
+
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -59,18 +55,18 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
     Context context;
     List<Body> listData;
     public String userid;
-    private InterstitialAd interstitialAd;
-    private AdView adView;
+    /*private InterstitialAd interstitialAd;
+    private AdView adView;*/
 
-    public AdapterDashboard(Context context, List<Body> list, String userid, InterstitialAd interstitialAd, AdView adView) {
+    public AdapterDashboard(Context context, List<Body> list, String userid /*,InterstitialAd interstitialAd, AdView adView*/) {
         this.listData = list;
         this.context = context;
         this.userid = userid;
-        this.interstitialAd = interstitialAd;
-        this.adView = adView;
+       /* this.interstitialAd = interstitialAd;
+        this.adView = adView;*/
     }
 
-    InterstitialAdListener interstitialAdListener = new InterstitialAdListener() {
+   /* InterstitialAdListener interstitialAdListener = new InterstitialAdListener() {
         @Override
         public void onInterstitialDisplayed(Ad ad) {
             // Interstitial ad displayed callback
@@ -108,7 +104,7 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
             // Ad impression logged callback
             Log.d(TAG, "Interstitial ad impression logged!");
         }
-    };
+    };*/
 
 
     @NonNull
@@ -152,29 +148,29 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
             }
         });
 
-        if ((pos + 1) % 4 == 0) {
+       /* if ((pos + 1) % 4 == 0) {
             hol.adContainer.removeView(adView);
             hol.adContainer.addView(adView);
             adView.loadAd();
-            /*int drawableId = R.drawable.ic_add_black;
+            *//*int drawableId = R.drawable.ic_add_black;
             if (drawableId == 0) return;
             ImageView badge = new ImageView(context);
             badge.setImageResource(drawableId);
             int size = (int) convertDpToPx(55.0f);
             badge.setLayoutParams(new ViewGroup.LayoutParams(size, size));
-            hol.adContainer.addView(badge);*/
+            hol.adContainer.addView(badge);*//*
 
             hol.viewAbove.setVisibility(View.VISIBLE);
         } else {
             //adContainer.removeAllViews();
             hol.viewAbove.setVisibility(View.GONE);
             hol.adContainer.setVisibility(View.GONE);
-        }
+        }*/
 
     }
 
     public void setNewData(List<Body> listData) {
-        adView.buildLoadAdConfig();
+      //  adView.buildLoadAdConfig();
         this.listData.clear();
         this.listData = listData;
         notifyDataSetChanged();
@@ -233,6 +229,7 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
             unlikelayout.setOnClickListener(this);
             commentlayout.setOnClickListener(this);
             shareLay.setOnClickListener(this);
+            postUserPic.setOnClickListener(this);
         }
 
         void setTrip(Body body, int i, String userid) {
@@ -327,10 +324,10 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.likelayout:
-                    interstitialAd.loadAd(
+                   /* interstitialAd.loadAd(
                             interstitialAd.buildLoadAdConfig()
                                     .withAdListener(interstitialAdListener)
-                                    .build());
+                                    .build());*/
                     likeApi();
                     break;
                 case R.id.likelayout1:
@@ -348,6 +345,9 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
                     break;
                 case R.id.shareLay:
                     sendingShare();
+                    break;
+                case R.id.postUserPic:
+                    context.startActivity(new Intent(context, PhotoViewActivity.class).putExtra("image",body.getFilepath()).putExtra("name",body.getUsername()));
                     break;
             }
         }

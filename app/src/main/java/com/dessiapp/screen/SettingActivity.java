@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.dessiapp.R;
@@ -111,10 +112,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(new Intent(getApplicationContext(), TermsConditionActivity.class));
                 break;
             case R.id.privacyPolicy:
-                startActivity(new Intent(getApplicationContext(), PrivacyPolicyActivity.class));
+                startActivity(new Intent(getApplicationContext(), PrivacyPolicyActivity1.class));
                 break;
             case R.id.earningLay:
-                startActivity(new Intent(getApplicationContext(), EarningActivity.class));
+                Toast.makeText(this, "Upcoming...", Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(getApplicationContext(), EarningActivity.class));
                 break;
         }
     }

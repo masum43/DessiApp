@@ -76,6 +76,10 @@ public class Body {
     @Expose
     String activity;
 
+    @SerializedName("isofficial")
+    @Expose
+    private Integer isofficial;
+
     @SerializedName("isLikedbyMe")
     @Expose
     boolean isLikedbyMe;
@@ -218,5 +222,13 @@ public class Body {
 
     public void setIsdisLikedbyMe(boolean isdisLikedbyMe) {
         this.isdisLikedbyMe = isdisLikedbyMe;
+    }
+
+    public Integer getIsofficial() {
+        return isofficial;
+    }
+
+    public void setIsofficial(Integer isofficial) {
+        this.isofficial = isofficial;
     }
 }

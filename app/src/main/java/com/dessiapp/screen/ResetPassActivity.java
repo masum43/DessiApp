@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dessiapp.R;
 import com.dessiapp.provider.Api;
@@ -157,14 +158,14 @@ public class ResetPassActivity extends AppCompatActivity {
             String result = "";
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(Api.RESET_PASS);
+            httpPost.setHeader(Const.HEAD_TOKEN, Const.TOKEN_KEY);
             try {
                 ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("userId", email));
+                nameValuePairs.add(new BasicNameValuePair("mobile", email));
                 //nameValuePairs.add(new BasicNameValuePair("Old_PWD", newpassword));
                 nameValuePairs.add(new BasicNameValuePair("Password", newpassword));
                 nameValuePairs.add(new BasicNameValuePair("ConfPWD", newpassword));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                httpPost.setHeader(Const.HEAD_TOKEN,Const.TOKEN_KEY);
                 HttpResponse response = httpClient.execute(httpPost);
                 result = EntityUtils.toString(response.getEntity());
             } catch (UnsupportedEncodingException e) {
@@ -189,7 +190,7 @@ public class ResetPassActivity extends AppCompatActivity {
                     status = object.getString("status");
                     message = object.getString("message");
                     if (status.equals("success")) {
-                        // Toast.makeText(getApplicationContext(), message.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), message.toString(), Toast.LENGTH_SHORT).show();
                         //new Cleanbilldata().execute();
 
                         Intent intent = new Intent(ResetPassActivity.this, LoginActivity.class);

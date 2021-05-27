@@ -28,28 +28,42 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DessiApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".screen.ResetPassActivity"></activity>
+
+        <activity
+            android:name=".screen.PhotoViewActivity"></activity>
+        <activity android:name=".screen.PrivacyPolicyActivity1" />
+        <activity android:name=".screen.ResetPassActivity" />
         <activity android:name=".screen.ForgotPassActivity" />
         <activity android:name=".screen.ViewOtherProfileActivity" />
         <activity android:name=".screen.EarningActivity" />
         <activity android:name=".screen.TermsConditionActivity" />
         <activity android:name=".screen.PrivacyPolicyActivity" />
         <activity android:name=".screen.SearchActivity" />
-        <activity android:name=".screen.FollowingActivity" />
-        <activity android:name=".screen.FollowersActivity" />
-        <activity android:name=".screen.AboutUsActivity" />
+        <activity
+            android:name=".screen.FollowingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".screen.FollowersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".screen.AboutUsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".screen.ChangePassActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".screen.EditProfileActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".screen.CommentActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".screen.SettingActivity"
-            android:hardwareAccelerated="false" />
+            android:hardwareAccelerated="false"
+            android:screenOrientation="portrait" />
         <!--
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -60,8 +74,9 @@
             android:value="@string/admob_app_id" />
 
         <activity
-            android:hardwareAccelerated="true"
             android:name=".screen.DashActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".screen.NavigationActivity"
@@ -72,10 +87,12 @@
         <activity
             android:name=".screen.CreatePostActivity"
             android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".screen.RegisterActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".screen.LoginActivity" />
         <activity android:name=".screen.CommentProfileActivity" />
@@ -85,6 +102,7 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".screen.SplashScreen"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

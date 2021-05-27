@@ -1,7 +1,7 @@
 package com.dessiapp.provider;
 
 import com.dessiapp.R;
-import com.facebook.ads.AudienceNetworkAds;
+//import com.facebook.ads.AudienceNetworkAds;
 
 public class Application extends android.app.Application {
 
@@ -10,6 +10,6 @@ public class Application extends android.app.Application {
         super.onCreate();
 
         //FAN
-        AudienceNetworkAds.initialize(this);
+       // AudienceNetworkAds.initialize(this);
     }
 }

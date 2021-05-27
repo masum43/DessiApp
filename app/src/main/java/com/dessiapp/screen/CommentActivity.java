@@ -49,7 +49,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
 
     Toolbar toolbar;
     private ImageView imgArrow;
-    TextView textTitle;
+    TextView textTitle, podttyptextview;
 
 
     @Override
@@ -75,6 +75,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         commentEdittext = findViewById(R.id.commentEdittext);
         sendimage = findViewById(R.id.sendimage);
         commentRecyclerview = findViewById(R.id.commentRecyclerview);
+        podttyptextview = findViewById(R.id.podttyptextview);
         sendimage.setOnClickListener(this);
 
         if (body.getProfileimg() != null && !body.getProfileimg().equals("") && !body.getProfileimg().equals("null"))
@@ -89,6 +90,13 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
             dateTime.setText(Const.getDateFormat(body.getPostedon()));
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+
+        if (body.getActivity() != null && !body.getActivity().equals("") && !body.getActivity().equals("Default")) {
+            podttyptextview.setText(body.getActivity());
+            podttyptextview.setVisibility(View.VISIBLE);
+        } else {
+            podttyptextview.setVisibility(View.GONE);
         }
 
         imgArrow.setOnClickListener(this);

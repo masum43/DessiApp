@@ -90,7 +90,7 @@ public class ProfileModel {
         private Integer posttype;
         @SerializedName("activity")
         @Expose
-        private Integer activity;
+        private String activity;
         @SerializedName("comments")
         @Expose
         private Integer comments;
@@ -207,11 +207,11 @@ public class ProfileModel {
             this.posttype = posttype;
         }
 
-        public Integer getActivity() {
+        public String getActivity() {
             return activity;
         }
 
-        public void setActivity(Integer activity) {
+        public void setActivity(String activity) {
             this.activity = activity;
         }
 

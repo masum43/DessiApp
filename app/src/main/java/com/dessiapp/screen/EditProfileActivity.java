@@ -5,9 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -140,14 +145,26 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     }
 
     void updateApiCall() {
-        Call<Object> callApi = ApiCaller.getInstance().updateProfileData(useridDb, usernameEdt.getText().toString(), nameEdt.getText().toString(), emailEdt.getText().toString(), phnEdt.getText().toString(), dobEdt.getText().toString());
+        Dialog dialog = new Dialog(EditProfileActivity.this, R.style.Theme_Dialog1);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.loading_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
+        Call<Object> callApi = ApiCaller.getInstance().updateProfileData(useridDb, usernameEdt.getText().toString(), nameEdt.getText().toString());
         callApi.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, retrofit2.Response<Object> response) {
                 try {
+                    dialog.dismiss();
                     JSONObject jOb = new JSONObject(String.valueOf(response.body()));
                     if (jOb.getString(Const.STATUS).equals(Const.SUCCESS)) {
-                        JSONObject body = jOb.getJSONObject("body");
+                        prefManager.putString(getApplicationContext(),Const.username,nameEdt.getText().toString());
+                        prefManager.putString(getApplicationContext(),Const.userid,usernameEdt.getText().toString());
+                        Intent intent = new Intent();
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+
                     } else {
                         Toast.makeText(getApplicationContext(), jOb.getString(Const.MESSAGE), Toast.LENGTH_SHORT).show();
                     }

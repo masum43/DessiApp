@@ -24,6 +24,7 @@ import com.dessiapp.provider.Const;
 import com.dessiapp.provider.InputValidation;
 import com.dessiapp.provider.PreferenceManager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -132,7 +133,7 @@ public class ForgotPassActivity extends AppCompatActivity {
             httpPost.setHeader(Const.HEAD_TOKEN, Const.TOKEN_KEY);
             try {
                 ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("email", emailphoneno));
+                nameValuePairs.add(new BasicNameValuePair("mobile", emailphoneno));
 
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpClient.execute(httpPost);
@@ -161,7 +162,8 @@ public class ForgotPassActivity extends AppCompatActivity {
                     status = object.getString("status");
                     message = object.getString("message");
                     if (status.equals("success")) {
-                        String otp = object.getString("otp");
+                        JSONObject jObj = (JSONObject) object.getJSONArray("body").get(0);
+                        String otp = jObj.getString("otp");
                         Intent intent = new Intent(ForgotPassActivity.this, ResetPassActivity.class);
                         intent.putExtra("otp",otp);
                         intent.putExtra("email",emailphoneno);
@@ -171,7 +173,7 @@ public class ForgotPassActivity extends AppCompatActivity {
                         /* finish();*/
                     } else {
                         //Toast.makeText(getApplicationContext(), message.toString(), Toast.LENGTH_SHORT).show();
-                        /* Toast.makeText(RegisterActivity.this, "Internet issue", Toast.LENGTH_LONG).show();*/
+                         Toast.makeText(ForgotPassActivity.this, message.toString(), Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

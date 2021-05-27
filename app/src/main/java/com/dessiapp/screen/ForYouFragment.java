@@ -1,7 +1,6 @@
 package com.dessiapp.screen;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,8 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-//import android.util.JsonReader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,13 +25,10 @@ import com.dessiapp.models.DashDataModel;
 import com.dessiapp.models.DashModel2;
 import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.Const;
-import com.dessiapp.provider.PreferenceManager;
+import com.dessiapp.provider.PreferenceManager;/*
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
-import com.facebook.ads.AdSize;
-import com.facebook.ads.AdView;
-import com.facebook.ads.InterstitialAd;
-import com.facebook.ads.InterstitialAdListener;
+import com.facebook.ads.InterstitialAdListener;*/
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static android.content.ContentValues.TAG;
-
-public class ForYouFragment extends Fragment implements View.OnClickListener, AdapterDashboard1.Onclick {
+public class ForYouFragment extends Fragment implements View.OnClickListener/*, AdapterDashboard1.Onclick*/ {
 
     View v;
     RecyclerView recyclerView;
@@ -59,7 +51,7 @@ public class ForYouFragment extends Fragment implements View.OnClickListener, Ad
     CircleImageView cirImg;
     String profImg;
 
-    private InterstitialAd interstitialAd;
+    //private InterstitialAd interstitialAd;
     //private AdView adView;
     List<Body> allList = new ArrayList<>();
 
@@ -77,7 +69,7 @@ public class ForYouFragment extends Fragment implements View.OnClickListener, Ad
         whtMind = v.findViewById(R.id.whtMind);
         cirImg = v.findViewById(R.id.cirImg);
 
-        interstitialAd = new InterstitialAd(getActivity(), getActivity().getResources().getString(R.string.fb_interstetial_placement));
+        //interstitialAd = new InterstitialAd(getActivity(), getActivity().getResources().getString(R.string.fb_interstetial_placement));
         //adView = new AdView(getActivity(), getActivity().getResources().getString(R.string.fb_medium_placement), AdSize.RECTANGLE_HEIGHT_250);
 
         if (!profImg.equals("") && profImg != null && !profImg.equals("null"))
@@ -99,11 +91,13 @@ public class ForYouFragment extends Fragment implements View.OnClickListener, Ad
             }
         });
 
-        adapterDashboard1 = new AdapterDashboard1(getActivity(), allList, userID, interstitialAd, /*adView,*/ this);
+        adapterDashboard1 = new AdapterDashboard1(getActivity(), allList, userID /*interstitialAd, adView,*/ /*this*/);
         recyclerView.setAdapter(adapterDashboard1);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        //CustomLayoutManager CustomLayoutManager=new CustomLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setHasFixedSize(true);
+        //recyclerView.setHasFixedSize(true);
+
 
 
 
@@ -112,14 +106,10 @@ public class ForYouFragment extends Fragment implements View.OnClickListener, Ad
         mRewardedVideoAd.loadAd(getString(R.string.rewarded_video), new AdRequest.Builder().build());*/
 
 
-
-
-
-
         return v;
     }
 
-    InterstitialAdListener interstitialAdListener = new InterstitialAdListener() {
+    /*InterstitialAdListener interstitialAdListener = new InterstitialAdListener() {
         @Override
         public void onInterstitialDisplayed(Ad ad) {
             // Interstitial ad displayed callback
@@ -143,7 +133,7 @@ public class ForYouFragment extends Fragment implements View.OnClickListener, Ad
             // Interstitial ad is loaded and ready to be displayed
             Log.d(TAG, "Interstitial ad is loaded and ready to be displayed!");
             // Show the ad
-            interstitialAd.show();
+          //  interstitialAd.show();
         }
 
         @Override
@@ -157,7 +147,7 @@ public class ForYouFragment extends Fragment implements View.OnClickListener, Ad
             // Ad impression logged callback
             Log.d(TAG, "Interstitial ad impression logged!");
         }
-    };
+    };*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -167,11 +157,6 @@ public class ForYouFragment extends Fragment implements View.OnClickListener, Ad
         }
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     void loadApi() {
         Call<DashModel2> callApi = ApiCaller.getInstance().getAllPost(userID);
@@ -182,7 +167,11 @@ public class ForYouFragment extends Fragment implements View.OnClickListener, Ad
                 swipeRefresh.setRefreshing(false);
                 DashModel2 dashModel2 = response.body();
                 if (dashModel2 != null && dashModel2.getStatus().equals(Const.SUCCESS)) {
-                    adapterDashboard1.setNewData(dashModel2.getBody());
+                    /*if (adapterDashboard1 == null) {
+
+                    } else {*/
+                        adapterDashboard1.setNewData(dashModel2.getBody());
+                   // }
                 } else {
                     Toast.makeText(getActivity(), (dashModel2.getMessage() != null) ? dashModel2.getMessage() : "Internet Issues", Toast.LENGTH_SHORT).show();
                 }
@@ -197,14 +186,6 @@ public class ForYouFragment extends Fragment implements View.OnClickListener, Ad
     }
 
 
-    @Override
-    public void onDestroy() {
-        //Toast.makeText(getActivity(), "On destroy", Toast.LENGTH_SHORT).show();
-//        if (interstitialAd != null)
-//            interstitialAd.destroy();
-        super.onDestroy();
-    }
-
 
     @Override
     public void onClick(View view) {
@@ -218,39 +199,13 @@ public class ForYouFragment extends Fragment implements View.OnClickListener, Ad
         }
     }
 
-    @Override
+    /*@Override
     public void listner() {
         //Toast.makeText(getActivity(), "Hi buddy", Toast.LENGTH_SHORT).show();
-        /*if (mRewardedVideoAd.isLoaded()) {
-            mRewardedVideoAd.show();
-        }else{
-            Toast.makeText(getActivity(), "Ad not loaded yet", Toast.LENGTH_SHORT).show();
-        }*/
-        interstitialAd.loadAd(
+
+       *//* interstitialAd.loadAd(
                 interstitialAd.buildLoadAdConfig()
                         .withAdListener(interstitialAdListener)
-                        .build());
-    }
-
-    @Override
-    public void onResume() {
-        //mRewardedVideoAd.resume(getActivity());
-        Toast.makeText(getActivity(), "On Resume", Toast.LENGTH_SHORT).show();
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        //mRewardedVideoAd.pause(getActivity());
-        Toast.makeText(getActivity(), "On Pause", Toast.LENGTH_SHORT).show();
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroyView() {
-        //mRewardedVideoAd.destroy(getActivity());
-        Toast.makeText(getActivity(), "On Destroy  View", Toast.LENGTH_SHORT).show();
-        super.onDestroyView();
-
-    }
+                        .build());*//*
+    }*/
 }

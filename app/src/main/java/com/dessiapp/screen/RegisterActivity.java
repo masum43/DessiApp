@@ -1,9 +1,11 @@
 package com.dessiapp.screen;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -74,7 +76,7 @@ import cz.msebera.android.httpclient.util.EntityUtils;
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, DialogInterface.OnDismissListener, com.tsongkha.spinnerdatepicker.DatePickerDialog.OnDateSetListener {
 
     MaterialCheckBox termcheckbox;
-    TextView checkBox;
+    TextView checkBox, checkBox1;
     private TextView signin_txtView, textTitletextview;
     private EditText firstnameedittext, age, emailedittext, phonenoedittext, passwordedittext, conpasswordedittext, usernameTxt;
     Toolbar toolbar;
@@ -123,11 +125,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         genderText = findViewById(R.id.genderText);
         textTitletextview.setText(txt);
 
-        int[] value = new int[]{R.id.checkBox, R.id.register, R.id.imgArrow, R.id.stateSpinner, R.id.citySpinner, R.id.genderType, R.id.age, R.id.signin_txtView};
+        int[] value = new int[]{R.id.checkBox, R.id.checkBox1, R.id.register, R.id.imgArrow, R.id.stateSpinner, R.id.citySpinner, R.id.genderType, R.id.age, R.id.signin_txtView};
         registerClick(value);
         checkBox = findViewById(R.id.checkBox);
-        checkBox.setText(Html.fromHtml("I Agree to your " +
-                "<a style=\"background-color:#000000;\"><strong><u>Privacy Policy & Terms & Conditions</u></strong></a>"  /*+", Membership Agreement and Privacy Policy"*/));
+        checkBox1 = findViewById(R.id.checkBox1);
+        checkBox.setText(Html.fromHtml("I Agree with your " +
+                "<a style=\"background-color:#000000;\"><strong><u>Privacy Policy & </u></strong></a>"  /*+", Membership Agreement and Privacy Policy"*/));
+        checkBox1.setText(Html.fromHtml(
+                "<a style=\"background-color:#000000;\"><strong><u>Terms & Conditions</u></strong></a>"  /*+", Membership Agreement and Privacy Policy"*/));
     }
 
     private void registerClick(int[] buttonResId) {
@@ -140,6 +145,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.checkBox:
+                startActivityForResult(new Intent(getApplicationContext(), PrivacyPolicyActivity1.class), 21);
+                break;
+            case R.id.checkBox1:
+                startActivityForResult(new Intent(getApplicationContext(), TermsConditionActivity.class), 21);
                 break;
             case R.id.register:
                 registerClick();
@@ -162,6 +171,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             case R.id.signin_txtView:
                 onBackPressed();
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 21 && resultCode == Activity.RESULT_OK) {
+
         }
     }
 
@@ -252,7 +269,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     void dateDialog() {
-        Calendar c=Calendar.getInstance();
+        Calendar c = Calendar.getInstance();
         showDate(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), R.style.NumberPickerStyle);
         /*final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
@@ -426,7 +443,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             alert.showDialog(RegisterActivity.this, "Please select state");
         } else if (selectCity == null) {
             alert.showDialog(RegisterActivity.this, "Please select city");
-        } */else if (!InputValidation.isEditTextHasvalue(passwordedittext)) {
+        } */ else if (!InputValidation.isEditTextHasvalue(passwordedittext)) {
             alert.showDialog(RegisterActivity.this, "Please enter Password");
         } else if (!passwordedittext.getText().toString().matches(passwordPattern)) {
             alert.showDialog(RegisterActivity.this, "Please enter minimum 8 to 16 character password. ");
@@ -455,7 +472,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         new SpinnerDatePickerDialogBuilder()
                 .context(RegisterActivity.this)
                 .callback(RegisterActivity.this)
-               // .callback(RegisterActivity.this)
+                // .callback(RegisterActivity.this)
                 //.onCancel(RegisterActivity.this)
                 .spinnerTheme(spinnerTheme)
                 .defaultDate(year, monthOfYear, dayOfMonth)
@@ -493,7 +510,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             HttpClient httpClient = new DefaultHttpClient();
             //HttpPost httpPost = new HttpPost("http://neighbrsnook.com/admin/api/master?flag=21");
             HttpPost httpPost = new HttpPost(Api.REG_REQ_OTP);
-            httpPost.setHeader(Const.HEAD_TOKEN,Const.TOKEN_KEY);
+            httpPost.setHeader(Const.HEAD_TOKEN, Const.TOKEN_KEY);
             try {
                 ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("email", URLEncoder.encode(emailid)));

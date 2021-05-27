@@ -75,6 +75,18 @@
             </LinearLayout>
 
 
+            <Button
+                android:id="@+id/redeem"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:background="@drawable/shape_green"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="REDEEM"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/_10sdp" />
+
+
         </LinearLayout>
 
 

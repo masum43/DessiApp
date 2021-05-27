@@ -8,13 +8,13 @@
     <string name="fb_native_placement">2932553903737866_2938669599792963</string>
 
 
- <!--<string name="admob_app_id">ca-app-pub-3514531051471948~7018478881</string>-->
- <string name="admob_app_id">ca-app-pub-4893014899282887~3283790575</string>
-<!-- <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>-->
- <string name="banner_home_footer">ca-app-pub-3514531051471948/4200743854</string>
- <string name="rewarded_video">ca-app-pub-3940256099942544/5224354917</string>
- <string name="add_open">ca-app-pub-4893014899282887/2892778457</string>
- <string name="banner_ad_unit_id">ca-app-pub-3514531051471948/4200743854</string>
+    <!--<string name="admob_app_id">ca-app-pub-3514531051471948~7018478881</string>-->
+    <string name="admob_app_id">ca-app-pub-4893014899282887~3283790575</string>
+    <!-- <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>-->
+    <string name="banner_home_footer">ca-app-pub-3514531051471948/4200743854</string>
+    <string name="rewarded_video">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="add_open">ca-app-pub-4893014899282887/2892778457</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3514531051471948/4200743854</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -20,10 +20,10 @@ import com.dessiapp.models.DashModel2;
 import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.Const;
 import com.dessiapp.provider.PreferenceManager;
-import com.facebook.ads.AdSettings;
+/*import com.facebook.ads.AdSettings;
 import com.facebook.ads.AdSize;
 import com.facebook.ads.AdView;
-import com.facebook.ads.InterstitialAd;
+import com.facebook.ads.InterstitialAd;*/
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +45,8 @@ public class DashActivity extends AppCompatActivity implements View.OnClickListe
     CircleImageView cirImg;
     String profImg;
 
-    private InterstitialAd interstitialAd;
-    private AdView adView;
+    /*private InterstitialAd interstitialAd;
+    private AdView adView;*/
 
     ArrayList<Object> mTargetData = new ArrayList<>();
     //private NativeAdsDataAdapter mAdapter;
@@ -65,10 +65,9 @@ public class DashActivity extends AppCompatActivity implements View.OnClickListe
         whtMind = findViewById(R.id.whtMind);
         cirImg = findViewById(R.id.cirImg);
 
-        AdSettings.addTestDevice("b0e85d9d-cfd6-4160-a9aa-a843ab4684b8");
 
-        interstitialAd = new InterstitialAd(getApplicationContext(), getApplicationContext().getResources().getString(R.string.fb_interstetial_placement));
-        adView = new AdView(getApplicationContext(), getApplicationContext().getResources().getString(R.string.fb_medium_placement), AdSize.RECTANGLE_HEIGHT_250);
+        /*interstitialAd = new InterstitialAd(getApplicationContext(), getApplicationContext().getResources().getString(R.string.fb_interstetial_placement));
+        adView = new AdView(getApplicationContext(), getApplicationContext().getResources().getString(R.string.fb_medium_placement), AdSize.RECTANGLE_HEIGHT_250);*/
 
         if (!profImg.equals("") && profImg != null && !profImg.equals("null"))
             Glide.with(getApplicationContext()).load(profImg).into(cirImg);
@@ -143,10 +142,10 @@ public class DashActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onDestroy() {
-        if (interstitialAd != null)
+       /* if (interstitialAd != null)
             interstitialAd.destroy();
         if(adView!=null)
-            adView.destroy();
+            adView.destroy();*/
         super.onDestroy();
     }
 

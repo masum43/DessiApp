@@ -49,12 +49,12 @@ import retrofit2.Callback;
 
 //import android.util.JsonReader;
 
-public class PeoplesFragment extends Fragment implements View.OnClickListener {
+public class PeoplesFragment extends Fragment {
 
     View v;
     RecyclerView recyclerView;
     AdapterPeoples adapterPeople;
-    LinearLayout whtMind;
+    //LinearLayout whtMind;
     PreferenceManager prefManager;
     String userID;
     RequestQueue requestQueue;
@@ -71,14 +71,14 @@ public class PeoplesFragment extends Fragment implements View.OnClickListener {
         userID = prefManager.getString(getActivity(), Const.userid, "");
         recyclerView = v.findViewById(R.id.recyclerView);
         swipeRefresh = v.findViewById(R.id.swipeRefresh);
-        whtMind = v.findViewById(R.id.whtMind);
+        //whtMind = v.findViewById(R.id.whtMind);
         callApi();
-        whtMind.setOnClickListener(new View.OnClickListener() {
+        /*whtMind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivityForResult(new Intent(getActivity(), CreatePostActivity.class), 111);
             }
-        });
+        });*/
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -97,12 +97,6 @@ public class PeoplesFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void registerClick(int[] buttonResId) {
-        for (int i = 0; i < buttonResId.length; i++) {
-            v.findViewById(buttonResId[i]).setOnClickListener(this);
-        }
-    }
-
     void callApi() {
         Call<PeoplesModel> callApi = ApiCaller.getInstance().getAppPeopleName(userID);
         callApi.enqueue(new Callback<PeoplesModel>() {
@@ -112,10 +106,12 @@ public class PeoplesFragment extends Fragment implements View.OnClickListener {
                 PeoplesModel peoplesModel = response.body();
                 if (peoplesModel != null && peoplesModel.getStatus().equals(Const.SUCCESS)) {
                     adapterPeople = new AdapterPeoples(getContext(), peoplesModel.getBody(), CallFor.PEOPLE);
-                    recyclerView.setAdapter(adapterPeople);
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
                     recyclerView.setLayoutManager(mLayoutManager);
                     recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(mLayoutManager);
+                    recyclerView.setAdapter(adapterPeople);
+
                     //Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), "Internet Issues", Toast.LENGTH_SHORT).show();
@@ -130,7 +126,7 @@ public class PeoplesFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    @Override
+   /* @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.whtMind:
@@ -140,5 +136,6 @@ public class PeoplesFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), CreatePostActivity.class));
                 break;
         }
-    }
+    }*/
+
 }

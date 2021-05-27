@@ -67,6 +67,7 @@ public class Const {
 
     public static String getDateFormat(String dateStr) throws ParseException {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        //DateFormat format = new SimpleDateFormat("yyyy-mm-ddthh:mm:ssz");
         Date date = format.parse(dateStr);
         DateFormat format1 = new SimpleDateFormat("EEE, d MMM yyyy hh:mm aaa", Locale.ENGLISH);
         return format1.format(date);

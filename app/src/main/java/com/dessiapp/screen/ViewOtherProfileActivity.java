@@ -128,7 +128,7 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), EditProfileActivity.class));
             }
         });
-        followingLinear.setOnClickListener(new View.OnClickListener() {
+        /*followingLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), FollowingActivity.class));
@@ -139,7 +139,7 @@ public class ViewOtherProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), FollowersActivity.class));
             }
-        });
+        });*/
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

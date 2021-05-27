@@ -1,5 +1,6 @@
 package com.dessiapp.screen;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -31,8 +32,10 @@ import com.dessiapp.provider.Const;
 import com.dessiapp.provider.PreferenceManager;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
@@ -114,7 +117,7 @@ public class ProfileFragment1 extends Fragment {
         iv_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = CropImage.activity().setAspectRatio(1, 1).setGuidelines(CropImageView.Guidelines.ON).setAllowRotation(true)
+                Intent intent = CropImage.activity().setAspectRatio(1, 1).setGuidelines(CropImageView.Guidelines.ON).setAllowRotation(true).setOutputCompressQuality(20)
                         .getIntent(getActivity());
                 startActivityForResult(intent, 163);
             }
@@ -122,7 +125,7 @@ public class ProfileFragment1 extends Fragment {
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), EditProfileActivity.class));
+                startActivityForResult(new Intent(getActivity(), EditProfileActivity.class), 21);
             }
         });
         followingLinear.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +167,36 @@ public class ProfileFragment1 extends Fragment {
                     postDislikes.setText((!String.valueOf(profileModel.getProfileBody().getTotaldislikes()).equals("null")) ? String.valueOf(profileModel.getProfileBody().getTotaldislikes()) : "0");
                     adapterProfile = new AdapterProfile(getContext(), profileModel.getProfileBody().getPosts(), CallFor.PROFILE);
                     recyclerView.setAdapter(adapterProfile);
+                } else {
+                    Toast.makeText(getActivity(), "Internet Issues", Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ProfileModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    void loadApi1() {
+        userNameTxt.setText(prefManager.getString(getActivity(), Const.username, ""));
+        userIdTxt.setText("@" + prefManager.getString(getActivity(), Const.userid, ""));
+
+        Call<ProfileModel> callApi = ApiCaller.getInstance().getProfileData(useridStr);
+        callApi.enqueue(new Callback<ProfileModel>() {
+            @Override
+            public void onResponse(Call<ProfileModel> call, retrofit2.Response<ProfileModel> response) {
+                swipeRefresh.setRefreshing(false);
+                ProfileModel profileModel = response.body();
+                if (profileModel != null && profileModel.getStatus().equals(Const.SUCCESS)) {
+                    postTxt.setText(String.valueOf(profileModel.getProfileBody().getTotalposts()));
+                    postFollower.setText(String.valueOf(profileModel.getProfileBody().getTotalfollowers()));
+                    postFollowing.setText(String.valueOf(profileModel.getProfileBody().getTotalfollowing()));
+                    postLikes.setText((!String.valueOf(profileModel.getProfileBody().getTotallikes()).equals("null")) ? String.valueOf(profileModel.getProfileBody().getTotallikes()) : "0");
+                    postDislikes.setText((!String.valueOf(profileModel.getProfileBody().getTotaldislikes()).equals("null")) ? String.valueOf(profileModel.getProfileBody().getTotaldislikes()) : "0");
+                    adapterProfile = new AdapterProfile(getContext(), profileModel.getProfileBody().getPosts(), CallFor.PROFILE);
+                    recyclerView.setAdapter(adapterProfile);
                 } else {
                     Toast.makeText(getActivity(), "Internet Issues", Toast.LENGTH_SHORT).show();
                 }
@@ -201,6 +233,8 @@ public class ProfileFragment1 extends Fragment {
             selectedPath1 = f.getPath();
             changeImage(f);
 
+        } else if (requestCode == 21 && resultCode == RESULT_OK) {
+            loadApi1();
         }
     }
 
@@ -219,10 +253,12 @@ public class ProfileFragment1 extends Fragment {
                 if (value.getStatus().equals(Const.SUCCESS)) {
                     prefManager.putString(getActivity(), Const.profileimg, value.getBody().getProfileimgurl());
                     //Toast.makeText(getActivity(), value.getMessage(), Toast.LENGTH_SHORT).show();
+                    ((NavigationActivity) getActivity()).updateProfilePic();
                 } else {
-                    Toast.makeText(getActivity(),value.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), value.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<ChangeModel> call, Throwable t) {
                 uploading.dismiss();

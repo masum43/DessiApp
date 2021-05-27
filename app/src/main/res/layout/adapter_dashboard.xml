@@ -49,9 +49,11 @@
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/logoVerify"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
+                    android:visibility="gone"
                     android:layout_marginRight="3dp"
                     android:src="@drawable/verification"/>
 
@@ -79,17 +81,18 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:id="@+id/deletePost"
             android:gravity="end"
-            android:visibility="gone">
+            >
 
             <ImageView
                 android:id="@+id/optionMenuPost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/dot" />
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:src="@drawable/ic_delte" />
         </LinearLayout>
 
     </LinearLayout>
@@ -119,18 +122,18 @@
         android:layout_marginStart="15dp"
         android:layout_marginLeft="15dp"
         android:fontFamily="@font/montserrat_regular"
-        android:text="Intrested then contact me at this place"
         android:textSize="13sp" />
 
 
     <ImageView
         android:id="@+id/picPost"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_290sdp"
         android:layout_marginTop="2dp"
-        android:adjustViewBounds="true"
         android:background="@color/white"
-        android:src="@drawable/bg" />
+        android:scaleType="center"
+        android:adjustViewBounds="true"
+        />
 
 
 
@@ -143,13 +146,13 @@
         android:orientation="horizontal"
         android:paddingTop="@dimen/_3sdp"
         android:paddingBottom="@dimen/_3sdp"
-        android:weightSum="4">
+        android:weightSum="3">
 
         <LinearLayout
             android:id="@+id/likelayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.9"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -177,7 +180,7 @@
             android:id="@+id/likelayout1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.9"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal"
             android:visibility="gone">
@@ -211,6 +214,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
             android:gravity="center"
+            android:visibility="gone"
             android:orientation="horizontal">
 
 
@@ -274,7 +278,8 @@
             android:id="@+id/commentlayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.2"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/_8sdp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -315,6 +320,7 @@
                 android:id="@+id/replylayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:orientation="horizontal">
 
                 <!--                <ImageView-->
@@ -370,6 +376,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_15sdp"
             android:fontFamily="@font/montserrat_regular"
+            android:visibility="gone"
             android:text="1 Unlike" />
         <TextView
             android:id="@+id/cmntCount"

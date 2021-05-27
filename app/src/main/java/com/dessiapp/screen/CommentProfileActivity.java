@@ -47,7 +47,7 @@ public class CommentProfileActivity extends AppCompatActivity implements View.On
 
     Toolbar toolbar;
     private ImageView imgArrow, imgSearch, imgAdd;
-    TextView textTitle;
+    TextView textTitle,podttyptextview;
     String userImg,usernameStr;
 
 
@@ -76,6 +76,7 @@ public class CommentProfileActivity extends AppCompatActivity implements View.On
         commentEdittext = findViewById(R.id.commentEdittext);
         sendimage = findViewById(R.id.sendimage);
         commentRecyclerview = findViewById(R.id.commentRecyclerview);
+        podttyptextview = findViewById(R.id.podttyptextview);
         sendimage.setOnClickListener(this);
 
         if (!userImg.equals("") && userImg != null && !userImg.equals("null"))
@@ -90,6 +91,13 @@ public class CommentProfileActivity extends AppCompatActivity implements View.On
             dateTime.setText(Const.getDateFormat(body.getPostedon()));
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+
+        if(body.getActivity()!=null && !body.getActivity().equals("")&& !body.getActivity().equals("Default")){
+            podttyptextview.setVisibility(View.VISIBLE);
+            podttyptextview.setText(body.getActivity().toString());
+        }else{
+            podttyptextview.setVisibility(View.GONE);
         }
 
         imgArrow.setOnClickListener(this);

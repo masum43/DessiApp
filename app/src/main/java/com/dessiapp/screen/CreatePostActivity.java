@@ -1,90 +1,50 @@
 package com.dessiapp.screen;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.provider.Settings;
 import android.util.Base64;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.dessiapp.R;
-import com.dessiapp.adapter.AdapterComment;
 import com.dessiapp.adapter.AdapterImgShow;
 import com.dessiapp.models.ActivityModel;
-import com.dessiapp.models.CommentModel;
 import com.dessiapp.models.PostMultiModel;
-import com.dessiapp.models.SpinnerDto;
-import com.dessiapp.provider.AdapterSpinner;
 import com.dessiapp.provider.AdapterSpinner1;
-import com.dessiapp.provider.Api;
 import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.Const;
 import com.dessiapp.provider.InputValidation;
-import com.dessiapp.provider.MultipartRequest;
 import com.dessiapp.provider.PreferenceManager;
 import com.dessiapp.provider.RecyclerItemClickListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.NameValuePair;
-import cz.msebera.android.httpclient.client.ClientProtocolException;
-import cz.msebera.android.httpclient.client.HttpClient;
-import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
-import cz.msebera.android.httpclient.client.methods.HttpPost;
-import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
-import cz.msebera.android.httpclient.message.BasicNameValuePair;
-import cz.msebera.android.httpclient.util.EntityUtils;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -195,7 +155,7 @@ public class CreatePostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //showDialog();
-                Intent intent = CropImage.activity().setAspectRatio(3,1).setFixAspectRatio(false)
+                Intent intent = CropImage.activity().setAspectRatio(3,1).setFixAspectRatio(false).setOutputCompressQuality(30)
                         .getIntent(getApplicationContext());
                 startActivityForResult(intent, 0);
             }
@@ -203,7 +163,7 @@ public class CreatePostActivity extends AppCompatActivity {
         videouploadedittext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = CropImage.activity().setAspectRatio(3,1).setFixAspectRatio(false)
+                Intent intent = CropImage.activity().setAspectRatio(3,1).setFixAspectRatio(false).setOutputCompressQuality(30)
                         .getIntent(getApplicationContext());
                 startActivityForResult(intent, 0);
             }
@@ -363,7 +323,7 @@ public class CreatePostActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.loading_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.show();
-        String status = (txtId.getText().toString() != null && !txtId.getText().toString().equals("")) ? txtId.getText().toString() : "";
+        String status = (txtId.getText().toString() != null && !txtId.getText().toString().equals("")) ? txtId.getText().toString() : "1";
         Call<PostMultiModel> callApi = ApiCaller.getInstance().postTxt(userid, value, status);
         callApi.enqueue(new Callback<PostMultiModel>() {
             @Override
@@ -425,6 +385,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 Uri u = r.getUri();
                 imagesUriList.add(u);
                 File f = new File(u.getPath());
+                long fileSize = f.length();
                 Bitmap b = null;
                 try {
                     b = new Compressor(getApplicationContext())
@@ -441,7 +402,10 @@ public class CreatePostActivity extends AppCompatActivity {
                 mByte1 = ba.toByteArray();
                 image = Base64.encodeToString(mByte1, Base64.DEFAULT);
 
+
+
                 selectedPath1 = f.getPath();
+                long fileSize1 = f.length();
 
                 videouploadedittext.setText("Image added successfully");
                 added.setVisibility(View.VISIBLE);
@@ -477,8 +441,6 @@ public class CreatePostActivity extends AppCompatActivity {
                         })
                 );
 
-
-                //recyclerView.onIt
             }
 
         }
