@@ -198,8 +198,8 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
 
         //        AdView adView;
         LinearLayout commentlayout, shareLay;
-        LinearLayout adContainer;
-        View viewAbove;
+        /*LinearLayout adContainer;
+        View viewAbove;*/
 
         public AdapterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -219,8 +219,8 @@ public class AdapterDashboard extends RecyclerView.Adapter<AdapterDashboard.Adap
             commentlayout = itemView.findViewById(R.id.commentlayout);
             cmntCount = itemView.findViewById(R.id.cmntCount);
             shareLay = itemView.findViewById(R.id.shareLay);
-            adContainer = itemView.findViewById(R.id.bannerContainer);
-            viewAbove = itemView.findViewById(R.id.viewAbove);
+            /*adContainer = itemView.findViewById(R.id.bannerContainer);
+            viewAbove = itemView.findViewById(R.id.viewAbove);*/
             //adView = itemView.findViewById(R.id.adView);
 
             unlikelayout1.setOnClickListener(this);

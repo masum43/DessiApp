@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +29,15 @@ import com.dessiapp.models.DashDataModel;
 import com.dessiapp.models.DashModel2;
 import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.Const;
-import com.dessiapp.provider.PreferenceManager;/*
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.InterstitialAdListener;*/
+import com.dessiapp.provider.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -41,7 +47,7 @@ public class ForYouFragment extends Fragment implements View.OnClickListener/*, 
 
     View v;
     RecyclerView recyclerView;
-    AdapterDashboard adapterDashboard;
+//    AdapterDashboard adapterDashboard;
     AdapterDashboard1 adapterDashboard1;
     List<DashDataModel> dataModelList;
     LinearLayout whtMind;
@@ -50,10 +56,17 @@ public class ForYouFragment extends Fragment implements View.OnClickListener/*, 
     SwipeRefreshLayout swipeRefresh;
     CircleImageView cirImg;
     String profImg;
+    int ScrollPosition = 0;
 
-    //private InterstitialAd interstitialAd;
-    //private AdView adView;
-    List<Body> allList = new ArrayList<>();
+    List<Body> allPosts;
+    List<Body> somePosts = new ArrayList<>();
+    int ScrollStartIndex=0,ScrollEndIndex = 0;
+    boolean isPostsLoading = false;
+    NestedScrollView nestedScrollVIew;
+    public static int commentCount = 0;
+    public static int itemPosition = 0;
+
+
 
 
     @Override
@@ -66,21 +79,17 @@ public class ForYouFragment extends Fragment implements View.OnClickListener/*, 
         profImg = prefManager.getString(getActivity(), Const.profileimg, "");
         recyclerView = v.findViewById(R.id.recyclerView);
         swipeRefresh = v.findViewById(R.id.swipeRefresh);
+        nestedScrollVIew = v.findViewById(R.id.nestedScrollVIew);
+        recyclerView.setNestedScrollingEnabled(false);
         whtMind = v.findViewById(R.id.whtMind);
         cirImg = v.findViewById(R.id.cirImg);
-
-        //interstitialAd = new InterstitialAd(getActivity(), getActivity().getResources().getString(R.string.fb_interstetial_placement));
-        //adView = new AdView(getActivity(), getActivity().getResources().getString(R.string.fb_medium_placement), AdSize.RECTANGLE_HEIGHT_250);
 
         if (!profImg.equals("") && profImg != null && !profImg.equals("null"))
             Glide.with(getActivity()).load(profImg).into(cirImg);
 
-        //callApi();
-        loadApi();
         whtMind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivityForResult(new Intent(getActivity(), CreatePostActivity.class), 111);
             }
         });
@@ -91,63 +100,38 @@ public class ForYouFragment extends Fragment implements View.OnClickListener/*, 
             }
         });
 
-        adapterDashboard1 = new AdapterDashboard1(getActivity(), allList, userID /*interstitialAd, adView,*/ /*this*/);
+
+        adapterDashboard1 = new AdapterDashboard1(getActivity(), somePosts, userID );
         recyclerView.setAdapter(adapterDashboard1);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        //CustomLayoutManager CustomLayoutManager=new CustomLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
-        //recyclerView.setHasFixedSize(true);
+//        adapterDashboard1.setHasStableIds(true);
+        recyclerView.setHasFixedSize(true);
 
 
+        nestedScrollVIew.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                int sp = nestedScrollVIew.getScrollY();
+                if(sp>=ScrollPosition){
+                    ScrollPosition = sp;
+                }
+                Log.e("ScrollPosition", "onScrollChange: "+ScrollPosition );
+                if(isPostsLoading) return;
+                if (!nestedScrollVIew.canScrollVertically(1) && scrollY > 0){
+                    loadMorePost();
+                }else if (!recyclerView.canScrollVertically(-1) && scrollY < 0){
+                   // Log.e("onScrolled", "TOP" );
+                    //scrolled to TOP
+                }
+            }
+        });
 
-
-      /*  mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(getActivity());
-        // Load a reward based video ad
-        mRewardedVideoAd.loadAd(getString(R.string.rewarded_video), new AdRequest.Builder().build());*/
-
-
+        //callApi();
+        loadApi();
         return v;
     }
 
-    /*InterstitialAdListener interstitialAdListener = new InterstitialAdListener() {
-        @Override
-        public void onInterstitialDisplayed(Ad ad) {
-            // Interstitial ad displayed callback
-            Log.e(TAG, "Interstitial ad displayed.");
-        }
-
-        @Override
-        public void onInterstitialDismissed(Ad ad) {
-            // Interstitial dismissed callback
-            Log.e(TAG, "Interstitial ad dismissed.");
-        }
-
-        @Override
-        public void onError(Ad ad, AdError adError) {
-            // Ad error callback
-            Log.e(TAG, "Interstitial ad failed to load: " + adError.getErrorMessage());
-        }
-
-        @Override
-        public void onAdLoaded(Ad ad) {
-            // Interstitial ad is loaded and ready to be displayed
-            Log.d(TAG, "Interstitial ad is loaded and ready to be displayed!");
-            // Show the ad
-          //  interstitialAd.show();
-        }
-
-        @Override
-        public void onAdClicked(Ad ad) {
-            // Ad clicked callback
-            Log.d(TAG, "Interstitial ad clicked!");
-        }
-
-        @Override
-        public void onLoggingImpression(Ad ad) {
-            // Ad impression logged callback
-            Log.d(TAG, "Interstitial ad impression logged!");
-        }
-    };*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -156,10 +140,68 @@ public class ForYouFragment extends Fragment implements View.OnClickListener/*, 
             loadApi();
         }
     }
+    private void loadMorePost(){
+        if(ScrollEndIndex>=allPosts.size()) return;
 
+        isPostsLoading = true;
+        ScrollStartIndex=ScrollEndIndex;
+        ScrollEndIndex = ScrollEndIndex + 5;
+//        Log.e("loadMorePost", ScrollStartIndex + ""+ScrollEndIndex + " "+ allPosts.size());
+        boolean flag = false;
+        for(int i=ScrollStartIndex;i<ScrollEndIndex;i++){
+            if(i<allPosts.size()){
+                flag = true;
+                somePosts.add(allPosts.get(i));
+
+            }
+        }
+        nestedScrollVIew.stopNestedScroll();
+        recyclerView.stopScroll();
+        Log.e("ScrollPosition", "loadMorePost: "+ScrollPosition );
+//        Log.e("loadMorePost", "loadMorePost: "+ScrollPosition );
+
+        if(flag){
+        adapterDashboard1.notifyDataSetChanged();
+
+//            new Timer().schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        public void run() {
+//                            adapterDashboard1.notifyDataSetChanged();
+//                        }
+//                    });
+//                }
+//            }, 100);
+        }
+
+
+//        if(ScrollPosition>0)
+//            nestedScrollVIew.setScrollY(ScrollPosition);
+
+        nestedScrollVIew.startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL);
+        isPostsLoading = false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(somePosts.size()>0 && itemPosition<somePosts.size()){
+            somePosts.get(itemPosition).setComments(commentCount);
+            allPosts.get(itemPosition).setComments(commentCount);
+            adapterDashboard1.notifyItemRemoved(itemPosition);
+            adapterDashboard1.notifyItemRangeChanged(itemPosition,somePosts.size());
+        }
+
+    }
 
     void loadApi() {
-        Call<DashModel2> callApi = ApiCaller.getInstance().getAllPost(userID);
+        somePosts.clear();
+        adapterDashboard1.notifyDataSetChanged();
+        ScrollStartIndex=0;
+        ScrollEndIndex = 0;
+        ScrollPosition = 0;
+        Call<DashModel2> callApi = ApiCaller.getInstance().getAllPost(userID,"1");
         callApi.enqueue(new Callback<DashModel2>() {
             @Override
             public void onResponse(Call<DashModel2> call, retrofit2.Response<DashModel2> response) {
@@ -167,11 +209,8 @@ public class ForYouFragment extends Fragment implements View.OnClickListener/*, 
                 swipeRefresh.setRefreshing(false);
                 DashModel2 dashModel2 = response.body();
                 if (dashModel2 != null && dashModel2.getStatus().equals(Const.SUCCESS)) {
-                    /*if (adapterDashboard1 == null) {
-
-                    } else {*/
-                        adapterDashboard1.setNewData(dashModel2.getBody());
-                   // }
+                    allPosts = dashModel2.getBody();
+                    loadMorePost();
                 } else {
                     Toast.makeText(getActivity(), (dashModel2.getMessage() != null) ? dashModel2.getMessage() : "Internet Issues", Toast.LENGTH_SHORT).show();
                 }
@@ -179,8 +218,7 @@ public class ForYouFragment extends Fragment implements View.OnClickListener/*, 
 
             @Override
             public void onFailure(Call<DashModel2> call, Throwable t) {
-
-                //uploading.dismiss();
+                swipeRefresh.setRefreshing(false);
             }
         });
     }
@@ -199,13 +237,5 @@ public class ForYouFragment extends Fragment implements View.OnClickListener/*, 
         }
     }
 
-    /*@Override
-    public void listner() {
-        //Toast.makeText(getActivity(), "Hi buddy", Toast.LENGTH_SHORT).show();
 
-       *//* interstitialAd.loadAd(
-                interstitialAd.buildLoadAdConfig()
-                        .withAdListener(interstitialAdListener)
-                        .build());*//*
-    }*/
 }

@@ -88,12 +88,52 @@ public class Body {
     @Expose
     boolean isdisLikedbyMe;
 
+
+    @SerializedName("firebasetoken")
+    @Expose
+    String firebasetoken;
+
+    public Body(){
+
+    }
+    public Body(String username, String userid, String profileimg, String postid, Object posttitle,
+                String postdesc, String filename, String filepath, Integer likes,
+                Integer dislikes, Integer comments, String postedby, String postedon,
+                Integer posttype, String activity, Integer isofficial,
+                boolean isLikedbyMe, boolean isdisLikedbyMe, String firebasetoken) {
+        this.username = username;
+        this.userid = userid;
+        this.profileimg = profileimg;
+        this.postid = postid;
+        this.posttitle = posttitle;
+        this.postdesc = postdesc;
+        this.filename = filename;
+        this.filepath = filepath;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.comments = comments;
+        this.postedby = postedby;
+        this.postedon = postedon;
+        this.posttype = posttype;
+        this.activity = activity;
+        this.isofficial = isofficial;
+        this.isLikedbyMe = isLikedbyMe;
+        this.isdisLikedbyMe = isdisLikedbyMe;
+        this.firebasetoken = firebasetoken;
+    }
+
     public String getUsername() {
         return username;
+    }
+    public String getFirebasetoken() {
+        return firebasetoken;
     }
 
     public void setUsername(String username) {
         this.username = username;
+    }
+    public void setFirebasetoken(String firebasetoken) {
+        this.firebasetoken = firebasetoken;
     }
 
     public String getUserid() {

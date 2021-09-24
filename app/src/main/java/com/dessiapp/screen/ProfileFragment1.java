@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,8 +109,7 @@ public class ProfileFragment1 extends Fragment {
         userNameTxt.setText(prefManager.getString(getActivity(), Const.username, ""));
         userIdTxt.setText("@" + prefManager.getString(getActivity(), Const.userid, ""));
         loadApi();
-
-
+        Log.e("onResume fp1 dsds", "onResume fp1 called" );
         if (!profImg.equals("") && profImg != null && !profImg.equals("null"))
             Glide.with(getActivity()).load(profImg).into(profilePic);
 
@@ -117,7 +117,7 @@ public class ProfileFragment1 extends Fragment {
         iv_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = CropImage.activity().setAspectRatio(1, 1).setGuidelines(CropImageView.Guidelines.ON).setAllowRotation(true).setOutputCompressQuality(20)
+                Intent intent = CropImage.activity().setAspectRatio(1, 1).setGuidelines(CropImageView.Guidelines.ON).setAllowRotation(true).setOutputCompressQuality(5)
                         .getIntent(getActivity());
                 startActivityForResult(intent, 163);
             }
@@ -150,6 +150,19 @@ public class ProfileFragment1 extends Fragment {
 
 
         return v;
+    }
+
+
+    @Override
+    public void setMenuVisibility(boolean visible) {
+        super.setMenuVisibility(visible);
+        Log.e("onResume fp1", "onResume: ");
+    }
+    @Override
+    public void onResume() {
+        Log.e("onResume fp1", "onResume: ");
+        loadApi();
+        super.onResume();
     }
 
     void loadApi() {

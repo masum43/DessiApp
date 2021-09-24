@@ -1,6 +1,8 @@
 package com.dessiapp.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,13 +31,9 @@ import com.dessiapp.models.ResponseModel;
 import com.dessiapp.provider.ApiCaller;
 import com.dessiapp.provider.Const;
 import com.dessiapp.screen.CommentActivity;
+import com.dessiapp.screen.ForYouFragment;
 import com.dessiapp.screen.PhotoViewActivity;
 import com.dessiapp.screen.ViewOtherProfileActivity;
-/*import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.AdView;
-import com.facebook.ads.InterstitialAd;
-import com.facebook.ads.InterstitialAdListener;*/
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -50,8 +48,6 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
-
-import static android.content.ContentValues.TAG;
 
 public class AdapterDashboard1 extends RecyclerView.Adapter<AdapterDashboard1.AdapterViewHolder> {
 
@@ -88,16 +84,17 @@ public class AdapterDashboard1 extends RecyclerView.Adapter<AdapterDashboard1.Ad
     public void onBindViewHolder(@NonNull AdapterViewHolder hol, int pos) {
 
         Body model = listData.get(pos);
-
+        Log.e("onBindViewHolder", "onBindViewHolder: "+pos );
         hol.userName.setText(model.getUsername());
+//        Log.e("getFilepath", model.getFilepath()+ " "+ model.getPostdesc() );
         if (model.getFilepath() != null && !model.getFilepath().equals("null") && !model.getFilepath().equals(""))
             Glide.with(context).load(model.getFilepath())
-                /*.diskCacheStrategy(DiskCacheStrategy.ALL)*/.into(hol.picPost);
+                .diskCacheStrategy(DiskCacheStrategy.ALL).into(hol.picPost);
         else
             hol.picPost.setVisibility(View.GONE);
         if (model.getProfileimg() != null && !model.getProfileimg().equals("null") && !model.getProfileimg().equals(""))
-            Glide.with(context).load(model.getProfileimg())/*.fitCenter()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)*/.into(hol.postUserPic);
+            Glide.with(context).load(model.getProfileimg())/*.fitCenter()*/
+                    /*.diskCacheStrategy(DiskCacheStrategy.ALL)*/.into(hol.postUserPic);
         else
             hol.postUserPic.setImageResource(R.drawable.ic_default_profile);
         hol.userId.setText("@" + model.getPostedby());
@@ -132,33 +129,9 @@ public class AdapterDashboard1 extends RecyclerView.Adapter<AdapterDashboard1.Ad
             }
         });
 
-        /*if ((pos + 1) % 4 == 0) {
-            hol.adContainer.removeView(adView);
-            hol.adContainer.addView(adView);
-            adView.loadAd();
-            *//*int drawableId = R.drawable.ic_add_black;
-            if (drawableId == 0) return;
-            ImageView badge = new ImageView(context);
-            badge.setImageResource(drawableId);
-            int size = (int) convertDpToPx(55.0f);
-            badge.setLayoutParams(new ViewGroup.LayoutParams(size, size));
-            hol.adContainer.addView(badge);*//*
-
-            hol.viewAbove.setVisibility(View.VISIBLE);
-        } else {*/
-            //adContainer.removeAllViews();
-            /*hol.viewAbove.setVisibility(View.GONE);
-            hol.adContainer.setVisibility(View.GONE);*/
-        //}
-
     }
 
-    public void setNewData(List<Body> listData) {
-        //adView.buildLoadAdConfig();
-        this.listData.clear();
-        this.listData = listData;
-        notifyDataSetChanged();
-    }
+
 
     private float convertDpToPx(float dp) {
         return dp * (context.getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT);
@@ -205,8 +178,8 @@ public class AdapterDashboard1 extends RecyclerView.Adapter<AdapterDashboard1.Ad
             commentlayout = itemView.findViewById(R.id.commentlayout);
             cmntCount = itemView.findViewById(R.id.cmntCount);
             shareLay = itemView.findViewById(R.id.shareLay);
-            adContainer = itemView.findViewById(R.id.bannerContainer);
-            viewAbove = itemView.findViewById(R.id.viewAbove);
+            /*adContainer = itemView.findViewById(R.id.bannerContainer);
+            viewAbove = itemView.findViewById(R.id.viewAbove);*/
             deletePost = itemView.findViewById(R.id.deletePost);
             logoVerify = itemView.findViewById(R.id.logoVerify);
             //adView = itemView.findViewById(R.id.adView);
@@ -250,24 +223,33 @@ public class AdapterDashboard1 extends RecyclerView.Adapter<AdapterDashboard1.Ad
         }
 
         void sendingShare() {
-            String appLink = "https://drive.google.com/file/d/10kcjmLNpkIN9MHzAevlAD0yfQEL7Ez5Y/view?usp=sharing";
+            String appLink = "https://play.google.com/store/apps/details?id=com.dessiapp";
             try {
-                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                StrictMode.setVmPolicy(builder.build());
-                Bitmap bd = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_name);
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bd.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                Uri uri = Uri.fromFile(fileExist(bd));
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("image/jpeg");
-                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+//                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+//                StrictMode.setVmPolicy(builder.build());
+//                Bitmap bd = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_name);
+//                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//                bd.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+//                Uri uri = Uri.fromFile(fileExist(bd));
+//                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//                shareIntent.setType("image/jpeg");
+//                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
                 //shareIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+
+//                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+//                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                context.startActivity(Intent.createChooser(shareIntent, "Select the App"));
                 String shareMessage = "Sharing a post from DessiApp";
-                shareMessage = shareMessage + "\n--------" + "\nDessiApp is a private social network for connecting neighbours easily.\n\n\n Here is the Apk Link " + appLink;
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Interesting Inputs from DessiApp");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                context.startActivity(Intent.createChooser(shareIntent, "Select the App"));
+                shareMessage = shareMessage + "\n----------------------------------------------" + "\nDessiApp is a private social network for connecting neighbours easily.\n\nHere is the Apk Link " + appLink;
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Interesting posts from DessiApp");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, "Share yor post through...");
+                context.startActivity(shareIntent);
+
             } catch (Exception e) {
                 //e.toString();
             }
@@ -326,6 +308,8 @@ public class AdapterDashboard1 extends RecyclerView.Adapter<AdapterDashboard1.Ad
                     dislikeRemoveApi();
                     break;
                 case R.id.commentlayout:
+                    ForYouFragment.commentCount = body.getComments();
+                    ForYouFragment.itemPosition = index;
                     String json = new Gson().toJson(body);
                     context.startActivity(new Intent(context, CommentActivity.class).putExtra("model", json));
                     break;
@@ -333,7 +317,7 @@ public class AdapterDashboard1 extends RecyclerView.Adapter<AdapterDashboard1.Ad
                     sendingShare();
                     break;
                 case R.id.deletePost:
-                    deleteApi();
+                    showdialog();
                     break;
                 case R.id.picPost:
                     context.startActivity(new Intent(context, PhotoViewActivity.class).putExtra("image",body.getFilepath()).putExtra("name",body.getUsername()));
@@ -374,7 +358,28 @@ public class AdapterDashboard1 extends RecyclerView.Adapter<AdapterDashboard1.Ad
                 }
             });
         }
+        void showdialog(){
+            AlertDialog.Builder builder= new AlertDialog.Builder(context);
+            builder.setMessage("Are you sure you want to delete this post ?").setTitle("Alert !");
+            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    deleteApi();
 
+
+                }
+            });
+            builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+
+        }
         void deleteApi() {
             Call<ResponseModel> callApi = ApiCaller.getInstance().deletePost(body.getPostid(),userid);
             callApi.enqueue(new Callback<ResponseModel>() {

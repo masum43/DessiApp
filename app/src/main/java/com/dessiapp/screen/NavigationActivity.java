@@ -1,30 +1,45 @@
 package com.dessiapp.screen;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.dessiapp.MainActivity;
 import com.dessiapp.R;
 import com.dessiapp.adapter.MyAdapter;
+import com.dessiapp.provider.Api;
 import com.dessiapp.provider.Const;
-import com.dessiapp.provider.PreferenceManager;/*
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.AdListener;
-import com.facebook.ads.AdSettings;
-import com.facebook.ads.AdSize;
-import com.facebook.ads.AdView;*/
+import com.dessiapp.provider.PreferenceManager;
+import com.dessiapp.utility.Constant;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.messaging.Constants;
+import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -36,7 +51,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     PreferenceManager prefManager;
     String profImg;
     CircleImageView cirImg;
-    ImageView  setting, imgSearch;
+    ImageView setting, imgSearch;
     //private AdView mAdView;
     //private AdView adView;
 
@@ -45,6 +60,8 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
+        prefManager = new PreferenceManager(getApplicationContext());
+        setToken();
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
         cirImg = findViewById(R.id.cirImg);
@@ -56,6 +73,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         viewPager.setOffscreenPageLimit(3);
+        Const.strusername = prefManager.getString(getApplicationContext(), Const.username, "");
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -84,105 +102,66 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                 startActivity(new Intent(getApplicationContext(), SearchActivity.class));
             }
         });
-
-        //AdSettings.setTestMode(true);
-
-/*        mAdView = (AdView) findViewById(R.id.adView);
-
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                // Check the LogCat to get your test device ID
-                .addTestDevice("C04B1BFFB0774708339BC273F8A43708")
-                .build();
-
-        mAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-            }
-
-            @Override
-            public void onAdClosed() {
-                Toast.makeText(getApplicationContext(), "Ad is closed!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                Toast.makeText(getApplicationContext(), "Ad failed to load! error code: " + errorCode, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                Toast.makeText(getApplicationContext(), "Ad left application!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-            }
-        });
-
-        mAdView.loadAd(adRequest);*/
-
-       /* AdListener adListener = new AdListener() {
-            @Override
-            public void onError(Ad ad, AdError adError) {
-                // Ad error callback
-                Toast.makeText(
-                        NavigationActivity.this,
-                        "Error: " + adError.getErrorMessage(),
-                        Toast.LENGTH_LONG)
-                        .show();
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-                // Ad loaded callback
-
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-                // Ad clicked callback
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-                // Ad impression logged callback
-            }
-        };
-
-
-        adView = new AdView(this, getResources().getString(R.string.fb_banner_placement), AdSize.BANNER_HEIGHT_50);
-        adView.loadAd(adView.buildLoadAdConfig().withAdListener(adListener).build());
-        //AdSettings.addTestDevice("b0e85d9d-cfd6-4160-a9aa-a843ab4684b8");
-        AdSettings.setTestMode(true);
-        //AdSettings.isTestMode(getApplicationContext());
-
-
-        // Find the Ad Container
-        LinearLayout adContainer = (LinearLayout) findViewById(R.id.banner_container);
-
-        // Add the ad view to your activity layout
-        adContainer.addView(adView);
-
-        // Request an ad
-        adView.loadAd();*/
-
-
-
+        updateStatusBarColor("#ffffff");
     }
 
-    void updateProfilePic() {
-      prefManager = new PreferenceManager(getApplicationContext());
-      profImg = prefManager.getString(getApplicationContext(), Const.profileimg, "");
+    public void updateStatusBarColor(String color) {// Color must be in hexadecimal fromat
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.parseColor(color));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+    }
 
-      if (!profImg.equals("") && profImg != null && !profImg.equals("null"))
+    public void setUserToken(String tokenId) {
+        Log.e("TAG1", "setUserToken: " + tokenId);
+        String userid = prefManager.getString(getApplicationContext(), Const.userid, "");
+        RequestQueue requestQueue = Volley.newRequestQueue(getBaseContext());
+        JSONObject mainObj = new JSONObject();
+        try {
+            mainObj.put("userId", userid);
+            mainObj.put("token", tokenId);
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Api.SETFIREBASETOKEN, mainObj, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    // code run is got response
+                    Log.e("setUserToken success", response.toString());
+                    Const.firebaseToken = tokenId;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("setUserToken error", "onErrorResponse: " + error.getMessage());
+                    // code run is got error
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> header = new HashMap<>();
+                    header.put("content-type", "application/json");
+                    header.put(Const.HEAD_TOKEN, Const.TOKEN_KEY);
+                    return header;
+                }
+            };
+            requestQueue.add(request);
+        } catch (JSONException e) {
+            Log.e("setUserToken ex", "onErrorResponse: " + e.getMessage());
+        }
+    }
+
+
+    void updateProfilePic() {
+
+        profImg = prefManager.getString(getApplicationContext(), Const.profileimg, "");
+
+        if (!profImg.equals("") && profImg != null && !profImg.equals("null"))
             Glide.with(getApplicationContext()).load(profImg).into(cirImg);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
 
         }
     }
@@ -210,5 +189,26 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         }*/
         super.onDestroy();
     }
+
+    void setToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+
+                            return;
+                        }
+                        // Get new FCM registration token
+                        String tokenId = task.getResult();
+                        Log.e("token", "" + tokenId);
+
+                        setUserToken(tokenId);
+
+
+                    }
+                });
+    }
+
 
 }
